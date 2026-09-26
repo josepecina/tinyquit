@@ -2,7 +2,7 @@
 
 App para fumar (o vapear) menos, poco a poco, con Tiny.
 
-**Versión 0.1 (prueba):** el prototipo de diseño funcionando como web app instalable. Todavía usa datos de ejemplo (septiembre 2026) y conserva los botones de «Prototipo» para probar.
+**Versión 0.2 (beta):** datos reales desde el primer día. Las respuestas del alta pasan a la app, el día se cierra solo a tu hora, el calendario usa fechas reales y, si un día no abres la app, te pregunta cuántos fueron. En Ajustes: copia de seguridad (guardar/recuperar) y «Modo probador» (Premium de prueba y botones para simular).
 
 - Ábrela en el móvil: https://josepecina.github.io/tinyquit/
 - Instalar: en iPhone, Safari → Compartir → «Añadir a pantalla de inicio». En Android, Chrome → menú → «Instalar app».

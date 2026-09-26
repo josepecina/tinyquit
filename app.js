@@ -1,7 +1,7 @@
-/* TinyQuit web app · v0.1 (versión de prueba: el prototipo funcionando en el móvil) */
+/* TinyQuit web app · v0.2: datos reales, fechas reales y cierre del día a tu hora */
 (function () {
   'use strict';
-  var VERSION = '0.1.0';
+  var VERSION = '0.2.0';
   var KEY = { onb: 'tq.onboarded', onbState: 'tq.onb', main: 'tq.main' };
   var TRANSIENT = ['crave', 'craveMode', 'craveT', 'mth', 'bnc', 'golf', 'pop', 'slots', 'toast', 'toastT', 'adOpen', 'adT', 'sheet', 'celebrate', 'unlockPop', 'mTick', 'uTick', 'bump'];
 
@@ -33,6 +33,23 @@
     });
   }
 
+  // respuestas del alta -> estado inicial real de la app (sin datos de ejemplo)
+  function fromOnb(o) {
+    var now = new Date(), cut = String(o.cutoff || '00:00').split(':');
+    var sh = new Date(now.getTime() - ((+cut[0]) * 60 + (+cut[1] || 0)) * 60000);
+    var prod = o.kind === 'vaper' ? 'vape' : (o.kind === 'calentado' ? 'iqos' : 'cig');
+    var week = o.period === 'week', cur = +o.current || (prod === 'vape' ? 150 : 15);
+    var perDay = week ? Math.max(1, Math.round(cur / 7)) : cur;
+    return {
+      live: true, tester: false, startY: sh.getFullYear(), startM: sh.getMonth(), startD: sh.getDate(), day: 1, seenDay: 1, history: {}, times: [], selDay: 1, missed: [], calOff: 0, fixOpen: false,
+      userName: o.name || '', product: prod, countMode: week ? 'week' : 'day', baseline: perDay, limit: perDay, weekLimit: week ? cur : perDay * 7,
+      autoOn: o.pace !== 'libre', autoN: +o.autoN || 1, autoDays: +o.autoD || 7, lastDrop: 1,
+      price: +o.price || 5.2, pack: +o.pack || 20, cutoff: o.cutoff || '00:00', notif: o.notif || { fast: true, before: true, drop: true, night: false, morning: false }, sound: o.sound !== false,
+      premium: false, shields: 1, cravesBeaten: 0, cravesToday: 0, streakBoost: 0, rescuesUsed: 0, tab: 'hoy', quitAt: 0, goalStart: 0, tagEver: false, tagDay: 0, tipOffset: 0,
+      forced: {}, skips: {}, adsFor: {}, widgetAdded: false, shares: 0, offerSim: false, popBest: 0, popTotal: 0, reboteBest: 0, reboteTotal: 0, golfBest: 0, golfBestStrokes: 0, golfPlays: 0, mathBest: 0, mathPlays: 0, activeSec: 0, adsToday: 0
+    };
+  }
+
   var cache = {};
   function getScreen(name) {
     if (cache[name]) return Promise.resolve(cache[name]);
@@ -59,7 +76,9 @@
         View = TQRuntime.makeView(scr, {
           restore: function (inst) {
             var saved = load(KEY.main);
-            if (saved) { TRANSIENT.forEach(function (k) { delete saved[k]; }); Object.keys(saved).forEach(function (k) { if (k in inst.state) inst.state[k] = saved[k]; }); }
+            if (saved && saved.live) { TRANSIENT.forEach(function (k) { delete saved[k]; }); Object.keys(saved).forEach(function (k) { if (k in inst.state) inst.state[k] = saved[k]; }); return; }
+            var o = load(KEY.onbState) || {};
+            Object.assign(inst.state, fromOnb(o));
           },
           onState: function (st) {
             clearTimeout(saveT);
