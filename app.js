@@ -1,12 +1,12 @@
 /* TinyQuit web app · v0.3: toda la app en 12 idiomas, datos anónimos opcionales */
 (function () {
   'use strict';
-  var VERSION = '0.3.2';
+  var VERSION = '0.3.3';
   // beta: Premium gratis para todos; ?tester=1 muestra los botones de prueba (solo para el equipo)
   var TESTER = /[?&]tester=1/.test(location.search);
   // servidor de datos anónimos (Supabase): se rellena cuando creemos la cuenta
   // clave pública (publishable): solo permite AÑADIR filas a la tabla events; leer, cambiar o borrar está bloqueado en el servidor
-  window.TQ_DATA = window.TQ_DATA || { url: 'https://svtsrlroumpnrhewctnk.supabase.co', key: 'sb_publishable_iTNBY67VLMBBppAV6Ct9lg_6UPr4O_3', v: '0.3.2' };
+  window.TQ_DATA = window.TQ_DATA || { url: 'https://svtsrlroumpnrhewctnk.supabase.co', key: 'sb_publishable_iTNBY67VLMBBppAV6Ct9lg_6UPr4O_3', v: '0.3.3' };
   var KEY = { onb: 'tq.onboarded', onbState: 'tq.onb', main: 'tq.main' };
   var TRANSIENT = ['crave', 'craveMode', 'craveT', 'mth', 'bnc', 'golf', 'pop', 'slots', 'toast', 'toastT', 'adOpen', 'adT', 'sheet', 'celebrate', 'unlockPop', 'mTick', 'uTick', 'bump'];
 
