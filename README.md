@@ -2,6 +2,8 @@
 
 App para fumar (o vapear) menos, poco a poco, con Tiny.
 
+**Versión 0.3.2 (beta):** conectado el envío de datos anónimos (Supabase, UE). Solo se envía si el usuario lo activa; las opiniones de «Danos tu opinión» siempre llegan.
+
 **Versión 0.3.1 (beta):** Premium gratis para quien prueba la beta (sin modo probador visible), logros de mundo: se puede desbloquear 1 por mundo viendo 5 anuncios (ya no hay «saltar»), la música vuelve al tocar la pantalla tras salir de la app, el modo noche ya no salta al principio de Ajustes, y el precio de Premium baja con 8, 15 y 25 mundos.
 
 **Versión 0.3:** toda la app en 12 idiomas (el idioma se elige en el alta o en Ajustes), Salud centrada en tu cuerpo (cajetillas, cartones, alquitrán y nicotina que no entraron; camino sin humo con ~50 beneficios que empieza tras un día entero a 0 y vuelve a 0 si fumas), objetivos de mundos de «% menos» y «días fumando menos», pregunta de motivo cada 7-10 cigarros o si fumas dos seguidos, «Tus motivos más comunes» en Progreso (Premium), Calculadora que no revela la respuesta al fallar y envío opcional de datos anónimos (se activa en el alta o en Ajustes; desactivado hasta conectar el servidor).

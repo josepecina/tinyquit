@@ -2683,7 +2683,7 @@ class Component extends DCLogic {
     if (!q.length) { if ((s.dataQ || []).length) this.setState({ dataQ: [] }); return; }
     var id = s.anonId || ('a' + Math.random().toString(36).slice(2) + Date.now().toString(36));
     this._sending = true;
-    fetch(cfg.url.replace(/\/$/, '') + '/rest/v1/events', { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: cfg.key, Authorization: 'Bearer ' + cfg.key, Prefer: 'return=minimal' }, body: JSON.stringify(q.map(function (e) { return { anon_id: id, kind: e.k, payload: e, app_version: cfg.v || '' }; })) })
+    fetch(cfg.url.replace(/\/$/, '') + '/rest/v1/events', { method: 'POST', headers: Object.assign({ 'Content-Type': 'application/json', apikey: cfg.key, Prefer: 'return=minimal' }, /^eyJ/.test(cfg.key) ? { Authorization: 'Bearer ' + cfg.key } : {}), body: JSON.stringify(q.map(function (e) { return { anon_id: id, kind: e.k, payload: e, app_version: cfg.v || '' }; })) })
       .then(function (r) { self._sending = false; if (r.ok) self.setState({ dataQ: (self.state.dataQ || []).slice(q.length), anonId: id }); })
       .catch(function () { self._sending = false; });
   }
