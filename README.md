@@ -2,6 +2,8 @@
 
 App para fumar (o vapear) menos, poco a poco, con Tiny.
 
+**Versión 0.4.0 (beta):** pantalla de inicio e icono nuevos, cada reto de los mundos lleva a donde se consigue, volver a tocar la pestaña sube arriba, las hojas de racha, Premium y armario se cierran arrastrando hacia abajo, la pregunta del motivo ya no sale en cada cigarro, aviso antes de cambiar de tabaco a vaper, contacto hellotinyapps@gmail.com y textos legales al día (datos anónimos). Los datos anónimos llevan el sistema (Android/iPhone) y un aviso de primer uso.
+
 **Versión 0.3.2 (beta):** conectado el envío de datos anónimos (Supabase, UE). Solo se envía si el usuario lo activa; las opiniones de «Danos tu opinión» siempre llegan.
 
 **Versión 0.3.1 (beta):** Premium gratis para quien prueba la beta (sin modo probador visible), logros de mundo: se puede desbloquear 1 por mundo viendo 5 anuncios (ya no hay «saltar»), la música vuelve al tocar la pantalla tras salir de la app, el modo noche ya no salta al principio de Ajustes, y el precio de Premium baja con 8, 15 y 25 mundos.

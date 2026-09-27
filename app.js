@@ -1,12 +1,12 @@
 /* TinyQuit web app · v0.3: toda la app en 12 idiomas, datos anónimos opcionales */
 (function () {
   'use strict';
-  var VERSION = '0.3.3';
+  var VERSION = '0.4.0';
   // beta: Premium gratis para todos; ?tester=1 muestra los botones de prueba (solo para el equipo)
   var TESTER = /[?&]tester=1/.test(location.search);
   // servidor de datos anónimos (Supabase): se rellena cuando creemos la cuenta
   // clave pública (publishable): solo permite AÑADIR filas a la tabla events; leer, cambiar o borrar está bloqueado en el servidor
-  window.TQ_DATA = window.TQ_DATA || { url: 'https://svtsrlroumpnrhewctnk.supabase.co', key: 'sb_publishable_iTNBY67VLMBBppAV6Ct9lg_6UPr4O_3', v: '0.3.3' };
+  window.TQ_DATA = window.TQ_DATA || { url: 'https://svtsrlroumpnrhewctnk.supabase.co', key: 'sb_publishable_iTNBY67VLMBBppAV6Ct9lg_6UPr4O_3', v: '0.4.0' };
   var KEY = { onb: 'tq.onboarded', onbState: 'tq.onb', main: 'tq.main' };
   var TRANSIENT = ['crave', 'craveMode', 'craveT', 'mth', 'bnc', 'golf', 'pop', 'slots', 'toast', 'toastT', 'adOpen', 'adT', 'sheet', 'celebrate', 'unlockPop', 'mTick', 'uTick', 'bump'];
 
@@ -85,6 +85,10 @@
   window.addEventListener('resize', fitSoon);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSoon);
 
+  // pantalla de inicio: se ve al menos 0,9 s y se desvanece
+  var bootT0 = Date.now();
+  function hideBoot() { var bt = document.getElementById('boot'); if (!bt || bt.classList.contains('out')) return; setTimeout(function () { bt.classList.add('out'); setTimeout(function () { bt.style.display = 'none'; }, 500); }, Math.max(0, 900 - (Date.now() - bootT0))); }
+
   var cache = {};
   function getScreen(name) {
     if (cache[name]) return Promise.resolve(cache[name]);
@@ -125,6 +129,7 @@
         });
       }
       reactRoot.render(React.createElement(View, { key: name }));
+      hideBoot();
       document.body.dataset.screen = name;
     });
   }
@@ -137,5 +142,5 @@
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
     window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
   }
-  window.TQApp = { version: VERSION, reset: function () { location.search = '?reset=1'; } };
+  window.TQApp = { version: VERSION, reset: function () { location.search = '?reset=1'; }, get logic() { return mainLogic; } };
 })();

@@ -20,12 +20,21 @@
   body { display: flex; justify-content: center; }
   #frame { position: relative; width: var(--appW, 390px); height: 100%; overflow: hidden; }
   #app { width: 390px; height: var(--appH, 844px); transform: scale(var(--appScale, 1)); transform-origin: top left; }
-  #boot { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; color: #22324F; font-weight: 800; }
-  #app:not(:empty) + #boot { display: none; }
+  #boot { position: absolute; inset: 0; z-index: 5; overflow: hidden; background: linear-gradient(180deg, #7FD0FF 0%, #CDEEFF 100%); transition: opacity .45s ease; }
+  #boot.out { opacity: 0; pointer-events: none; }
+  #boot .sky { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #boot .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 34%; }
+  #boot .logo { position: absolute; left: 50%; top: 44%; width: min(78%, 360px); transform: translate(-50%, -50%); animation: bootIn .6s cubic-bezier(.3,1.4,.5,1) both, bootFloat 3.2s ease-in-out .6s infinite; }
+  @keyframes bootIn { from { opacity: 0; transform: translate(-50%, -40%) scale(.9); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+  @keyframes bootFloat { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, -53%); } }
 </style>
 </head>
 <body>
-<div id="frame"><div id="app"></div><div id="boot">TinyQuit…</div></div>
+<div id="frame"><div id="app"></div><div id="boot" aria-label="TinyQuit">
+  <svg class="sky" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#FFFFFF"><g opacity=".45" transform="translate(10 110) scale(1.1)"><circle cx="30" cy="30" r="22"/><circle cx="58" cy="22" r="26"/><circle cx="84" cy="32" r="18"/><rect x="10" y="30" width="90" height="24" rx="12"/></g><g opacity=".35" transform="translate(260 200) scale(.9)"><circle cx="30" cy="30" r="22"/><circle cx="58" cy="22" r="26"/><circle cx="84" cy="32" r="18"/><rect x="10" y="30" width="90" height="24" rx="12"/></g><g opacity=".3" transform="translate(220 60) scale(.6)"><circle cx="30" cy="30" r="22"/><circle cx="58" cy="22" r="26"/><circle cx="84" cy="32" r="18"/><rect x="10" y="30" width="90" height="24" rx="12"/></g><g opacity=".25" transform="translate(40 560) scale(.7)"><circle cx="30" cy="30" r="22"/><circle cx="58" cy="22" r="26"/><circle cx="84" cy="32" r="18"/><rect x="10" y="30" width="90" height="24" rx="12"/></g></g></svg>
+  <svg class="hills" viewBox="0 0 512 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><path d="M0 70 Q130 20 260 60 T512 40 L512 200 L0 200 Z" fill="#8BDD8A"/><path d="M0 120 Q160 80 300 115 T512 100 L512 200 L0 200 Z" fill="#5CC96B"/><path d="M210 200 Q250 140 300 108 Q330 92 356 94" fill="none" stroke="#F3E3B5" stroke-width="22" stroke-linecap="round"/></svg>
+  <img class="logo" src="icons/splash-logo.png" alt="TinyQuit">
+</div></div>
 <script src="vendor/react.production.min.js"></script>
 <script src="vendor/react-dom.production.min.js"></script>
 <script src="tq-runtime.js"></script>
