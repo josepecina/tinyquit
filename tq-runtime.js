@@ -56,6 +56,36 @@
     return root;
   }
 
+  // ---------- traducción (las pantallas están escritas en español) ----------
+  var I18N = { lang: 'es', dicts: {}, name: '', miss: null, cache: new Map(), words: [], wre: null };
+  function setWords(ws) { I18N.words = ws.slice().sort(function (a, b) { return b.length - a.length; }); I18N.wre = ws.length ? new RegExp('(?<![\\p{L}])(' + I18N.words.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')(?![\\p{L}])', 'gu') : null; I18N.cache.clear(); }
+  var NUM = /\d+(?:[.,]\d+)*/g;
+  function normKey(t) {
+    var nums = [], k = t.replace(/\s+/g, ' ').trim();
+    if (I18N.name && I18N.name.length > 1) k = k.split(I18N.name).join('{name}');
+    k = k.replace(NUM, function (m) { nums.push(m); return '{' + (nums.length - 1) + '}'; });
+    var ws = []; if (I18N.wre) k = k.replace(I18N.wre, function (m) { ws.push(m); return '{w' + (ws.length - 1) + '}'; });
+    return { k: k, nums: nums, ws: ws };
+  }
+  function fill(tpl, nums, name, ws) { return tpl.replace(/\{(\d+)\}/g, function (m, i) { return nums[+i] !== undefined ? nums[+i] : m; }).replace(/\{w(\d+)\}/g, function (m, i) { return ws && ws[+i] !== undefined ? ws[+i] : m; }).replace(/\{name\}/g, name || ''); }
+  function TR(t) {
+    if (typeof t !== 'string' || I18N.lang === 'es' || !/[A-Za-zÁÉÍÓÚáéíóúñÑ¡¿]/.test(t)) return t;
+    var c = I18N.cache.get(t); if (c !== undefined) return c;
+    var d = I18N.dicts[I18N.lang] || {}, lead = t.match(/^\s*/)[0], trail = t.match(/\s*$/)[0], core = t.trim(), out = null;
+    if (d[core] !== undefined) out = d[core];
+    else { var nk = normKey(core); if (d[nk.k] !== undefined) out = fill(d[nk.k], nk.nums, I18N.name, nk.ws); else if (I18N.miss) I18N.miss[nk.k] = (I18N.miss[nk.k] || 0) + 1; }
+    var res = out === null ? t : lead + out + trail;
+    if (I18N.cache.size > 20000) I18N.cache.clear();
+    I18N.cache.set(t, res); return res;
+  }
+  // texto con huecos: se traduce la frase completa con los huecos como {0}, {1}… y luego cada valor
+  function trMixed(tplKey, vals) {
+    if (I18N.lang === 'es') return null;
+    var d = I18N.dicts[I18N.lang] || {};
+    if (d[tplKey] === undefined) { if (I18N.miss) I18N.miss['@' + tplKey] = (I18N.miss['@' + tplKey] || 0) + 1; return null; }
+    return d[tplKey].replace(/\{h(\d+)\}/g, function (m, i) { var v = vals[+i]; return v == null ? '' : TR(String(v)); });
+  }
+
   // ---------- huecos ----------
   var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
   function lookup(path, scope) {
@@ -72,7 +102,8 @@
     var parts = [], last = 0, mm; HOLE.lastIndex = 0;
     while ((mm = HOLE.exec(s))) { parts.push(s.slice(last, mm.index)); parts.push({ p: mm[1] }); last = HOLE.lastIndex; }
     parts.push(s.slice(last));
-    return { fn: function (sc) { var o = ''; for (var q = 0; q < parts.length; q++) { var x = parts[q]; if (typeof x === 'string') o += x; else { var v = lookup(x.p, sc); o += v == null ? '' : v; } } return o; } };
+    var hp = [], hk = parts.map(function (x) { if (typeof x === 'string') return x; hp.push(x.p); return '{h' + (hp.length - 1) + '}'; }).join('').replace(/\s+/g, ' ').trim();
+    return { mixed: /[A-Za-zÁÉÍÓÚáéíóúñÑ¡¿]/.test(hk.replace(/\{h\d+\}/g, '')) ? { key: hk, paths: hp } : null, fn: function (sc) { var o = ''; for (var q = 0; q < parts.length; q++) { var x = parts[q]; if (typeof x === 'string') o += x; else { var v = lookup(x.p, sc); o += v == null ? '' : v; } } return o; } };
   }
   var styleCache = new Map();
   function parseStyle(str) {
@@ -89,19 +120,20 @@
   function compileChildren(list, inSvg) {
     var out = [];
     list.forEach(function (c) {
-      if (c.tag === undefined) { if (!c.text || (/^\s*$/.test(c.text) && (c.text.indexOf('\n') >= 0 || inSvg))) return; var cs = compileStr(c.text); out.push(function (sc) { return cs.fn(sc); }); return; }
+      if (c.tag === undefined) { if (!c.text || (/^\s*$/.test(c.text) && (c.text.indexOf('\n') >= 0 || inSvg))) return; var cs = compileStr(c.text); if (cs.mixed) { var mk = cs.mixed; out.push(function (sc) { var vals = mk.paths.map(function (pp) { return lookup(pp, sc); }); var r = trMixed(mk.key, vals); return r === null ? TR(cs.fn(sc)) : r; }); } else out.push(function (sc) { return TR(cs.fn(sc)); }); return; }
       var f = compileNode(c, inSvg); if (f) out.push(f);
     });
     return out;
   }
-  function runKids(kids, sc) { var r = []; for (var i = 0; i < kids.length; i++) { var v = kids[i](sc); if (v !== null && v !== undefined && v !== '') r.push(v); } return r; }
+  // los huecos vacíos se quedan como null: así cada hijo conserva su sitio y React no vuelve a montar lo que viene detrás (antes, al cambiar a modo noche, se reconstruía toda la pantalla y el scroll saltaba arriba)
+  function runKids(kids, sc) { var r = new Array(kids.length); for (var i = 0; i < kids.length; i++) { var v = kids[i](sc); r[i] = (v === undefined || v === '') ? null : v; } return r; }
   function compileNode(node, inSvg) {
     var tag = node.tag;
     if (tag === 'script' || tag === 'helmet') return null;
     if (tag === 'sc-if') {
       var cond = compileStr((node.attrs.find(function (a) { return a[0] === 'value'; }) || [0, ''])[1]);
       var kidsI = compileChildren(node.children, inSvg);
-      return function (sc) { return cond.fn(sc) ? h(React.Fragment, null, runKids(kidsI, sc)) : null; };
+      return function (sc) { return cond.fn(sc) ? h.apply(null, [React.Fragment, null].concat(runKids(kidsI, sc))) : null; };
     }
     if (tag === 'sc-for') {
       var listA = compileStr((node.attrs.find(function (a) { return a[0] === 'list'; }) || [0, ''])[1]);
@@ -109,7 +141,7 @@
       var kidsF = compileChildren(node.children, inSvg);
       return function (sc) {
         var arr = listA.fn(sc) || [];
-        return h(React.Fragment, null, arr.map(function (it, ix) { var s2 = Object.create(sc); s2[as] = it; s2.$index = ix; return h(React.Fragment, { key: ix }, runKids(kidsF, s2)); }));
+        return h(React.Fragment, null, arr.map(function (it, ix) { var s2 = Object.create(sc); s2[as] = it; s2.$index = ix; return h.apply(null, [React.Fragment, { key: ix }].concat(runKids(kidsF, s2))); }));
       };
     }
     var svg = inSvg || tag === 'svg';
@@ -130,6 +162,7 @@
         if (at.isStyle) { props.style = parseStyle(String(val == null ? '' : val)); continue; }
         if (at.isEvt) { if (typeof val === 'function') props[at.key] = val; continue; }
         if (val === false || val === null || val === undefined) continue;
+        if (at.key === 'aria-label' || at.key === 'placeholder' || at.key === 'title' || at.key === 'alt') val = TR(String(val));
         if (val === true && at.v.single && !/^aria-/.test(at.key)) val = true;
         props[at.key] = val;
       }
@@ -178,9 +211,10 @@
       var logic = ref.current;
       React.useEffect(function () { if (logic.componentDidMount) logic.componentDidMount(); if (opts.onMount) opts.onMount(logic); return function () { logic.__schedule = null; if (logic.componentWillUnmount) logic.componentWillUnmount(); }; }, []);
       var vals = logic.renderVals ? logic.renderVals() : {};
-      return h(React.Fragment, null, runKids(screen.render, vals));
+      return h.apply(null, [React.Fragment, null].concat(runKids(screen.render, vals)));
     };
   }
 
-  window.TQRuntime = { loadScreen: loadScreen, makeView: makeView, DCLogic: DCLogic };
+  window.TQRuntime = { loadScreen: loadScreen, makeView: makeView, DCLogic: DCLogic, i18n: I18N, tr: TR, normKey: normKey, setWords: setWords, setLang: function (l) { if (I18N.lang !== l) { I18N.lang = l; I18N.cache.clear(); } } };
+  window.TQtr = TR;
 })();
