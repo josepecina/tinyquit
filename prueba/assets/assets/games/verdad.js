@@ -153,25 +153,26 @@
   /* ---------------- pantallas ---------------- */
   const BTN_MITO = { x: 22, y: 440, w: 136, h: 56 }, BTN_VERDAD = { x: 172, y: 440, w: 136, h: 56 };
   const BTN_NEXT = { x: 70, y: 440, w: 190, h: 56 }, BTN_START = { x: 75, y: 364, w: 180, h: 58 }, BTN_AGAIN = { x: 70, y: 350, w: 190, h: 56 };
-  const CARD = { x: 26, y: 92, w: 278, h: 318 };
+  const CARD = { x: 16, y: 76, w: 298, h: 350 }; // 7.3 (F3): tarjeta más grande; marcadores arriba sin tocar la barra
 
   function drawBg(ctx, v) {
     const g = ctx.createLinearGradient(0, v.y0, 0, v.y1); g.addColorStop(0, '#CFEAFF'); g.addColorStop(1, '#F4FAFF');
     ctx.fillStyle = g; ctx.fillRect(v.x0, v.y0, v.x1 - v.x0, v.y1 - v.y0);
   }
   function drawHud(ctx, s) {
-    // puntos de progreso
+    // 7.3 (F3): fila de arriba = «Frase X de 10» (izquierda) y aciertos + tiempo (derecha); debajo, los puntos centrados
+    ctx.font = `700 14px ${FD}`; ctx.textBaseline = 'middle';
+    const fr = TQT('Frase') + ' ' + Math.min(s.i + 1, CFG.N) + ' ' + TQT('de') + ' ' + CFG.N, fw = ctx.measureText(fr).width + 26;
+    rr(ctx, 16, 8, fw, 28, 14, 'rgba(255,255,255,.92)'); ctx.textAlign = 'center'; ctx.fillStyle = COL.ink; ctx.fillText(fr, 16 + fw / 2, 22.5);
+    rr(ctx, CFG.W - 16 - 108, 8, 108, 28, 14, 'rgba(255,255,255,.92)');
+    ctx.fillStyle = COL.ink; ctx.textAlign = 'center';
+    ctx.fillText('✓ ' + s.ok + '  ·  ' + fmtT(s.ms), CFG.W - 16 - 54, 22.5);
     for (let k = 0; k < CFG.N; k++) {
       // amarillo = por hacer (la actual, más grande), verde = acertada, rojo = fallada (Jose, 30 sep)
-      const x = 26 + k * 16, r = s.res[k];
+      const x = CFG.W / 2 + (k - (CFG.N - 1) / 2) * 18, r = s.res[k];
       ctx.fillStyle = r === true ? COL.green : (r === false ? COL.red : (k === s.i ? '#FFC53D' : '#FFE28A'));
-      ctx.beginPath(); ctx.arc(x, 30, k === s.i ? 6.5 : 5, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(x, 55, k === s.i ? 6.5 : 5, 0, 7); ctx.fill();
     }
-    rr(ctx, CFG.W - 118, 16, 104, 28, 14, 'rgba(255,255,255,.92)');
-    ctx.font = `700 15px ${FD}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = COL.ink;
-    ctx.fillText('✓ ' + s.ok + '  ·  ' + fmtT(s.ms), CFG.W - 66, 30.5);
-    ctx.font = `600 12px ${FB}`; ctx.fillStyle = COL.muted; ctx.textAlign = 'left';
-    ctx.fillText(TQT('Frase') + ' ' + Math.min(s.i + 1, CFG.N) + ' ' + TQT('de') + ' ' + CFG.N, 20, 58);
   }
   function drawCard(ctx, s) {
     const c = s.cards[s.i]; if (!c) return;

@@ -45,7 +45,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-s
   // la app sabe que la página ya está lista (por si no le llega onPageFinished en algún móvil)
   window.addEventListener('load',function(){ tell('loaded'); });
   // abierto sin la app (navegador): arranca solo (en la app NUNCA: antes, si la app tardaba, arrancaba el Arco por error)
-  setTimeout(function(){ if(!started && !window.TQBridge) window.TQ_START(location.hash==='#torre'?'torre':(location.hash==='#rayos'?'rayos':'arco')); },1500);
+  setTimeout(function(){ if(!started && !window.TQBridge) window.TQ_START(location.hash.slice(1)||'arco'); },1500);
 })();
 </script>
 </body></html>
