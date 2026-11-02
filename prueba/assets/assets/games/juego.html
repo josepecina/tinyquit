@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<style>
+@font-face{font-family:'Fredoka';src:url('../fonts/Fredoka.ttf') format('truetype');font-weight:300 700}
+@font-face{font-family:'Nunito';src:url('../fonts/Nunito.ttf') format('truetype');font-weight:200 1000}
+html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none}
+#g{position:fixed;inset:0}
+#g canvas{display:block;width:100%;height:100%}
+</style></head>
+<body><div id="g"></div>
+<script>
+(function(){
+  var started=false;
+  function tell(ev){ try{ if(window.TQBridge&&window.TQBridge.postMessage) window.TQBridge.postMessage(JSON.stringify({ev:ev})); }catch(e){} }
+  // La app llama a TQ_START('arco'|'torre'|'rayos') cuando ha puesto los textos (TQ_TR) y el récord (TQ_BEST).
+  var load=function(src){return new Promise(function(r){var s=document.createElement('script');s.src=src;s.onload=r;s.onerror=r;document.body.appendChild(s);});};
+  // v8: precarga del golf 3D (la app la pide al abrir la lista de juegos): se leen three.js y el juego sin montarlo
+  var g3files=function(){ if(window.__g3load) return window.__g3load; var ln=document.createElement('link'); ln.rel='stylesheet'; ln.href='golf3d.css'; document.head.appendChild(ln);
+    window.__g3load=load('three.min.js').then(function(){return load('golf3d_tr.js');}).then(function(){return load('golf3d.js');}); return window.__g3load; };
+  window.TQ_PRELOAD=function(game){ if(game==='golf3d' && !started) g3files(); };
+  window.TQ_START=function(game){
+    if(started) return; started=true;
+    if(game==='golf3d'){
+      var el3=document.getElementById('g');
+      window.TQ_AGAIN=function(){ try{ window.TQGolf3D.again(); }catch(e){} };
+      g3files().then(function(){
+        var go3=function(){ try{ window.TQGolf3D.mount(el3,{}); }catch(e){} tell('ready'); };
+        var f3=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('700 20px Fredoka'),document.fonts.load('600 14px Fredoka')]).catch(function(){}):Promise.resolve(); Promise.race([f3,new Promise(function(r){setTimeout(r,1200);})]).then(go3);
+      });
+      return;
+    }
+    // 13 oct: solo se carga el juego que toca (antes se cargaban todos a la vez y se notaba al abrir)
+    var FILES={torre:['torre.js'],rayos:['rayos.js'],verdad:['verdad.js'],reloj:['reloj.js'],pesca:['pesca.js'],encuentra:['encuentra.js'],golf:['golf_fisica.js','golf_hoyos.js','golf.js']}, list=FILES[game]||['arco.js'], el=document.getElementById('g'), G=null;
+    window.TQ_AGAIN=function(){ try{ if(G&&G.again) G.again(); }catch(e){} };
+    var fonts=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('700 20px Fredoka'),document.fonts.load('600 14px Fredoka'),document.fonts.load('500 14px Fredoka')]).catch(function(){}):Promise.resolve();
+    // como mucho 1,2 s esperando a las letras: si tardan, se arranca igual
+    var fontsOrTime=Promise.race([fonts,new Promise(function(r){setTimeout(r,1200);})]);
+    var chain=Promise.resolve(); list.forEach(function(f){ chain=chain.then(function(){return load(f);}); });
+    Promise.all([chain,fontsOrTime]).then(function(){
+      G=game==='torre'?window.TQTorre:(game==='rayos'?window.TQRayos:(game==='verdad'?window.TQVerdad:(game==='reloj'?window.TQReloj:(game==='pesca'?window.TQPesca:(game==='encuentra'?window.TQEncuentra:(game==='golf'?window.TQGolf:window.TQArco))))));
+      try{ G.mount(el); }catch(e){} tell('ready');
+    });
+  };
+  // la app sabe que la página ya está lista (por si no le llega onPageFinished en algún móvil)
+  window.addEventListener('load',function(){ tell('loaded'); });
+  // abierto sin la app (navegador): arranca solo (en la app NUNCA: antes, si la app tardaba, arrancaba el Arco por error)
+  setTimeout(function(){ if(!started && !window.TQBridge) window.TQ_START(location.hash==='#torre'?'torre':(location.hash==='#rayos'?'rayos':'arco')); },1500);
+})();
+</script>
+</body></html>

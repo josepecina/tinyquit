@@ -1,0 +1,257 @@
+[
+ {
+  "when": "start:30",
+  "text": "¡Hoy hace un mes que empezaste con TinyQuit! Mira tu calendario: cada día verde lo has ganado tú."
+ },
+ {
+  "when": "start:100",
+  "text": "¡100 días con TinyQuit! Eso ya no es una prueba: es un hábito nuevo. Date un capricho con lo que has ahorrado."
+ },
+ {
+  "when": "start:365",
+  "text": "¡Un año entero con TinyQuit! Mira dónde empezaste y dónde estás hoy. Tiny está muy orgulloso de ti."
+ },
+ {
+  "when": "01-01",
+  "text": "¡Feliz año nuevo! No hace falta un gran propósito: con bajar uno este mes ya empiezas el año ganando."
+ },
+ {
+  "when": "01-06",
+  "langs": [
+   "es"
+  ],
+  "text": "Día de Reyes. El mejor regalo te lo puedes hacer tú: cada uno que te ahorras hoy es dinero en tu hucha y aire para tus pulmones."
+ },
+ {
+  "when": "02-14",
+  "text": "San Valentín. Quererse también es cuidarse: hoy regálate un paseo con alguien especial cuando lleguen las ganas."
+ },
+ {
+  "when": "03-20",
+  "text": "Día Internacional de la Felicidad. Apunta hoy tres cosas que te hagan sonreír y que no tengan nada que ver con el tabaco."
+ },
+ {
+  "when": "04-06",
+  "text": "Día Mundial de la Actividad Física. Cuando lleguen las ganas, muévete 5 minutos: subir unas escaleras o dar una vuelta ayuda a que pasen."
+ },
+ {
+  "when": "04-07",
+  "text": "Día Mundial de la Salud. Cada paso que das para ir a menos cuenta: tu cuerpo lo nota antes de lo que crees."
+ },
+ {
+  "when": "05-31",
+  "text": "Hoy es el Día Mundial Sin Tabaco de la OMS. Millones de personas se proponen lo mismo que tú: es un gran día para bajar uno más."
+ },
+ {
+  "when": "06-05",
+  "modes": [
+   "cig",
+   "iqos"
+  ],
+  "text": "Día Mundial del Medio Ambiente. Las colillas son uno de los residuos más comunes en playas y calles: cada una que te ahorras es una menos en el suelo."
+ },
+ {
+  "when": "08-01",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl",
+   "en",
+   "tr"
+  ],
+  "text": "Empieza agosto y, para mucha gente, las vacaciones. Fuera de la rutina es fácil pasarse: llévate tu límite contigo y apúntalos también en la playa."
+ },
+ {
+  "when": "09-01",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl",
+   "en",
+   "tr"
+  ],
+  "text": "Vuelta a la rutina. Es un buen momento para bajar tu límite uno: los hábitos nuevos entran mejor con el calendario nuevo."
+ },
+ {
+  "when": "09-29",
+  "text": "Día Mundial del Corazón. Según la OMS, al año de dejar el tabaco el riesgo de enfermedad coronaria baja a la mitad. Cada uno menos acerca ese día."
+ },
+ {
+  "when": "10-31",
+  "text": "Halloween. Lo que da miedo de verdad no son los fantasmas… Disfrázate de nube como Tiny y que hoy el único humo sea el de la máquina de la fiesta."
+ },
+ {
+  "when": "12-24",
+  "text": "Nochebuena. En la sobremesa, en vez de salir, ofrécete a traer el postre o a jugar con los peques. Las ganas pasan mientras estás a otra cosa."
+ },
+ {
+  "when": "12-25",
+  "text": "Hoy es Navidad. En las comidas familiares, intenta retrasar el primero todo lo que puedas: así llegarás a la noche con muchos menos."
+ },
+ {
+  "when": "12-31",
+  "text": "Nochevieja. Entre uvas, brindis y amigos es fácil encadenar uno tras otro. Celebra cada ganas que dejes pasar: son el mejor brindis del año."
+ },
+ {
+  "when": "easter:-3",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl",
+   "en"
+  ],
+  "text": "Llega Semana Santa: viajes, terrazas y otro ritmo. Decide antes de salir cuántos te vas a permitir hoy y apúntalos como siempre."
+ },
+ {
+  "when": "dst:3",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl"
+  ],
+  "text": "Esta madrugada ha cambiado la hora. Tu cuerpo irá un poco despistado unos días: si notas más ganas, es normal y se pasa."
+ },
+ {
+  "when": "dst:10",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl"
+  ],
+  "text": "Hoy has ganado una hora. Regálatela: un paseo, un café tranquilo, un rato para ti."
+ },
+ {
+  "when": "03-17",
+  "text": "San Patricio: hoy medio mundo se viste de verde. Tú ya sabes de qué va eso: ¡a por otro día verde en tu calendario!"
+ },
+ {
+  "when": "03-21",
+  "text": "Día Mundial de la Poesía. Tiny te ha escrito un haiku: «Nube que pasa, / las ganas también se van, / queda el cielo azul.»"
+ },
+ {
+  "when": "04-23",
+  "text": "Día del Libro. Un truco para cuando lleguen las ganas: lee cinco páginas. Cuando levantes la vista, lo más probable es que ya se hayan ido."
+ },
+ {
+  "when": "10-10",
+  "text": "Día Mundial de la Salud Mental. Háblate como le hablarías a un buen amigo: un día rojo no borra todo lo que ya has avanzado."
+ },
+ {
+  "when": "06-21",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl",
+   "en",
+   "tr"
+  ],
+  "text": "Hoy es el Día de la Música y el día más largo del año. Cuando lleguen las ganas, pon tu canción favorita: dura más o menos lo que dura el pico."
+ },
+ {
+  "when": "07-30",
+  "text": "Día Internacional de la Amistad. Cuéntale a alguien de confianza que estás bajando: tener a quien te anime lo hace mucho más fácil."
+ },
+ {
+  "when": "10-01",
+  "text": "Día Internacional del Café. Si el café siempre viene con compañía, hoy cambia de taza, de silla o de sitio. ¡Rompe la pareja!"
+ },
+ {
+  "when": "11-13",
+  "text": "Día Mundial de la Bondad. Haz hoy algo bonito por alguien… y también por ti: celebra cada ganas que dejes pasar."
+ },
+ {
+  "when": "12-28",
+  "langs": [
+   "es"
+  ],
+  "text": "Día de los Inocentes. ¿Sabes qué le dijo una nube a otra? «¡Qué bien se respira desde que no hay humo por aquí!» Vale, Tiny no es humorista… pero te ha sacado una sonrisa, ¿a que sí?"
+ },
+ {
+  "when": "04-01",
+  "langs": [
+   "en",
+   "fr",
+   "it",
+   "de",
+   "nl",
+   "pl",
+   "pt"
+  ],
+  "text": "1 de abril, día de bromas. ¿Sabes qué le dijo una nube a otra? «¡Qué bien se respira desde que no hay humo por aquí!» Vale, Tiny no es humorista… pero te ha sacado una sonrisa, ¿a que sí?"
+ },
+ {
+  "when": "12-05",
+  "text": "Un día como hoy, en 1901, nació Walt Disney. Hoy toca un poco de magia: cada ganas que dejas pasar es tu truco del día. ¡Abracadabra!"
+ },
+ {
+  "when": "03-14",
+  "text": "Hoy es el Día de Pi (3,14…), un número con infinitos decimales. Tus días verdes también pueden ir sumando sin fin: ¡hoy, uno más!"
+ },
+ {
+  "when": "05-20",
+  "text": "Día Mundial de las Abejas. ¿Sabías que una abeja visita entre 50 y 100 flores en cada salida? Muchos viajes pequeños hacen la miel. Igual que tú: cada ganas que dejas pasar cuenta."
+ },
+ {
+  "when": "07-17",
+  "text": "Día Mundial del Emoji. Si hoy tu día fuera un emoji, ¿cuál sería? Tiny apuesta por el sol ☀️. ¡A por ello!"
+ },
+ {
+  "when": "08-19",
+  "text": "Día Mundial de la Fotografía. Hazte una foto hoy y guárdala: dentro de unos meses te gustará ver todo lo que has avanzado."
+ },
+ {
+  "when": "09-21",
+  "text": "Día Internacional de la Paz. Firma una tregua con tus ganas: hoy no hace falta ganar ninguna batalla, solo dejar pasar unas cuantas."
+ },
+ {
+  "when": "10-16",
+  "text": "Día Mundial de la Alimentación. ¿Sabías que, al dejar el tabaco, el olfato y el gusto empiezan a mejorar en pocos días? Hoy saborea tu plato favorito con calma.",
+  "modes": [
+   "cig",
+   "iqos"
+  ]
+ },
+ {
+  "when": "12-21",
+  "text": "Hoy es la noche más larga del año. Buen plan: manta, peli y una infusión. A partir de mañana los días vuelven a crecer… igual que tus rachas.",
+  "langs": [
+   "es",
+   "de",
+   "fr",
+   "it",
+   "pt",
+   "nl",
+   "pl",
+   "en",
+   "tr"
+  ]
+ },
+ {
+  "when": "02-20",
+  "text": "Día Mundial de la Justicia Social… y un buen día para ser justo contigo: cuenta tus avances, no solo tus tropiezos. ¡Seguro que son más de los que crees!"
+ }
+]

@@ -1,0 +1,420 @@
+{
+ "vape": [
+  [
+   120,
+   "2 h",
+   "La nicotina en sangre baja a la mitad",
+   "leaf"
+  ],
+  [
+   240,
+   "4 h",
+   "Solo queda una cuarta parte de la nicotina",
+   "leaf"
+  ],
+  [
+   720,
+   "12 h",
+   "Casi toda la nicotina ha salido de tu sangre",
+   "sparkle"
+  ],
+  [
+   960,
+   "16 h",
+   "Tu primer café de la mañana sin vaper",
+   "food"
+  ],
+  [
+   1440,
+   "1 día",
+   "Un día entero sin vapear",
+   "star"
+  ],
+  [
+   4320,
+   "3 días",
+   "Ya no queda nicotina en tu cuerpo",
+   "sparkle"
+  ],
+  [
+   7200,
+   "5 días",
+   "Ya no vas pendiente de llevar el vaper encima",
+   "home"
+  ],
+  [
+   10080,
+   "1 semana",
+   "Lo más duro suele quedar atrás",
+   "shield"
+  ],
+  [
+   12960,
+   "9 días",
+   "Tu primer viernes y tu primer finde sin vapear",
+   "star"
+  ],
+  [
+   20160,
+   "2 semanas",
+   "Las ganas ya aprietan mucho menos",
+   "moon"
+  ],
+  [
+   43200,
+   "1 mes",
+   "Un mes entero sin vapear",
+   "cal"
+  ],
+  [
+   86400,
+   "2 meses",
+   "Tu nueva rutina ya es costumbre",
+   "clock"
+  ],
+  [
+   144000,
+   "100 días",
+   "Cien días sin vapear",
+   "trophy"
+  ],
+  [
+   262800,
+   "6 meses",
+   "Medio año libre",
+   "star"
+  ],
+  [
+   525600,
+   "1 año",
+   "Un año entero sin vapear",
+   "trophy"
+  ],
+  [
+   1051200,
+   "2 años",
+   "Dos años libre de nicotina",
+   "shield"
+  ],
+  [
+   2628000,
+   "5 años",
+   "Cinco años: ya es parte de ti",
+   "trophy"
+  ]
+ ],
+ "cig": [
+  [
+   20,
+   "20 min",
+   "Tu pulso y tu tensión empiezan a bajar",
+   "pulse"
+  ],
+  [
+   120,
+   "2 h",
+   "La nicotina en sangre baja a la mitad",
+   "leaf"
+  ],
+  [
+   480,
+   "8 h",
+   "El monóxido de carbono baja a la mitad",
+   "air"
+  ],
+  [
+   720,
+   "12 h",
+   "Monóxido de carbono en niveles normales",
+   "drop"
+  ],
+  [
+   960,
+   "16 h",
+   "Tu primer café de la mañana sin cigarro",
+   "food"
+  ],
+  [
+   1200,
+   "20 h",
+   "Tus manos y tu ropa dejan de oler a tabaco",
+   "shirt"
+  ],
+  [
+   1440,
+   "1 día",
+   "Un día entero sin fumar",
+   "star"
+  ],
+  [
+   2160,
+   "36 h",
+   "Tu cuerpo ya ha eliminado el monóxido",
+   "air"
+  ],
+  [
+   2880,
+   "2 días",
+   "El gusto y el olfato empiezan a mejorar",
+   "flower"
+  ],
+  [
+   3600,
+   "2,5 días",
+   "Tu pelo ya no huele a humo",
+   "sparkle"
+  ],
+  [
+   4320,
+   "3 días",
+   "Ya no queda nicotina en tu cuerpo",
+   "sparkle"
+  ],
+  [
+   5040,
+   "3,5 días",
+   "Respiras mejor y tienes más energía",
+   "lungs"
+  ],
+  [
+   5760,
+   "4 días",
+   "Tus besos ya no saben a cenicero",
+   "lips"
+  ],
+  [
+   6480,
+   "4,5 días",
+   "Tus plantas y tu mascota respiran aire limpio",
+   "leaf"
+  ],
+  [
+   7200,
+   "5 días",
+   "La comida te sabe más rica",
+   "food"
+  ],
+  [
+   10080,
+   "1 semana",
+   "Lo más duro suele quedar atrás",
+   "shield"
+  ],
+  [
+   11520,
+   "8 días",
+   "Tu casa y tu coche empiezan a oler a limpio",
+   "home"
+  ],
+  [
+   12960,
+   "9 días",
+   "Tu primer viernes y tu primer finde sin fumar",
+   "star"
+  ],
+  [
+   14400,
+   "10 días",
+   "Tu aliento huele mucho mejor",
+   "lips"
+  ],
+  [
+   17280,
+   "12 días",
+   "Tus dientes dejan de mancharse de alquitrán",
+   "tooth"
+  ],
+  [
+   20160,
+   "2 semanas",
+   "Tu circulación empieza a mejorar",
+   "vessel"
+  ],
+  [
+   30240,
+   "3 semanas",
+   "Tu piel recibe más oxígeno y se ve más luminosa",
+   "face"
+  ],
+  [
+   40320,
+   "4 semanas",
+   "Tus heridas cicatrizan mejor: menos riesgos si te operan",
+   "bandage"
+  ],
+  [
+   43200,
+   "1 mes",
+   "Un mes entero sin fumar",
+   "cal"
+  ],
+  [
+   50400,
+   "5 semanas",
+   "Los cilios empiezan a limpiar tus pulmones",
+   "sparkle"
+  ],
+  [
+   60480,
+   "6 semanas",
+   "Menos ansiedad y menos estrés: tu ánimo mejora",
+   "brain"
+  ],
+  [
+   86400,
+   "2 meses",
+   "Caminar y subir escaleras cuesta menos",
+   "stairs"
+  ],
+  [
+   90720,
+   "9 semanas",
+   "Haces deporte con mucho más fuelle",
+   "shoe"
+  ],
+  [
+   105840,
+   "10 semanas",
+   "Tus espermatozoides se renuevan: la nueva tanda crece sin humo",
+   "sperm"
+  ],
+  [
+   129600,
+   "3 meses",
+   "Tu función pulmonar mejora hasta un 10 %",
+   "lungs"
+  ],
+  [
+   144000,
+   "100 días",
+   "Cien días sin humo",
+   "trophy"
+  ],
+  [
+   151200,
+   "3,5 meses",
+   "Tu fertilidad mejora",
+   "baby"
+  ],
+  [
+   175200,
+   "4 meses",
+   "Mejor riego sanguíneo… también en tu vida sexual",
+   "heart"
+  ],
+  [
+   262800,
+   "6 meses",
+   "Menos tos y menos falta de aire",
+   "lungs"
+  ],
+  [
+   306600,
+   "7 meses",
+   "Tus defensas se recuperan: te cuesta menos pillar catarros",
+   "shield"
+  ],
+  [
+   394200,
+   "9 meses",
+   "Tus pulmones, mucho más limpios",
+   "sparkle"
+  ],
+  [
+   525600,
+   "1 año",
+   "Tu riesgo de infarto, a la mitad",
+   "heart"
+  ],
+  [
+   788400,
+   "18 meses",
+   "Tu riesgo de infarto sigue bajando",
+   "heart"
+  ],
+  [
+   1051200,
+   "2 años",
+   "El riesgo de infarto cae con fuerza",
+   "pulse"
+  ],
+  [
+   1576800,
+   "3 años",
+   "Camino de reducir a la mitad tu riesgo cardíaco extra",
+   "heart"
+  ],
+  [
+   2102400,
+   "4 años",
+   "Menos riesgo de diabetes tipo 2",
+   "drop"
+  ],
+  [
+   2365200,
+   "4,5 años",
+   "Tu riesgo de ictus puede ser ya como el de un no fumador",
+   "brain"
+  ],
+  [
+   2628000,
+   "5 años",
+   "Riesgo de cáncer de boca y garganta: la mitad",
+   "tooth"
+  ],
+  [
+   2890800,
+   "5,5 años",
+   "Mitad de camino a reducir a la mitad el de pulmón",
+   "lungs"
+  ],
+  [
+   3153600,
+   "6 años",
+   "Tu riesgo cardíaco extra, a la mitad",
+   "heart"
+  ],
+  [
+   3942000,
+   "7,5 años",
+   "Mitad de camino a un corazón de no fumador",
+   "vessel"
+  ],
+  [
+   4730400,
+   "9 años",
+   "Tus huesos, más fuertes: menos riesgo de fractura de cadera",
+   "bone"
+  ],
+  [
+   5256000,
+   "10 años",
+   "Riesgo de cáncer de pulmón: más o menos la mitad",
+   "lungs"
+  ],
+  [
+   5781600,
+   "11 años",
+   "También baja el de laringe y páncreas",
+   "shield"
+  ],
+  [
+   6307200,
+   "12 años",
+   "Menos riesgo de cataratas y problemas de vista",
+   "eye"
+  ],
+  [
+   7884000,
+   "15 años",
+   "Tu corazón, como el de alguien que no fuma",
+   "heart"
+  ],
+  [
+   10512000,
+   "20 años",
+   "Boca, garganta y páncreas, casi como quien nunca fumó",
+   "trophy"
+  ]
+ ]
+}

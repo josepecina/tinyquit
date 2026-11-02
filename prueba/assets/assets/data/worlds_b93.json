@@ -1,0 +1,5537 @@
+[
+ {
+  "name": "Pradera",
+  "light": "#C9F2CF",
+  "dark": "#4CD964",
+  "prem": false,
+  "reward": "sombrero de paja",
+  "days": 3,
+  "items": [
+   {
+    "t": "Primer paso",
+    "d": "Crea tu plan",
+    "m": "setup",
+    "v": 1
+   },
+   {
+    "t": "Primer pop",
+    "d": "Explota 9 nubes en total",
+    "m": "popTotal",
+    "v": 9
+   },
+   {
+    "t": "Vencí las ganas",
+    "d": "Vence las ganas 1 vez con «Tengo ganas»",
+    "m": "crave",
+    "v": 1
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 2,
+    "o": {
+     "t": "3 que no fueron",
+     "d": "Evita 3 cigarros",
+     "m": "avoided",
+     "v": 3
+    },
+    "cig": [
+     "water",
+     0
+    ],
+    "iqos": [
+     "energy",
+     0
+    ]
+   },
+   {
+    "t": "Siempre a mano",
+    "d": "Añade el widget a tu pantalla",
+    "m": "widget",
+    "v": 1
+   },
+   {
+    "t": "Primera hucha",
+    "d": "Ahorra 1 €",
+    "m": "money",
+    "v": 1
+   },
+   {
+    "t": "45 min sin fumar",
+    "d": "Aguanta 45 min despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 45
+   },
+   {
+    "t": "2 con holgura",
+    "d": "2 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 2,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 2,
+      "cig": [
+       "time",
+       0
+      ],
+      "iqos": [
+       "time",
+       0
+      ],
+      "vape": [
+       "plastic",
+       0
+      ]
+     }
+    }
+   },
+   {
+    "t": "10 de golpe",
+    "d": "Haz 10 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 10
+   },
+   {
+    "t": "2 verdes",
+    "d": "Consigue 2 días verdes en total",
+    "m": "greens",
+    "v": 2
+   },
+   {
+    "t": "Torre de 5",
+    "d": "Levanta 5 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 5,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 5,
+    "p": true,
+    "cig": [
+     "butts",
+     0
+    ],
+    "iqos": [
+     "butts",
+     1
+    ],
+    "vape": [
+     "plastic",
+     1
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Huerto",
+  "light": "#FFE3D1",
+  "dark": "#FF8A5B",
+  "prem": false,
+  "reward": "cesta de fruta",
+  "days": 7,
+  "items": [
+   {
+    "t": "7 que no fueron",
+    "d": "Evita 7 cigarros",
+    "m": "avoided",
+    "v": 7
+   },
+   {
+    "t": "3 consejos",
+    "d": "Lee 3 consejos del día",
+    "m": "tips",
+    "v": 3
+   },
+   {
+    "t": "Respira con Tiny",
+    "d": "Completa una vez los 2 minutos de Respirar",
+    "m": "breathDone",
+    "v": 1,
+    "was": {
+     "m": "crave",
+     "v": 3
+    }
+   },
+   {
+    "t": "Racha de 2",
+    "d": "2 días verdes seguidos",
+    "m": "streak",
+    "v": 2
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 10,
+    "cig": [
+     "butts",
+     1
+    ],
+    "iqos": [
+     "butts",
+     2
+    ],
+    "vape": [
+     "plastic",
+     2
+    ]
+   },
+   {
+    "t": "4 verdes",
+    "d": "Consigue 4 días verdes en total",
+    "m": "greens",
+    "v": 4
+   },
+   {
+    "t": "Tu voz cuenta",
+    "d": "Cuéntanos qué tal en «Danos tu opinión»",
+    "m": "feedback",
+    "v": 1
+   },
+   {
+    "t": "2 días a la mitad",
+    "d": "2 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 2,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 7,
+      "cig": [
+       "water",
+       1
+      ],
+      "iqos": [
+       "energy",
+       1
+      ],
+      "vape": [
+       "plastic",
+       1
+      ]
+     }
+    }
+   },
+   {
+    "t": "Hucha de 2 €",
+    "d": "Ahorra 2 €",
+    "m": "money",
+    "v": 2
+   },
+   {
+    "t": "Rebote de 10",
+    "d": "Haz 10 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 10
+   },
+   {
+    "t": "Detective del humo",
+    "d": "Apunta el motivo de 4 cigarros (Estadísticas Pro)",
+    "m": "tagged",
+    "v": 4,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 11,
+    "p": true,
+    "cig": [
+     "co2",
+     0
+    ],
+    "iqos": [
+     "time",
+     0
+    ],
+    "vape": [
+     "plastic",
+     3
+    ]
+   },
+   {
+    "t": "Primera partida de Verdad o mito",
+    "d": "Juega 1 partida de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 1
+   }
+  ]
+ },
+ {
+  "name": "Playa",
+  "light": "#FFE9B8",
+  "dark": "#FFB547",
+  "prem": false,
+  "reward": "gafas de sol",
+  "days": 12,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 16,
+    "cig": [
+     "co2",
+     1
+    ],
+    "iqos": [
+     "time",
+     0
+    ],
+    "vape": [
+     "plastic",
+     5
+    ]
+   },
+   {
+    "t": "2 días a la mitad",
+    "d": "2 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 2,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "butts",
+      "v": 12,
+      "cig": [
+       "butts",
+       2
+      ],
+      "iqos": [
+       "butts",
+       3
+      ],
+      "vape": [
+       "plastic",
+       3
+      ]
+     }
+    }
+   },
+   {
+    "t": "8 verdes",
+    "d": "Consigue 8 días verdes en total",
+    "m": "greens",
+    "v": 8
+   },
+   {
+    "t": "Corre la voz",
+    "d": "Comparte TinyQuit 1 vez",
+    "m": "share",
+    "v": 1
+   },
+   {
+    "t": "Racha de 3",
+    "d": "3 días verdes seguidos",
+    "m": "streak",
+    "v": 3
+   },
+   {
+    "t": "Con holgura",
+    "d": "3 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 3
+   },
+   {
+    "t": "1 h sin fumar",
+    "d": "Aguanta 1 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 60
+   },
+   {
+    "t": "Hucha de 4 €",
+    "d": "Ahorra 4 €",
+    "m": "money",
+    "v": 4
+   },
+   {
+    "t": "15 de golpe",
+    "d": "Haz 15 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 15,
+    "was": {
+     "m": "crave",
+     "v": 5
+    }
+   },
+   {
+    "t": "Verdad o mito: 6 de 10",
+    "d": "Acierta 6 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 6,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 12,
+      "cig": [
+       "water",
+       2
+      ],
+      "iqos": [
+       "energy",
+       1
+      ],
+      "vape": [
+       "plastic",
+       4
+      ]
+     }
+    }
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 26,
+    "p": true,
+    "cig": [
+     "time",
+     1
+    ],
+    "iqos": [
+     "time",
+     1
+    ],
+    "vape": [
+     "plastic",
+     6
+    ]
+   },
+   {
+    "t": "Primeras cuentas",
+    "d": "Termina Cuentas 1 vez",
+    "m": "mathPlays",
+    "v": 1,
+    "p": true
+   },
+   {
+    "t": "Rayos: 10 puntos",
+    "d": "Haz 10 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 10,
+    "p": true
+   },
+   {
+    "t": "Primera cuenta atrás",
+    "d": "Juega 1 partida al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 1
+   }
+  ]
+ },
+ {
+  "name": "Colinas",
+  "light": "#D4F5C4",
+  "dark": "#6BCB4E",
+  "prem": false,
+  "reward": "cometa de colores",
+  "days": 19,
+  "items": [
+   {
+    "t": "25 de golpe",
+    "d": "Haz 25 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 25
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 20,
+    "o": {
+     "t": "25 que no fueron",
+     "d": "Evita 25 cigarros",
+     "m": "avoided",
+     "v": 25
+    },
+    "cig": [
+     "water",
+     3
+    ],
+    "iqos": [
+     "energy",
+     2
+    ]
+   },
+   {
+    "t": "Un 20 % verde",
+    "d": "20 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 20
+   },
+   {
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1
+   },
+   {
+    "t": "Rebote de 15",
+    "d": "Haz 15 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 15,
+    "was": {
+     "m": "crave",
+     "v": 7
+    }
+   },
+   {
+    "t": "Cuentas en 26 s",
+    "d": "Termina Cuentas en menos de 26 s",
+    "m": "mathBest",
+    "v": 26
+   },
+   {
+    "t": "Hucha de 6 €",
+    "d": "Ahorra 6 €",
+    "m": "money",
+    "v": 6
+   },
+   {
+    "t": "14 días a menos",
+    "d": "14 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 14
+   },
+   {
+    "t": "12 verdes",
+    "d": "Consigue 12 días verdes en total",
+    "m": "greens",
+    "v": 12
+   },
+   {
+    "t": "8 con margen",
+    "d": "8 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 8,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 23,
+      "cig": [
+       "time",
+       2
+      ],
+      "iqos": [
+       "time",
+       1
+      ],
+      "vape": [
+       "plastic",
+       6
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 7",
+    "d": "7 días verdes seguidos",
+    "m": "streak",
+    "v": 7,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 40,
+    "p": true,
+    "cig": [
+     "butts",
+     4
+    ],
+    "iqos": [
+     "butts",
+     6
+    ],
+    "vape": [
+     "plastic",
+     7
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Bosque",
+  "light": "#BDEBC8",
+  "dark": "#2FA85A",
+  "prem": false,
+  "reward": "bufanda de hojas",
+  "days": 28,
+  "items": [
+   {
+    "t": "−10 % de humo",
+    "d": "Fuma un 10 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 10
+   },
+   {
+    "t": "3 cuentas atrás",
+    "d": "Juega 3 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 3,
+    "was": {
+     "m": "crave",
+     "v": 11
+    }
+   },
+   {
+    "t": "18 verdes",
+    "d": "Consigue 18 días verdes en total",
+    "m": "greens",
+    "v": 18
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 26,
+    "cig": [
+     "time",
+     2
+    ],
+    "iqos": [
+     "time",
+     1
+    ],
+    "vape": [
+     "plastic",
+     7
+    ]
+   },
+   {
+    "t": "Cuentas en 30 s",
+    "d": "Termina Cuentas en menos de 30 s",
+    "m": "mathBest",
+    "v": 30
+   },
+   {
+    "t": "Racha de 8",
+    "d": "8 días verdes seguidos",
+    "m": "streak",
+    "v": 8
+   },
+   {
+    "t": "1 h 30 sin fumar",
+    "d": "Aguanta 1 h 30 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 90
+   },
+   {
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 50,
+    "cig": [
+     "butts",
+     5
+    ],
+    "iqos": [
+     "butts",
+     7
+    ],
+    "vape": [
+     "plastic",
+     8
+    ]
+   },
+   {
+    "t": "32 de golpe",
+    "d": "Haz 32 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 32,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 21,
+      "o": {
+       "t": "40 que no fueron",
+       "d": "Evita 40 cigarros",
+       "m": "avoided",
+       "v": 40
+      },
+      "cig": [
+       "co2",
+       2
+      ],
+      "iqos": [
+       "energy",
+       2
+      ]
+     }
+    }
+   },
+   {
+    "t": "Hucha de 14 €",
+    "d": "Ahorra 14 €",
+    "m": "money",
+    "v": 14,
+    "p": true
+   },
+   {
+    "t": "Arco: 20 puntos",
+    "d": "Haz 20 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 20,
+    "p": true
+   },
+   {
+    "t": "Verdad o mito: 6 de 10",
+    "d": "Acierta 6 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 6
+   }
+  ]
+ },
+ {
+  "name": "Lago",
+  "light": "#CDEBFF",
+  "dark": "#3E97D1",
+  "prem": false,
+  "reward": "barquito de papel",
+  "days": 38,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 37,
+    "o": {
+     "t": "60 que no fueron",
+     "d": "Evita 60 cigarros",
+     "m": "avoided",
+     "v": 60
+    },
+    "cig": [
+     "butts",
+     6
+    ],
+    "iqos": [
+     "butts",
+     8
+    ]
+   },
+   {
+    "t": "10 con holgura",
+    "d": "10 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 10,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 59,
+      "cig": [
+       "time",
+       3
+      ],
+      "iqos": [
+       "time",
+       2
+      ],
+      "vape": [
+       "plastic",
+       9
+      ]
+     }
+    }
+   },
+   {
+    "t": "Rebote de 20",
+    "d": "Haz 20 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 20
+   },
+   {
+    "t": "30 días a menos",
+    "d": "30 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 30
+   },
+   {
+    "t": "Un 30 % verde",
+    "d": "30 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 30
+   },
+   {
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3
+   },
+   {
+    "t": "3 partidas de Verdad o mito",
+    "d": "Juega 3 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 3,
+    "was": {
+     "m": "crave",
+     "v": 14
+    }
+   },
+   {
+    "t": "12 con margen",
+    "d": "12 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 12
+   },
+   {
+    "t": "25 verdes",
+    "d": "Consigue 25 días verdes en total",
+    "m": "greens",
+    "v": 25
+   },
+   {
+    "t": "5 días a la mitad",
+    "d": "5 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 5,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 47,
+      "cig": [
+       "water",
+       4
+      ],
+      "iqos": [
+       "energy",
+       3
+      ],
+      "vape": [
+       "plastic",
+       8
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 15",
+    "d": "15 días verdes seguidos",
+    "m": "streak",
+    "v": 15,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 96,
+    "p": true,
+    "cig": [
+     "co2",
+     3
+    ],
+    "iqos": [
+     "time",
+     3
+    ],
+    "vape": [
+     "plastic",
+     10
+    ]
+   },
+   {
+    "t": "Reloj: menos de 1,5 s",
+    "d": "Termina el Reloj de Tiny con menos de 1,5 s de desvío",
+    "m": "relojBest",
+    "v": 1500
+   }
+  ]
+ },
+ {
+  "name": "Girasoles",
+  "light": "#FFF1B8",
+  "dark": "#E0A800",
+  "prem": false,
+  "reward": "girasol en la oreja",
+  "days": 49,
+  "items": [
+   {
+    "t": "Reloj: menos de 1,4 s",
+    "d": "Termina el Reloj de Tiny con menos de 1,4 s de desvío",
+    "m": "relojBest",
+    "v": 1400,
+    "was": {
+     "m": "crave",
+     "v": 18
+    }
+   },
+   {
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 109,
+    "cig": [
+     "co2",
+     3
+    ],
+    "iqos": [
+     "time",
+     3
+    ],
+    "vape": [
+     "plastic",
+     10
+    ]
+   },
+   {
+    "t": "−20 % de humo",
+    "d": "Fuma un 20 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 20
+   },
+   {
+    "t": "Racha de 14",
+    "d": "14 días verdes seguidos",
+    "m": "streak",
+    "v": 14
+   },
+   {
+    "t": "4 semanas perfectas",
+    "d": "4 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 4
+   },
+   {
+    "t": "2 h sin fumar",
+    "d": "Aguanta 2 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 120
+   },
+   {
+    "t": "Hucha de 25 €",
+    "d": "Ahorra 25 €",
+    "m": "money",
+    "v": 25
+   },
+   {
+    "t": "3 bajadas",
+    "d": "Baja tu límite 3 veces",
+    "m": "drops",
+    "v": 3
+   },
+   {
+    "t": "18 consejos",
+    "d": "Lee 18 consejos del día",
+    "m": "tips",
+    "v": 18
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 144,
+    "p": true,
+    "cig": [
+     "time",
+     4
+    ],
+    "iqos": [
+     "butts",
+     9
+    ],
+    "vape": [
+     "plastic",
+     11
+    ]
+   },
+   {
+    "t": "Torre de 11",
+    "d": "Levanta 11 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 11,
+    "p": true,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 144,
+      "p": true,
+      "cig": [
+       "water",
+       5
+      ],
+      "iqos": [
+       "energy",
+       4
+      ],
+      "vape": [
+       "plastic",
+       12
+      ]
+     }
+    }
+   },
+   {
+    "t": "3 partidas de Rayos",
+    "d": "Juega 3 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 3,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Montaña",
+  "light": "#D6E4F5",
+  "dark": "#6C8EBF",
+  "prem": false,
+  "reward": "gorro de montaña",
+  "days": 62,
+  "items": [
+   {
+    "t": "40 verdes",
+    "d": "Consigue 40 días verdes en total",
+    "m": "greens",
+    "v": 40
+   },
+   {
+    "t": "−30 % de humo",
+    "d": "Fuma un 30 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 30
+   },
+   {
+    "t": "Racha de 18",
+    "d": "18 días verdes seguidos",
+    "m": "streak",
+    "v": 18
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 190,
+    "cig": [
+     "water",
+     6
+    ],
+    "iqos": [
+     "energy",
+     5
+    ],
+    "vape": [
+     "plastic",
+     13
+    ]
+   },
+   {
+    "t": "5 semanas perfectas",
+    "d": "5 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 5
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 71,
+    "cig": [
+     "time",
+     4
+    ],
+    "iqos": [
+     "time",
+     3
+    ],
+    "vape": [
+     "plastic",
+     12
+    ]
+   },
+   {
+    "t": "3 partidas de Cuentas",
+    "d": "Termina Cuentas 3 veces",
+    "m": "mathPlays",
+    "v": 3
+   },
+   {
+    "t": "Rebote de 23",
+    "d": "Haz 23 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 23,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "butts",
+      "v": 137,
+      "o": {
+       "t": "140 que no fueron",
+       "d": "Evita 140 cigarros",
+       "m": "avoided",
+       "v": 140
+      },
+      "cig": [
+       "butts",
+       8
+      ],
+      "iqos": [
+       "butts",
+       10
+      ]
+     }
+    }
+   },
+   {
+    "t": "20 con margen",
+    "d": "20 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 20
+   },
+   {
+    "t": "14 con holgura",
+    "d": "14 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 14
+   },
+   {
+    "t": "Arco: 25 puntos",
+    "d": "Haz 25 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 25,
+    "p": true,
+    "was": {
+     "m": "crave",
+     "v": 35
+    }
+   },
+   {
+    "t": "Torre de 12",
+    "d": "Levanta 12 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 12,
+    "p": true
+   },
+   {
+    "t": "5 partidas de Verdad o mito",
+    "d": "Juega 5 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 5
+   }
+  ]
+ },
+ {
+  "name": "Río",
+  "light": "#CFF3F0",
+  "dark": "#2BB8A6",
+  "prem": false,
+  "reward": "caña de pescar",
+  "days": 77,
+  "items": [
+   {
+    "t": "Hucha de 50 €",
+    "d": "Ahorra 50 €",
+    "m": "money",
+    "v": 50
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 174,
+    "cig": [
+     "time",
+     5
+    ],
+    "iqos": [
+     "time",
+     4
+    ],
+    "vape": [
+     "plastic",
+     13
+    ]
+   },
+   {
+    "t": "5 semanas perfectas",
+    "d": "5 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 5
+   },
+   {
+    "t": "60 días a menos",
+    "d": "60 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 60
+   },
+   {
+    "t": "45 verdes",
+    "d": "Consigue 45 días verdes en total",
+    "m": "greens",
+    "v": 45
+   },
+   {
+    "t": "−40 % de humo",
+    "d": "Fuma un 40 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 40
+   },
+   {
+    "t": "Rebote de 25",
+    "d": "Haz 25 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 25,
+    "was": {
+     "m": "crave",
+     "v": 30
+    }
+   },
+   {
+    "t": "7 días a la mitad",
+    "d": "7 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 7
+   },
+   {
+    "t": "Racha de 20",
+    "d": "20 días verdes seguidos",
+    "m": "streak",
+    "v": 20
+   },
+   {
+    "t": "Verdad o mito: 7 de 10",
+    "d": "Acierta 7 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 7,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 176,
+      "o": {
+       "t": "190 que no fueron",
+       "d": "Evita 190 cigarros",
+       "m": "avoided",
+       "v": 190
+      },
+      "cig": [
+       "co2",
+       4
+      ],
+      "iqos": [
+       "butts",
+       11
+      ]
+     }
+    }
+   },
+   {
+    "t": "59 de golpe",
+    "d": "Haz 59 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 59,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 304,
+    "p": true,
+    "cig": [
+     "water",
+     7
+    ],
+    "iqos": [
+     "energy",
+     5
+    ],
+    "vape": [
+     "plastic",
+     14
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Desierto",
+  "light": "#FFE0B3",
+  "dark": "#E0913A",
+  "prem": false,
+  "reward": "pañuelo del desierto",
+  "days": 92,
+  "items": [
+   {
+    "t": "Cuentas en 25 s",
+    "d": "Termina Cuentas en menos de 25 s",
+    "m": "mathBest",
+    "v": 25
+   },
+   {
+    "t": "6 semanas perfectas",
+    "d": "6 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 6
+   },
+   {
+    "t": "Hucha de 70 €",
+    "d": "Ahorra 70 €",
+    "m": "money",
+    "v": 70
+   },
+   {
+    "t": "55 verdes",
+    "d": "Consigue 55 días verdes en total",
+    "m": "greens",
+    "v": 55
+   },
+   {
+    "t": "Un 50 % verde",
+    "d": "50 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 50
+   },
+   {
+    "t": "2 h 30 sin fumar",
+    "d": "Aguanta 2 h 30 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 150
+   },
+   {
+    "t": "Verdad o mito: 7 de 10",
+    "d": "Acierta 7 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 7,
+    "was": {
+     "m": "crave",
+     "v": 35
+    }
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 211,
+    "o": {
+     "t": "250 que no fueron",
+     "d": "Evita 250 cigarros",
+     "m": "avoided",
+     "v": 250
+    },
+    "cig": [
+     "butts",
+     10
+    ],
+    "iqos": [
+     "butts",
+     12
+    ]
+   },
+   {
+    "t": "14 días a la mitad",
+    "d": "14 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 14,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 170,
+      "cig": [
+       "water",
+       7
+      ],
+      "iqos": [
+       "energy",
+       5
+      ],
+      "vape": [
+       "plastic",
+       14
+      ]
+     }
+    }
+   },
+   {
+    "t": "75 días a menos",
+    "d": "75 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 75,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 203,
+      "cig": [
+       "co2",
+       4
+      ],
+      "iqos": [
+       "time",
+       5
+      ],
+      "vape": [
+       "plastic",
+       15
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 35",
+    "d": "35 días verdes seguidos",
+    "m": "streak",
+    "v": 35,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 400,
+    "p": true,
+    "cig": [
+     "time",
+     6
+    ],
+    "iqos": [
+     "time",
+     6
+    ],
+    "vape": [
+     "plastic",
+     16
+    ]
+   },
+   {
+    "t": "5 partidas al Reloj",
+    "d": "Juega 5 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 5
+   }
+  ]
+ },
+ {
+  "name": "Oasis",
+  "light": "#E2F7D8",
+  "dark": "#56B86A",
+  "prem": false,
+  "reward": "abanico de palma",
+  "days": 109,
+  "items": [
+   {
+    "t": "Reloj: menos de 1,2 s",
+    "d": "Termina el Reloj de Tiny con menos de 1,2 s de desvío",
+    "m": "relojBest",
+    "v": 1200,
+    "was": {
+     "m": "crave",
+     "v": 40
+    }
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 449,
+    "cig": [
+     "time",
+     7
+    ],
+    "iqos": [
+     "time",
+     6
+    ],
+    "vape": [
+     "plastic",
+     16
+    ]
+   },
+   {
+    "t": "25 con holgura",
+    "d": "25 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 25
+   },
+   {
+    "t": "35 con margen",
+    "d": "35 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 35
+   },
+   {
+    "t": "20 días a la mitad",
+    "d": "20 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 20
+   },
+   {
+    "t": "49 de golpe",
+    "d": "Haz 49 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 49
+   },
+   {
+    "t": "6 semanas perfectas",
+    "d": "6 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 6
+   },
+   {
+    "t": "Racha de 30",
+    "d": "30 días verdes seguidos",
+    "m": "streak",
+    "v": 30
+   },
+   {
+    "t": "70 verdes",
+    "d": "Consigue 70 días verdes en total",
+    "m": "greens",
+    "v": 70
+   },
+   {
+    "t": "90 días a menos",
+    "d": "90 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 90
+   },
+   {
+    "t": "Hucha de 125 €",
+    "d": "Ahorra 125 €",
+    "m": "money",
+    "v": 125,
+    "p": true
+   },
+   {
+    "t": "Torre de 15",
+    "d": "Levanta 15 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 15,
+    "p": true,
+    "was": {
+     "m": "proReport",
+     "v": 4
+    }
+   },
+   {
+    "t": "Rayos: 30 puntos",
+    "d": "Haz 30 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 30,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Lavanda",
+  "light": "#EDE4FF",
+  "dark": "#9B7BFF",
+  "prem": false,
+  "reward": "ramito de lavanda",
+  "days": 127,
+  "items": [
+   {
+    "t": "30 días a la mitad",
+    "d": "30 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 30
+   },
+   {
+    "t": "Un 60 % verde",
+    "d": "60 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 60
+   },
+   {
+    "t": "80 verdes",
+    "d": "Consigue 80 días verdes en total",
+    "m": "greens",
+    "v": 80
+   },
+   {
+    "t": "Racha de 35",
+    "d": "35 días verdes seguidos",
+    "m": "streak",
+    "v": 35
+   },
+   {
+    "t": "Rebote de 30",
+    "d": "Haz 30 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 30
+   },
+   {
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120
+   },
+   {
+    "t": "450 que no fueron",
+    "d": "Evita 450 cigarros",
+    "m": "avoided",
+    "v": 450
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 516,
+    "cig": [
+     "co2",
+     5
+    ],
+    "iqos": [
+     "time",
+     6
+    ],
+    "vape": [
+     "plastic",
+     17
+    ]
+   },
+   {
+    "t": "7 bajadas",
+    "d": "Baja tu límite 7 veces",
+    "m": "drops",
+    "v": 7
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 243,
+    "cig": [
+     "water",
+     8
+    ],
+    "iqos": [
+     "energy",
+     5
+    ],
+    "vape": [
+     "plastic",
+     16
+    ]
+   },
+   {
+    "t": "5 recorridos",
+    "d": "Termina el minigolf 5 veces",
+    "m": "golfPlays",
+    "v": 5,
+    "p": true,
+    "was": {
+     "m": "crave",
+     "v": 70
+    }
+   },
+   {
+    "t": "57 con margen",
+    "d": "57 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 57,
+    "p": true
+   },
+   {
+    "t": "Verdad o mito: 8 de 10",
+    "d": "Acierta 8 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 8
+   }
+  ]
+ },
+ {
+  "name": "Selva",
+  "light": "#C6F0D0",
+  "dark": "#1F9E5A",
+  "prem": false,
+  "reward": "corona de flores",
+  "days": 147,
+  "items": [
+   {
+    "t": "Rebote de 32",
+    "d": "Haz 32 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 32,
+    "was": {
+     "m": "crave",
+     "v": 55
+    }
+   },
+   {
+    "t": "8 semanas perfectas",
+    "d": "8 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 8
+   },
+   {
+    "t": "Hucha de 150 €",
+    "d": "Ahorra 150 €",
+    "m": "money",
+    "v": 150
+   },
+   {
+    "t": "3 h sin fumar",
+    "d": "Aguanta 3 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 180
+   },
+   {
+    "t": "5 partidas de Cuentas",
+    "d": "Termina Cuentas 5 veces",
+    "m": "mathPlays",
+    "v": 5
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 724,
+    "o": {
+     "t": "600 que no fueron",
+     "d": "Evita 600 cigarros",
+     "m": "avoided",
+     "v": 600
+    },
+    "cig": [
+     "water",
+     9
+    ],
+    "iqos": [
+     "energy",
+     6
+    ]
+   },
+   {
+    "t": "120 días a menos",
+    "d": "120 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 120
+   },
+   {
+    "t": "Racha de 40",
+    "d": "40 días verdes seguidos",
+    "m": "streak",
+    "v": 40
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 557,
+    "cig": [
+     "time",
+     8
+    ],
+    "iqos": [
+     "time",
+     6
+    ],
+    "vape": [
+     "plastic",
+     17
+    ]
+   },
+   {
+    "t": "90 verdes",
+    "d": "Consigue 90 días verdes en total",
+    "m": "greens",
+    "v": 90
+   },
+   {
+    "t": "Golf en 3:30",
+    "d": "Termina el minigolf en menos de 3:30",
+    "m": "golfBest",
+    "v": 210,
+    "p": true
+   },
+   {
+    "t": "77 consejos",
+    "d": "Lee 77 consejos del día",
+    "m": "tips",
+    "v": 77,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Sabana",
+  "light": "#FFE8C2",
+  "dark": "#D98A00",
+  "prem": false,
+  "reward": "sombrero explorador",
+  "days": 167,
+  "items": [
+   {
+    "t": "50 de golpe",
+    "d": "Haz 50 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 50
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 734,
+    "cig": [
+     "trees",
+     0
+    ],
+    "iqos": [
+     "butts",
+     14
+    ],
+    "vape": [
+     "plastic",
+     17
+    ]
+   },
+   {
+    "t": "50 días a la mitad",
+    "d": "50 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 50
+   },
+   {
+    "t": "Racha de 45",
+    "d": "45 días verdes seguidos",
+    "m": "streak",
+    "v": 45
+   },
+   {
+    "t": "−70 % de humo",
+    "d": "Fuma un 70 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 70
+   },
+   {
+    "t": "750 que no fueron",
+    "d": "Evita 750 cigarros",
+    "m": "avoided",
+    "v": 750
+   },
+   {
+    "t": "55 con margen",
+    "d": "55 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 55
+   },
+   {
+    "t": "Un 70 % verde",
+    "d": "70 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 70
+   },
+   {
+    "t": "9 semanas perfectas",
+    "d": "9 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 9
+   },
+   {
+    "t": "Rebote de 35",
+    "d": "Haz 35 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 35,
+    "was": {
+     "m": "crave",
+     "v": 60
+    }
+   },
+   {
+    "t": "140 verdes",
+    "d": "Consigue 140 días verdes en total",
+    "m": "greens",
+    "v": 140,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 1200,
+    "p": true,
+    "cig": [
+     "butts",
+     15
+    ],
+    "iqos": [
+     "energy",
+     7
+    ],
+    "vape": [
+     "plastic",
+     18
+    ]
+   },
+   {
+    "t": "Reloj: menos de 0,9 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,9 s de desvío",
+    "m": "relojBest",
+    "v": 900
+   }
+  ]
+ },
+ {
+  "name": "Volcán",
+  "light": "#FFD6C9",
+  "dark": "#E0603A",
+  "prem": false,
+  "reward": "gafas de lava",
+  "days": 189,
+  "items": [
+   {
+    "t": "70 consejos",
+    "d": "Lee 70 consejos del día",
+    "m": "tips",
+    "v": 70
+   },
+   {
+    "t": "10 partidas de Verdad o mito",
+    "d": "Juega 10 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 10,
+    "was": {
+     "m": "crave",
+     "v": 70
+    }
+   },
+   {
+    "t": "70 días a la mitad",
+    "d": "70 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 70
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 748,
+    "o": {
+     "t": "900 que no fueron",
+     "d": "Evita 900 cigarros",
+     "m": "avoided",
+     "v": 900
+    },
+    "cig": [
+     "co2",
+     6
+    ],
+    "iqos": [
+     "time",
+     7
+    ]
+   },
+   {
+    "t": "Racha de 55",
+    "d": "55 días verdes seguidos",
+    "m": "streak",
+    "v": 55
+   },
+   {
+    "t": "38 con holgura",
+    "d": "38 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 38
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 1098,
+    "cig": [
+     "butts",
+     16
+    ],
+    "iqos": [
+     "butts",
+     15
+    ],
+    "vape": [
+     "plastic",
+     18
+    ]
+   },
+   {
+    "t": "60 con margen",
+    "d": "60 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 60
+   },
+   {
+    "t": "120 verdes",
+    "d": "Consigue 120 días verdes en total",
+    "m": "greens",
+    "v": 120
+   },
+   {
+    "t": "150 días a menos",
+    "d": "150 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 150
+   },
+   {
+    "t": "Hucha de 350 €",
+    "d": "Ahorra 350 €",
+    "m": "money",
+    "v": 350,
+    "p": true
+   },
+   {
+    "t": "Arco: 30 puntos",
+    "d": "Haz 30 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 30,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Faro",
+  "light": "#D6EEFF",
+  "dark": "#2F7BEA",
+  "prem": false,
+  "reward": "gorro de marinero",
+  "days": 212,
+  "items": [
+   {
+    "t": "4 h sin fumar",
+    "d": "Aguanta 4 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 240
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 1566,
+    "cig": [
+     "time",
+     9
+    ],
+    "iqos": [
+     "time",
+     8
+    ],
+    "vape": [
+     "plastic",
+     19
+    ]
+   },
+   {
+    "t": "Racha de 60",
+    "d": "60 días verdes seguidos",
+    "m": "streak",
+    "v": 60
+   },
+   {
+    "t": "80 días a la mitad",
+    "d": "80 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 80
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 1392,
+    "cig": [
+     "co2",
+     7
+    ],
+    "iqos": [
+     "butts",
+     16
+    ],
+    "vape": [
+     "plastic",
+     18
+    ]
+   },
+   {
+    "t": "165 días a menos",
+    "d": "165 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 165,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 713,
+      "o": {
+       "t": "1.150 que no fueron",
+       "d": "Evita 1.150 cigarros",
+       "m": "avoided",
+       "v": 1150
+      },
+      "cig": [
+       "water",
+       9
+      ],
+      "iqos": [
+       "energy",
+       8
+      ]
+     }
+    }
+   },
+   {
+    "t": "130 verdes",
+    "d": "Consigue 130 días verdes en total",
+    "m": "greens",
+    "v": 130
+   },
+   {
+    "t": "12 bajadas",
+    "d": "Baja tu límite 12 veces",
+    "m": "drops",
+    "v": 12
+   },
+   {
+    "t": "10 cuentas atrás",
+    "d": "Juega 10 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 10,
+    "was": {
+     "m": "crave",
+     "v": 80
+    }
+   },
+   {
+    "t": "12 semanas perfectas",
+    "d": "12 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 12
+   },
+   {
+    "t": "Arco: 32 puntos",
+    "d": "Haz 32 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 32,
+    "p": true,
+    "was": {
+     "m": "proReport",
+     "v": 5
+    }
+   },
+   {
+    "t": "61 con holgura",
+    "d": "61 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 61,
+    "p": true
+   },
+   {
+    "t": "Rayos: 50 puntos",
+    "d": "Haz 50 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 50,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Glaciar",
+  "light": "#DDF3FF",
+  "dark": "#5DB8E8",
+  "prem": false,
+  "reward": "orejeras de nieve",
+  "days": 236,
+  "items": [
+   {
+    "t": "Cuentas en 21 s",
+    "d": "Termina Cuentas en menos de 21 s",
+    "m": "mathBest",
+    "v": 21
+   },
+   {
+    "t": "140 verdes",
+    "d": "Consigue 140 días verdes en total",
+    "m": "greens",
+    "v": 140
+   },
+   {
+    "t": "Racha de 70",
+    "d": "70 días verdes seguidos",
+    "m": "streak",
+    "v": 70
+   },
+   {
+    "t": "−90 % de humo",
+    "d": "Fuma un 90 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 90
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 1516,
+    "cig": [
+     "water",
+     10
+    ],
+    "iqos": [
+     "energy",
+     9
+    ],
+    "vape": [
+     "plastic",
+     20
+    ]
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 705,
+    "cig": [
+     "trees",
+     1
+    ],
+    "iqos": [
+     "butts",
+     17
+    ],
+    "vape": [
+     "plastic",
+     19
+    ]
+   },
+   {
+    "t": "14 semanas perfectas",
+    "d": "14 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 14
+   },
+   {
+    "t": "58 de golpe",
+    "d": "Haz 58 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 58,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "butts",
+      "v": 702,
+      "o": {
+       "t": "1.400 que no fueron",
+       "d": "Evita 1.400 cigarros",
+       "m": "avoided",
+       "v": 1400
+      },
+      "cig": [
+       "butts",
+       17
+      ],
+      "iqos": [
+       "time",
+       8
+      ]
+     }
+    }
+   },
+   {
+    "t": "14 bajadas",
+    "d": "Baja tu límite 14 veces",
+    "m": "drops",
+    "v": 14
+   },
+   {
+    "t": "Rebote de 40",
+    "d": "Haz 40 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 40,
+    "was": {
+     "m": "crave",
+     "v": 90
+    }
+   },
+   {
+    "t": "Hucha de 490 €",
+    "d": "Ahorra 490 €",
+    "m": "money",
+    "v": 490,
+    "p": true
+   },
+   {
+    "t": "10 recorridos",
+    "d": "Termina el minigolf 10 veces",
+    "m": "golfPlays",
+    "v": 10,
+    "p": true
+   },
+   {
+    "t": "20 partidas de Verdad o mito",
+    "d": "Juega 20 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 20
+   }
+  ]
+ },
+ {
+  "name": "Fiordo",
+  "light": "#DCE6FA",
+  "dark": "#5A7BC8",
+  "prem": false,
+  "reward": "casco vikingo",
+  "days": 262,
+  "items": [
+   {
+    "t": "100 consejos",
+    "d": "Lee 100 consejos del día",
+    "m": "tips",
+    "v": 100
+   },
+   {
+    "t": "Racha de 80",
+    "d": "80 días verdes seguidos",
+    "m": "streak",
+    "v": 80
+   },
+   {
+    "t": "55 con holgura",
+    "d": "55 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 55
+   },
+   {
+    "t": "−90 % de humo",
+    "d": "Fuma un 90 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 90
+   },
+   {
+    "t": "60 de golpe",
+    "d": "Haz 60 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 60
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 2184,
+    "o": {
+     "t": "1.700 que no fueron",
+     "d": "Evita 1.700 cigarros",
+     "m": "avoided",
+     "v": 1700
+    },
+    "cig": [
+     "time",
+     10
+    ],
+    "iqos": [
+     "time",
+     9
+    ]
+   },
+   {
+    "t": "200 días a menos",
+    "d": "200 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 200
+   },
+   {
+    "t": "Verdad o mito: 9 de 10",
+    "d": "Acierta 9 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 9,
+    "was": {
+     "m": "crave",
+     "v": 100
+    }
+   },
+   {
+    "t": "90 con margen",
+    "d": "90 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 90
+   },
+   {
+    "t": "Un 90 % verde",
+    "d": "90 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 90
+   },
+   {
+    "t": "225 verdes",
+    "d": "Consigue 225 días verdes en total",
+    "m": "greens",
+    "v": 225,
+    "p": true
+   },
+   {
+    "t": "Torre de 20",
+    "d": "Levanta 20 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 20,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cascada",
+  "light": "#CFEFFF",
+  "dark": "#3AA8F0",
+  "prem": false,
+  "reward": "gafas de buceo",
+  "days": 288,
+  "items": [
+   {
+    "t": "180 verdes",
+    "d": "Consigue 180 días verdes en total",
+    "m": "greens",
+    "v": 180
+   },
+   {
+    "t": "16 semanas perfectas",
+    "d": "16 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 16
+   },
+   {
+    "t": "Rebote de 45",
+    "d": "Haz 45 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 45,
+    "was": {
+     "m": "crave",
+     "v": 110
+    }
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 1506,
+    "o": {
+     "t": "2.000 que no fueron",
+     "d": "Evita 2.000 cigarros",
+     "m": "avoided",
+     "v": 2000
+    },
+    "cig": [
+     "butts",
+     18
+    ],
+    "iqos": [
+     "butts",
+     18
+    ]
+   },
+   {
+    "t": "250 días a menos",
+    "d": "250 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 250
+   },
+   {
+    "t": "Hucha de 500 €",
+    "d": "Ahorra 500 €",
+    "m": "money",
+    "v": 500
+   },
+   {
+    "t": "Racha de 90",
+    "d": "90 días verdes seguidos",
+    "m": "streak",
+    "v": 90
+   },
+   {
+    "t": "105 con margen",
+    "d": "105 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 105,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "trees",
+      "v": 2273,
+      "cig": [
+       "trees",
+       2
+      ],
+      "iqos": [
+       "energy",
+       10
+      ],
+      "vape": [
+       "plastic",
+       20
+      ]
+     }
+    }
+   },
+   {
+    "t": "140 días a la mitad",
+    "d": "140 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 140
+   },
+   {
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30
+   },
+   {
+    "t": "15 recorridos",
+    "d": "Termina el minigolf 15 veces",
+    "m": "golfPlays",
+    "v": 15,
+    "p": true,
+    "was": {
+     "m": "proReport",
+     "v": 6
+    }
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 3200,
+    "p": true,
+    "cig": [
+     "co2",
+     7
+    ],
+    "iqos": [
+     "time",
+     10
+    ],
+    "vape": [
+     "plastic",
+     21
+    ]
+   },
+   {
+    "t": "Reloj: menos de 0,6 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,6 s de desvío",
+    "m": "relojBest",
+    "v": 600
+   }
+  ]
+ },
+ {
+  "name": "Cueva de cristal",
+  "light": "#E4DCFF",
+  "dark": "#6A55D8",
+  "prem": false,
+  "reward": "linterna de cristal",
+  "days": 316,
+  "items": [
+   {
+    "t": "190 verdes",
+    "d": "Consigue 190 días verdes en total",
+    "m": "greens",
+    "v": 190
+   },
+   {
+    "t": "Hucha de 600 €",
+    "d": "Ahorra 600 €",
+    "m": "money",
+    "v": 600
+   },
+   {
+    "t": "Mes perfecto",
+    "d": "100 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 100
+   },
+   {
+    "t": "18 semanas perfectas",
+    "d": "18 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 18
+   },
+   {
+    "t": "Racha de 100",
+    "d": "100 días verdes seguidos",
+    "m": "streak",
+    "v": 100
+   },
+   {
+    "t": "12 cuentas atrás",
+    "d": "Juega 12 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 12,
+    "was": {
+     "m": "crave",
+     "v": 120
+    }
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 2228,
+    "o": {
+     "t": "2.250 que no fueron",
+     "d": "Evita 2.250 cigarros",
+     "m": "avoided",
+     "v": 2250
+    },
+    "cig": [
+     "co2",
+     7
+    ],
+    "iqos": [
+     "time",
+     10
+    ]
+   },
+   {
+    "t": "5 h sin fumar",
+    "d": "Aguanta 5 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 300
+   },
+   {
+    "t": "Reloj: menos de 0,6 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,6 s de desvío",
+    "m": "relojBest",
+    "v": 600,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 1272,
+      "cig": [
+       "time",
+       11
+      ],
+      "iqos": [
+       "butts",
+       19
+      ],
+      "vape": [
+       "plastic",
+       21
+      ]
+     }
+    }
+   },
+   {
+    "t": "120 consejos",
+    "d": "Lee 120 consejos del día",
+    "m": "tips",
+    "v": 120
+   },
+   {
+    "t": "45 días limpios",
+    "d": "45 días a 0",
+    "m": "zero",
+    "v": 45,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 3600,
+    "p": true,
+    "cig": [
+     "butts",
+     19
+    ],
+    "iqos": [
+     "energy",
+     11
+    ],
+    "vape": [
+     "plastic",
+     22
+    ]
+   },
+   {
+    "t": "15 partidas de Rayos",
+    "d": "Juega 15 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 15,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Arcoíris",
+  "light": "#FFE3EF",
+  "dark": "#F06C9B",
+  "prem": false,
+  "reward": "parche pirata",
+  "days": 345,
+  "items": [
+   {
+    "t": "25 partidas de Verdad o mito",
+    "d": "Juega 25 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 25,
+    "was": {
+     "m": "crave",
+     "v": 130
+    }
+   },
+   {
+    "t": "Hucha de 700 €",
+    "d": "Ahorra 700 €",
+    "m": "money",
+    "v": 700
+   },
+   {
+    "t": "70 días limpios",
+    "d": "70 días a 0",
+    "m": "zero",
+    "v": 70
+   },
+   {
+    "t": "Racha de 120",
+    "d": "120 días verdes seguidos",
+    "m": "streak",
+    "v": 120
+   },
+   {
+    "t": "Cuentas en 18 s",
+    "d": "Termina Cuentas en menos de 18 s",
+    "m": "mathBest",
+    "v": 18
+   },
+   {
+    "t": "20 semanas perfectas",
+    "d": "20 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 20
+   },
+   {
+    "t": "200 verdes",
+    "d": "Consigue 200 días verdes en total",
+    "m": "greens",
+    "v": 200
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 3477,
+    "cig": [
+     "water",
+     11
+    ],
+    "iqos": [
+     "energy",
+     11
+    ],
+    "vape": [
+     "plastic",
+     22
+    ]
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 3569,
+    "o": {
+     "t": "2.750 que no fueron",
+     "d": "Evita 2.750 cigarros",
+     "m": "avoided",
+     "v": 2750
+    },
+    "cig": [
+     "trees",
+     2
+    ],
+    "iqos": [
+     "butts",
+     20
+    ]
+   },
+   {
+    "t": "180 días a la mitad",
+    "d": "180 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 180
+   },
+   {
+    "t": "105 con holgura",
+    "d": "105 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 105,
+    "p": true
+   },
+   {
+    "t": "17 partidas de Cuentas",
+    "d": "Termina Cuentas 17 veces",
+    "m": "mathPlays",
+    "v": 17,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Isla del cielo",
+  "light": "#E6DBFF",
+  "dark": "#9B7BFF",
+  "prem": false,
+  "reward": "alas de nube",
+  "days": 375,
+  "items": [
+   {
+    "t": "25 semanas perfectas",
+    "d": "25 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 25
+   },
+   {
+    "t": "Racha de 140",
+    "d": "140 días verdes seguidos",
+    "m": "streak",
+    "v": 140
+   },
+   {
+    "t": "100 días limpios",
+    "d": "100 días a 0",
+    "m": "zero",
+    "v": 100
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 2483,
+    "o": {
+     "t": "3.000 que no fueron",
+     "d": "Evita 3.000 cigarros",
+     "m": "avoided",
+     "v": 3000
+    },
+    "cig": [
+     "butts",
+     20
+    ],
+    "iqos": [
+     "butts",
+     21
+    ]
+   },
+   {
+    "t": "Hucha de 800 €",
+    "d": "Ahorra 800 €",
+    "m": "money",
+    "v": 800
+   },
+   {
+    "t": "300 días a menos",
+    "d": "300 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 300
+   },
+   {
+    "t": "15 cuentas atrás",
+    "d": "Juega 15 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 15,
+    "was": {
+     "m": "crave",
+     "v": 140
+    }
+   },
+   {
+    "t": "140 consejos",
+    "d": "Lee 140 consejos del día",
+    "m": "tips",
+    "v": 140
+   },
+   {
+    "t": "Rebote de 50",
+    "d": "Haz 50 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 50
+   },
+   {
+    "t": "225 verdes",
+    "d": "Consigue 225 días verdes en total",
+    "m": "greens",
+    "v": 225
+   },
+   {
+    "t": "Cuentas en 15 s",
+    "d": "Termina Cuentas en menos de 15 s",
+    "m": "mathBest",
+    "v": 15,
+    "p": true
+   },
+   {
+    "t": "1.350 nubes explotadas",
+    "d": "Explota 1.350 nubes en total",
+    "m": "popTotal",
+    "v": 1350,
+    "p": true
+   },
+   {
+    "t": "Verdad o mito: 9 de 10",
+    "d": "Acierta 9 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 9
+   }
+  ]
+ },
+ {
+  "name": "Nubes de algodón",
+  "light": "#FFE3F1",
+  "dark": "#E86FB0",
+  "prem": false,
+  "reward": "algodón de azúcar",
+  "days": 406,
+  "items": [
+   {
+    "t": "1.050 nubes explotadas",
+    "d": "Explota 1.050 nubes en total",
+    "m": "popTotal",
+    "v": 1050
+   },
+   {
+    "t": "80 días sin humo",
+    "d": "80 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 80
+   },
+   {
+    "t": "120 días limpios",
+    "d": "120 días a 0",
+    "m": "zero",
+    "v": 120
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 3630,
+    "o": {
+     "t": "3.500 que no fueron",
+     "d": "Evita 3.500 cigarros",
+     "m": "avoided",
+     "v": 3500
+    },
+    "cig": [
+     "co2",
+     8
+    ],
+    "iqos": [
+     "time",
+     11
+    ]
+   },
+   {
+    "t": "330 días a menos",
+    "d": "330 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 330
+   },
+   {
+    "t": "250 verdes",
+    "d": "Consigue 250 días verdes en total",
+    "m": "greens",
+    "v": 250
+   },
+   {
+    "t": "Rebote de 55",
+    "d": "Haz 55 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 55,
+    "was": {
+     "m": "crave",
+     "v": 150
+    }
+   },
+   {
+    "t": "30 semanas perfectas",
+    "d": "30 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 30
+   },
+   {
+    "t": "Hucha de 900 €",
+    "d": "Ahorra 900 €",
+    "m": "money",
+    "v": 900
+   },
+   {
+    "t": "15 partidas de Cuentas",
+    "d": "Termina Cuentas 15 veces",
+    "m": "mathPlays",
+    "v": 15
+   },
+   {
+    "t": "Racha de 225",
+    "d": "225 días verdes seguidos",
+    "m": "streak",
+    "v": 225,
+    "p": true
+   },
+   {
+    "t": "Golf en 2:30",
+    "d": "Termina el minigolf en menos de 2:30",
+    "m": "golfBest",
+    "v": 150,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Pico nevado",
+  "light": "#DCEBFF",
+  "dark": "#4F79C9",
+  "prem": false,
+  "reward": "bandera de cumbre",
+  "days": 438,
+  "items": [
+   {
+    "t": "35 semanas perfectas",
+    "d": "35 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 35
+   },
+   {
+    "t": "75 de golpe",
+    "d": "Haz 75 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 75
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 3513,
+    "cig": [
+     "water",
+     11
+    ],
+    "iqos": [
+     "energy",
+     11
+    ],
+    "vape": [
+     "plastic",
+     22
+    ]
+   },
+   {
+    "t": "Racha de 180",
+    "d": "180 días verdes seguidos",
+    "m": "streak",
+    "v": 180
+   },
+   {
+    "t": "30 partidas de Verdad o mito",
+    "d": "Juega 30 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 30,
+    "was": {
+     "m": "crave",
+     "v": 160
+    }
+   },
+   {
+    "t": "275 verdes",
+    "d": "Consigue 275 días verdes en total",
+    "m": "greens",
+    "v": 275
+   },
+   {
+    "t": "110 con holgura",
+    "d": "110 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 110,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "trees",
+      "v": 2225,
+      "o": {
+       "t": "4.000 que no fueron",
+       "d": "Evita 4.000 cigarros",
+       "m": "avoided",
+       "v": 4000
+      },
+      "cig": [
+       "trees",
+       2
+      ],
+      "iqos": [
+       "butts",
+       21
+      ]
+     }
+    }
+   },
+   {
+    "t": "6 h sin fumar",
+    "d": "Aguanta 6 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 360
+   },
+   {
+    "t": "Hucha de 1.000 €",
+    "d": "Ahorra 1.000 €",
+    "m": "money",
+    "v": 1000
+   },
+   {
+    "t": "140 días limpios",
+    "d": "140 días a 0",
+    "m": "zero",
+    "v": 140
+   },
+   {
+    "t": "Cuentas en 14 s",
+    "d": "Termina Cuentas en menos de 14 s",
+    "m": "mathBest",
+    "v": 14,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 6400,
+    "p": true,
+    "cig": [
+     "co2",
+     9
+    ],
+    "iqos": [
+     "time",
+     12
+    ],
+    "vape": [
+     "plastic",
+     23
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Aurora",
+  "light": "#D7F5EC",
+  "dark": "#34C6A0",
+  "prem": false,
+  "reward": "halo de aurora",
+  "days": 471,
+  "items": [
+   {
+    "t": "Racha de 200",
+    "d": "200 días verdes seguidos",
+    "m": "streak",
+    "v": 200
+   },
+   {
+    "t": "300 verdes",
+    "d": "Consigue 300 días verdes en total",
+    "m": "greens",
+    "v": 300
+   },
+   {
+    "t": "Hucha de 1.150 €",
+    "d": "Ahorra 1.150 €",
+    "m": "money",
+    "v": 1150
+   },
+   {
+    "t": "1.150 nubes explotadas",
+    "d": "Explota 1.150 nubes en total",
+    "m": "popTotal",
+    "v": 1150
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 2582,
+    "o": {
+     "t": "4.250 que no fueron",
+     "d": "Evita 4.250 cigarros",
+     "m": "avoided",
+     "v": 4250
+    },
+    "cig": [
+     "water",
+     11
+    ],
+    "iqos": [
+     "energy",
+     11
+    ]
+   },
+   {
+    "t": "130 días sin humo",
+    "d": "130 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 130
+   },
+   {
+    "t": "Cuentas en 16 s",
+    "d": "Termina Cuentas en menos de 16 s",
+    "m": "mathBest",
+    "v": 16
+   },
+   {
+    "t": "170 días limpios",
+    "d": "170 días a 0",
+    "m": "zero",
+    "v": 170
+   },
+   {
+    "t": "275 días a la mitad",
+    "d": "275 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 275
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 3642,
+    "cig": [
+     "butts",
+     21
+    ],
+    "iqos": [
+     "butts",
+     22
+    ],
+    "vape": [
+     "plastic",
+     23
+    ]
+   },
+   {
+    "t": "Torre de 25",
+    "d": "Levanta 25 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 25,
+    "p": true,
+    "was": {
+     "m": "crave",
+     "v": 240
+    }
+   },
+   {
+    "t": "Arco: 38 puntos",
+    "d": "Haz 38 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 38,
+    "p": true
+   },
+   {
+    "t": "20 partidas al Reloj",
+    "d": "Juega 20 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 20
+   }
+  ]
+ },
+ {
+  "name": "Arrecife",
+  "light": "#C2F2F2",
+  "dark": "#1FB8B8",
+  "prem": false,
+  "reward": "aleta de coral",
+  "days": 505,
+  "items": [
+   {
+    "t": "Racha de 225",
+    "d": "225 días verdes seguidos",
+    "m": "streak",
+    "v": 225
+   },
+   {
+    "t": "80 de golpe",
+    "d": "Haz 80 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 80
+   },
+   {
+    "t": "295 días a la mitad",
+    "d": "295 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 295
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 2640,
+    "o": {
+     "t": "4.750 que no fueron",
+     "d": "Evita 4.750 cigarros",
+     "m": "avoided",
+     "v": 4750
+    },
+    "cig": [
+     "water",
+     11
+    ],
+    "iqos": [
+     "energy",
+     11
+    ]
+   },
+   {
+    "t": "Hucha de 1.250 €",
+    "d": "Ahorra 1.250 €",
+    "m": "money",
+    "v": 1250
+   },
+   {
+    "t": "40 semanas perfectas",
+    "d": "40 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 40
+   },
+   {
+    "t": "110 con holgura",
+    "d": "110 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 110,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 5371,
+      "cig": [
+       "co2",
+       9
+      ],
+      "iqos": [
+       "time",
+       12
+      ],
+      "vape": [
+       "plastic",
+       23
+      ]
+     }
+    }
+   },
+   {
+    "t": "200 días limpios",
+    "d": "200 días a 0",
+    "m": "zero",
+    "v": 200
+   },
+   {
+    "t": "190 consejos",
+    "d": "Lee 190 consejos del día",
+    "m": "tips",
+    "v": 190
+   },
+   {
+    "t": "Reloj: menos de 0,5 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,5 s de desvío",
+    "m": "relojBest",
+    "v": 500,
+    "was": {
+     "m": "crave",
+     "v": 180
+    }
+   },
+   {
+    "t": "455 verdes",
+    "d": "Consigue 455 días verdes en total",
+    "m": "greens",
+    "v": 455,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 7600,
+    "p": true,
+    "cig": [
+     "trees",
+     3
+    ],
+    "iqos": [
+     "butts",
+     23
+    ],
+    "vape": [
+     "plastic",
+     24
+    ]
+   },
+   {
+    "t": "Rayos: 75 puntos",
+    "d": "Haz 75 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 75,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Bahía",
+  "light": "#D3EEFF",
+  "dark": "#2A8FD8",
+  "prem": false,
+  "reward": "gorra de capitán",
+  "days": 541,
+  "items": [
+   {
+    "t": "6 meses sin humo",
+    "d": "180 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 180
+   },
+   {
+    "t": "325 días a la mitad",
+    "d": "325 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 325
+   },
+   {
+    "t": "25 partidas de Cuentas",
+    "d": "Termina Cuentas 25 veces",
+    "m": "mathPlays",
+    "v": 25
+   },
+   {
+    "t": "Racha de 250",
+    "d": "250 días verdes seguidos",
+    "m": "streak",
+    "v": 250
+   },
+   {
+    "t": "350 verdes",
+    "d": "Consigue 350 días verdes en total",
+    "m": "greens",
+    "v": 350
+   },
+   {
+    "t": "1.400 nubes explotadas",
+    "d": "Explota 1.400 nubes en total",
+    "m": "popTotal",
+    "v": 1400
+   },
+   {
+    "t": "Hucha de 1.350 €",
+    "d": "Ahorra 1.350 €",
+    "m": "money",
+    "v": 1350
+   },
+   {
+    "t": "225 días limpios",
+    "d": "225 días a 0",
+    "m": "zero",
+    "v": 225
+   },
+   {
+    "t": "30 bajadas",
+    "d": "Baja tu límite 30 veces",
+    "m": "drops",
+    "v": 30
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 3254,
+    "o": {
+     "t": "5.000 que no fueron",
+     "d": "Evita 5.000 cigarros",
+     "m": "avoided",
+     "v": 5000
+    },
+    "cig": [
+     "time",
+     12
+    ],
+    "iqos": [
+     "time",
+     12
+    ]
+   },
+   {
+    "t": "25 partidas de Rayos",
+    "d": "Juega 25 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 25,
+    "p": true,
+    "was": {
+     "m": "crave",
+     "v": 265
+    }
+   },
+   {
+    "t": "−90 % de humo",
+    "d": "Fuma un 90 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 90,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cerezos",
+  "light": "#FFE0EC",
+  "dark": "#F06C9B",
+  "prem": false,
+  "reward": "flor de cerezo",
+  "days": 577,
+  "items": [
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 3026,
+    "cig": [
+     "trees",
+     3
+    ],
+    "iqos": [
+     "butts",
+     23
+    ],
+    "vape": [
+     "plastic",
+     24
+    ]
+   },
+   {
+    "t": "Rebote de 60",
+    "d": "Haz 60 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 60,
+    "was": {
+     "m": "crave",
+     "v": 200
+    }
+   },
+   {
+    "t": "8 h sin fumar",
+    "d": "Aguanta 8 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 480
+   },
+   {
+    "t": "Hucha de 1.500 €",
+    "d": "Ahorra 1.500 €",
+    "m": "money",
+    "v": 1500
+   },
+   {
+    "t": "45 semanas perfectas",
+    "d": "45 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 45
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 5104,
+    "cig": [
+     "co2",
+     9
+    ],
+    "iqos": [
+     "time",
+     12
+    ],
+    "vape": [
+     "plastic",
+     25
+    ]
+   },
+   {
+    "t": "225 consejos",
+    "d": "Lee 225 consejos del día",
+    "m": "tips",
+    "v": 225
+   },
+   {
+    "t": "375 verdes",
+    "d": "Consigue 375 días verdes en total",
+    "m": "greens",
+    "v": 375
+   },
+   {
+    "t": "350 días a la mitad",
+    "d": "350 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 350,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 6236,
+      "o": {
+       "t": "5.500 que no fueron",
+       "d": "Evita 5.500 cigarros",
+       "m": "avoided",
+       "v": 5500
+      },
+      "cig": [
+       "water",
+       12
+      ],
+      "iqos": [
+       "energy",
+       12
+      ]
+     }
+    }
+   },
+   {
+    "t": "250 días limpios",
+    "d": "250 días a 0",
+    "m": "zero",
+    "v": 250
+   },
+   {
+    "t": "Racha de 385",
+    "d": "385 días verdes seguidos",
+    "m": "streak",
+    "v": 385,
+    "p": true
+   },
+   {
+    "t": "Torre de 30",
+    "d": "Levanta 30 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 30,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cañón",
+  "light": "#FFDCCB",
+  "dark": "#D0643A",
+  "prem": false,
+  "reward": "pañuelo vaquero",
+  "days": 615,
+  "items": [
+   {
+    "t": "275 días limpios",
+    "d": "275 días a 0",
+    "m": "zero",
+    "v": 275
+   },
+   {
+    "t": "40 partidas de Verdad o mito",
+    "d": "Juega 40 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 40,
+    "was": {
+     "m": "crave",
+     "v": 225
+    }
+   },
+   {
+    "t": "Racha de 300",
+    "d": "300 días verdes seguidos",
+    "m": "streak",
+    "v": 300
+   },
+   {
+    "t": "225 días sin humo",
+    "d": "225 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 225
+   },
+   {
+    "t": "1.550 nubes explotadas",
+    "d": "Explota 1.550 nubes en total",
+    "m": "popTotal",
+    "v": 1550
+   },
+   {
+    "t": "115 con holgura",
+    "d": "115 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 115
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 3487,
+    "o": {
+     "t": "6.000 que no fueron",
+     "d": "Evita 6.000 cigarros",
+     "m": "avoided",
+     "v": 6000
+    },
+    "cig": [
+     "water",
+     12
+    ],
+    "iqos": [
+     "energy",
+     12
+    ]
+   },
+   {
+    "t": "Cuentas en 14 s",
+    "d": "Termina Cuentas en menos de 14 s",
+    "m": "mathBest",
+    "v": 14
+   },
+   {
+    "t": "50 semanas perfectas",
+    "d": "50 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 50
+   },
+   {
+    "t": "400 verdes",
+    "d": "Consigue 400 días verdes en total",
+    "m": "greens",
+    "v": 400
+   },
+   {
+    "t": "Hucha de 2.250 €",
+    "d": "Ahorra 2.250 €",
+    "m": "money",
+    "v": 2250,
+    "p": true
+   },
+   {
+    "t": "39 partidas de Cuentas",
+    "d": "Termina Cuentas 39 veces",
+    "m": "mathPlays",
+    "v": 39,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Bosque mágico",
+  "light": "#DDE3FF",
+  "dark": "#4A5BC8",
+  "prem": false,
+  "reward": "sombrero de mago",
+  "days": 653,
+  "items": [
+   {
+    "t": "30 cuentas atrás",
+    "d": "Juega 30 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 30,
+    "was": {
+     "m": "crave",
+     "v": 250
+    }
+   },
+   {
+    "t": "300 días limpios",
+    "d": "300 días a 0",
+    "m": "zero",
+    "v": 300
+   },
+   {
+    "t": "Racha de 350",
+    "d": "350 días verdes seguidos",
+    "m": "streak",
+    "v": 350
+   },
+   {
+    "t": "1.650 nubes explotadas",
+    "d": "Explota 1.650 nubes en total",
+    "m": "popTotal",
+    "v": 1650
+   },
+   {
+    "t": "Hucha de 1.750 €",
+    "d": "Ahorra 1.750 €",
+    "m": "money",
+    "v": 1750
+   },
+   {
+    "t": "275 consejos",
+    "d": "Lee 275 consejos del día",
+    "m": "tips",
+    "v": 275
+   },
+   {
+    "t": "400 días a la mitad",
+    "d": "400 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 400
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 6601,
+    "cig": [
+     "co2",
+     9
+    ],
+    "iqos": [
+     "time",
+     13
+    ],
+    "vape": [
+     "plastic",
+     25
+    ]
+   },
+   {
+    "t": "555 días a menos",
+    "d": "555 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 555,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "butts",
+      "v": 7941,
+      "cig": [
+       "butts",
+       22
+      ],
+      "iqos": [
+       "butts",
+       24
+      ],
+      "vape": [
+       "plastic",
+       26
+      ]
+     }
+    }
+   },
+   {
+    "t": "93 de golpe",
+    "d": "Haz 93 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 93,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "water",
+      "v": 7485,
+      "o": {
+       "t": "6.500 que no fueron",
+       "d": "Evita 6.500 cigarros",
+       "m": "avoided",
+       "v": 6500
+      },
+      "cig": [
+       "water",
+       13
+      ],
+      "iqos": [
+       "energy",
+       13
+      ]
+     }
+    }
+   },
+   {
+    "t": "595 verdes",
+    "d": "Consigue 595 días verdes en total",
+    "m": "greens",
+    "v": 595,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 10400,
+    "p": true,
+    "cig": [
+     "trees",
+     3
+    ],
+    "iqos": [
+     "butts",
+     25
+    ],
+    "vape": [
+     "plastic",
+     27
+    ]
+   },
+   {
+    "t": "Verdad o mito: 10 de 10",
+    "d": "Acierta 10 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 10
+   }
+  ]
+ },
+ {
+  "name": "Jardín zen",
+  "light": "#E4F3DE",
+  "dark": "#5E9E5A",
+  "prem": false,
+  "reward": "bonsái de bolsillo",
+  "days": 693,
+  "items": [
+   {
+    "t": "55 semanas perfectas",
+    "d": "55 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 55
+   },
+   {
+    "t": "350 días limpios",
+    "d": "350 días a 0",
+    "m": "zero",
+    "v": 350
+   },
+   {
+    "t": "425 días a la mitad",
+    "d": "425 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 425
+   },
+   {
+    "t": "Rebote de 70",
+    "d": "Haz 70 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 70
+   },
+   {
+    "t": "Hucha de 1.850 €",
+    "d": "Ahorra 1.850 €",
+    "m": "money",
+    "v": 1850
+   },
+   {
+    "t": "450 verdes",
+    "d": "Consigue 450 días verdes en total",
+    "m": "greens",
+    "v": 450
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 6594,
+    "cig": [
+     "water",
+     13
+    ],
+    "iqos": [
+     "energy",
+     13
+    ],
+    "vape": [
+     "plastic",
+     27
+    ]
+   },
+   {
+    "t": "10 meses sin humo",
+    "d": "300 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 300
+   },
+   {
+    "t": "585 días a menos",
+    "d": "585 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 585,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 9586,
+      "cig": [
+       "co2",
+       10
+      ],
+      "iqos": [
+       "time",
+       14
+      ],
+      "vape": [
+       "plastic",
+       28
+      ]
+     }
+    }
+   },
+   {
+    "t": "97 de golpe",
+    "d": "Haz 97 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 97,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 3774,
+      "o": {
+       "t": "7.000 que no fueron",
+       "d": "Evita 7.000 cigarros",
+       "m": "avoided",
+       "v": 7000
+      },
+      "cig": [
+       "time",
+       13
+      ],
+      "iqos": [
+       "butts",
+       25
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 525",
+    "d": "525 días verdes seguidos",
+    "m": "streak",
+    "v": 525,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 11200,
+    "p": true,
+    "cig": [
+     "butts",
+     23
+    ],
+    "iqos": [
+     "butts",
+     26
+    ],
+    "vape": [
+     "plastic",
+     29
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Viñedo",
+  "light": "#EDE0F5",
+  "dark": "#8A4FB0",
+  "prem": false,
+  "reward": "boina de viñedo",
+  "days": 733,
+  "items": [
+   {
+    "t": "325 consejos",
+    "d": "Lee 325 consejos del día",
+    "m": "tips",
+    "v": 325
+   },
+   {
+    "t": "100 de golpe",
+    "d": "Haz 100 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 100
+   },
+   {
+    "t": "Hucha de 2.000 €",
+    "d": "Ahorra 2.000 €",
+    "m": "money",
+    "v": 2000
+   },
+   {
+    "t": "475 verdes",
+    "d": "Consigue 475 días verdes en total",
+    "m": "greens",
+    "v": 475
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 10339,
+    "o": {
+     "t": "7.500 que no fueron",
+     "d": "Evita 7.500 cigarros",
+     "m": "avoided",
+     "v": 7500
+    },
+    "cig": [
+     "butts",
+     24
+    ],
+    "iqos": [
+     "butts",
+     26
+    ]
+   },
+   {
+    "t": "375 días limpios",
+    "d": "375 días a 0",
+    "m": "zero",
+    "v": 375
+   },
+   {
+    "t": "40 cuentas atrás",
+    "d": "Juega 40 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 40,
+    "was": {
+     "m": "crave",
+     "v": 275
+    }
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 4523,
+    "cig": [
+     "trees",
+     3
+    ],
+    "iqos": [
+     "energy",
+     13
+    ],
+    "vape": [
+     "plastic",
+     29
+    ]
+   },
+   {
+    "t": "Racha de 400",
+    "d": "400 días verdes seguidos",
+    "m": "streak",
+    "v": 400
+   },
+   {
+    "t": "60 semanas perfectas",
+    "d": "60 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 60
+   },
+   {
+    "t": "440 días sin humo",
+    "d": "440 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 440,
+    "p": true
+   },
+   {
+    "t": "Cuentas en 10 s",
+    "d": "Termina Cuentas en menos de 10 s",
+    "m": "mathBest",
+    "v": 10,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Castillo de nubes",
+  "light": "#EEF4FF",
+  "dark": "#8AA2E6",
+  "prem": false,
+  "reward": "corona de nubes",
+  "days": 775,
+  "items": [
+   {
+    "t": "650 días a menos",
+    "d": "650 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 650
+   },
+   {
+    "t": "12 h sin fumar",
+    "d": "Aguanta 12 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 720
+   },
+   {
+    "t": "Cuentas en 12 s",
+    "d": "Termina Cuentas en menos de 12 s",
+    "m": "mathBest",
+    "v": 12
+   },
+   {
+    "t": "110 de golpe",
+    "d": "Haz 110 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 110
+   },
+   {
+    "t": "Racha de 425",
+    "d": "425 días verdes seguidos",
+    "m": "streak",
+    "v": 425
+   },
+   {
+    "t": "350 días sin humo",
+    "d": "350 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 350
+   },
+   {
+    "t": "500 verdes",
+    "d": "Consigue 500 días verdes en total",
+    "m": "greens",
+    "v": 500
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 7615,
+    "cig": [
+     "water",
+     13
+    ],
+    "iqos": [
+     "energy",
+     13
+    ],
+    "vape": [
+     "plastic",
+     29
+    ]
+   },
+   {
+    "t": "400 días limpios",
+    "d": "400 días a 0",
+    "m": "zero",
+    "v": 400
+   },
+   {
+    "t": "500 días a la mitad",
+    "d": "500 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 500
+   },
+   {
+    "t": "Hucha de 3.150 €",
+    "d": "Ahorra 3.150 €",
+    "m": "money",
+    "v": 3150,
+    "p": true
+   },
+   {
+    "t": "2.800 nubes explotadas",
+    "d": "Explota 2.800 nubes en total",
+    "m": "popTotal",
+    "v": 2800,
+    "p": true
+   },
+   {
+    "t": "Reloj: menos de 0,3 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,3 s de desvío",
+    "m": "relojBest",
+    "v": 300
+   }
+  ]
+ },
+ {
+  "name": "Palacio de hielo",
+  "light": "#E0F6FF",
+  "dark": "#3FA9D6",
+  "prem": false,
+  "reward": "cetro de hielo",
+  "days": 818,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 9828,
+    "o": {
+     "t": "9.000 que no fueron",
+     "d": "Evita 9.000 cigarros",
+     "m": "avoided",
+     "v": 9000
+    },
+    "cig": [
+     "butts",
+     25
+    ],
+    "iqos": [
+     "butts",
+     26
+    ]
+   },
+   {
+    "t": "50 partidas de Verdad o mito",
+    "d": "Juega 50 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 50,
+    "was": {
+     "m": "crave",
+     "v": 300
+    }
+   },
+   {
+    "t": "550 verdes",
+    "d": "Consigue 550 días verdes en total",
+    "m": "greens",
+    "v": 550
+   },
+   {
+    "t": "375 días sin humo",
+    "d": "375 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 375
+   },
+   {
+    "t": "47 partidas de Cuentas",
+    "d": "Termina Cuentas 47 veces",
+    "m": "mathPlays",
+    "v": 47
+   },
+   {
+    "t": "425 días limpios",
+    "d": "425 días a 0",
+    "m": "zero",
+    "v": 425
+   },
+   {
+    "t": "120 de golpe",
+    "d": "Haz 120 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 120
+   },
+   {
+    "t": "700 días a menos",
+    "d": "700 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 700
+   },
+   {
+    "t": "Hucha de 2.500 €",
+    "d": "Ahorra 2.500 €",
+    "m": "money",
+    "v": 2500
+   },
+   {
+    "t": "550 días a la mitad",
+    "d": "550 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 550
+   },
+   {
+    "t": "Racha de 630",
+    "d": "630 días verdes seguidos",
+    "m": "streak",
+    "v": 630,
+    "p": true
+   },
+   {
+    "t": "30 recorridos",
+    "d": "Termina el minigolf 30 veces",
+    "m": "golfPlays",
+    "v": 30,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Luna",
+  "light": "#E3E0F5",
+  "dark": "#7A74C8",
+  "prem": false,
+  "reward": "casco espacial",
+  "days": 861,
+  "items": [
+   {
+    "t": "Hucha de 2.750 €",
+    "d": "Ahorra 2.750 €",
+    "m": "money",
+    "v": 2750
+   },
+   {
+    "t": "600 días a la mitad",
+    "d": "600 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 600
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 7029,
+    "cig": [
+     "trees",
+     4
+    ],
+    "iqos": [
+     "butts",
+     26
+    ],
+    "vape": [
+     "plastic",
+     29
+    ]
+   },
+   {
+    "t": "70 semanas perfectas",
+    "d": "70 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 70
+   },
+   {
+    "t": "345 con margen",
+    "d": "345 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 345,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 8407,
+      "cig": [
+       "co2",
+       10
+      ],
+      "iqos": [
+       "time",
+       14
+      ],
+      "vape": [
+       "plastic",
+       30
+      ]
+     }
+    }
+   },
+   {
+    "t": "600 verdes",
+    "d": "Consigue 600 días verdes en total",
+    "m": "greens",
+    "v": 600
+   },
+   {
+    "t": "725 días a menos",
+    "d": "725 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 725
+   },
+   {
+    "t": "475 días limpios",
+    "d": "475 días a 0",
+    "m": "zero",
+    "v": 475
+   },
+   {
+    "t": "425 días sin humo",
+    "d": "425 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 425
+   },
+   {
+    "t": "Reloj: menos de 0,3 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,3 s de desvío",
+    "m": "relojBest",
+    "v": 300,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 9814,
+      "o": {
+       "t": "9.500 que no fueron",
+       "d": "Evita 9.500 cigarros",
+       "m": "avoided",
+       "v": 9500
+      },
+      "cig": [
+       "time",
+       14
+      ],
+      "iqos": [
+       "energy",
+       14
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 700",
+    "d": "700 días verdes seguidos",
+    "m": "streak",
+    "v": 700,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 15200,
+    "p": true,
+    "cig": [
+     "butts",
+     26
+    ],
+    "iqos": [
+     "butts",
+     27
+    ],
+    "vape": [
+     "plastic",
+     31
+    ]
+   },
+   {
+    "t": "Rayos: 100 puntos",
+    "d": "Haz 100 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 100,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cometa",
+  "light": "#E0E8FF",
+  "dark": "#4F6BE0",
+  "prem": false,
+  "reward": "estela de cometa",
+  "days": 906,
+  "items": [
+   {
+    "t": "Rebote de 75",
+    "d": "Haz 75 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 75,
+    "was": {
+     "m": "crave",
+     "v": 325
+    }
+   },
+   {
+    "t": "Hucha de 3.000 €",
+    "d": "Ahorra 3.000 €",
+    "m": "money",
+    "v": 3000
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 9014,
+    "cig": [
+     "time",
+     15
+    ],
+    "iqos": [
+     "time",
+     14
+    ],
+    "vape": [
+     "plastic",
+     31
+    ]
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 11725,
+    "o": {
+     "t": "10.000 que no fueron",
+     "d": "Evita 10.000 cigarros",
+     "m": "avoided",
+     "v": 10000
+    },
+    "cig": [
+     "butts",
+     27
+    ],
+    "iqos": [
+     "butts",
+     27
+    ]
+   },
+   {
+    "t": "500 días limpios",
+    "d": "500 días a 0",
+    "m": "zero",
+    "v": 500
+   },
+   {
+    "t": "140 de golpe",
+    "d": "Haz 140 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 140
+   },
+   {
+    "t": "650 días a la mitad",
+    "d": "650 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 650
+   },
+   {
+    "t": "650 verdes",
+    "d": "Consigue 650 días verdes en total",
+    "m": "greens",
+    "v": 650
+   },
+   {
+    "t": "Racha de 550",
+    "d": "550 días verdes seguidos",
+    "m": "streak",
+    "v": 550
+   },
+   {
+    "t": "Quince meses sin humo",
+    "d": "450 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 450
+   },
+   {
+    "t": "1.100 días a menos",
+    "d": "1.100 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 1100,
+    "p": true
+   },
+   {
+    "t": "−90 % de humo",
+    "d": "Fuma un 90 % menos que al empezar (media de 30 días)",
+    "m": "dropPct",
+    "v": 90,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Anillos",
+  "light": "#FFEBD1",
+  "dark": "#E08A2E",
+  "prem": false,
+  "reward": "cinturón de anillos",
+  "days": 952,
+  "items": [
+   {
+    "t": "800 días a menos",
+    "d": "800 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 800
+   },
+   {
+    "t": "700 verdes",
+    "d": "Consigue 700 días verdes en total",
+    "m": "greens",
+    "v": 700
+   },
+   {
+    "t": "Hucha de 3.250 €",
+    "d": "Ahorra 3.250 €",
+    "m": "money",
+    "v": 3250
+   },
+   {
+    "t": "Racha de 600",
+    "d": "600 días verdes seguidos",
+    "m": "streak",
+    "v": 600
+   },
+   {
+    "t": "150 de golpe",
+    "d": "Haz 150 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 150
+   },
+   {
+    "t": "Reloj: menos de 0,25 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,25 s de desvío",
+    "m": "relojBest",
+    "v": 250,
+    "was": {
+     "m": "crave",
+     "v": 350
+    }
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 9041,
+    "o": {
+     "t": "10.500 que no fueron",
+     "d": "Evita 10.500 cigarros",
+     "m": "avoided",
+     "v": 10500
+    },
+    "cig": [
+     "trees",
+     5
+    ],
+    "iqos": [
+     "butts",
+     27
+    ]
+   },
+   {
+    "t": "550 días limpios",
+    "d": "550 días a 0",
+    "m": "zero",
+    "v": 550
+   },
+   {
+    "t": "700 días a la mitad",
+    "d": "700 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 700
+   },
+   {
+    "t": "Quinientos sin humo",
+    "d": "500 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 500
+   },
+   {
+    "t": "375 con margen",
+    "d": "375 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 375,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 16800,
+    "p": true,
+    "cig": [
+     "water",
+     14
+    ],
+    "iqos": [
+     "energy",
+     15
+    ],
+    "vape": [
+     "plastic",
+     31
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Nebulosa",
+  "light": "#F1E2FF",
+  "dark": "#A45AE0",
+  "prem": false,
+  "reward": "gafas de estrella",
+  "days": 999,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 7833,
+    "o": {
+     "t": "11.000 que no fueron",
+     "d": "Evita 11.000 cigarros",
+     "m": "avoided",
+     "v": 11000
+    },
+    "cig": [
+     "water",
+     14
+    ],
+    "iqos": [
+     "energy",
+     15
+    ]
+   },
+   {
+    "t": "Un día entero despierto sin fumar",
+    "d": "Aguanta 16 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 960
+   },
+   {
+    "t": "750 verdes",
+    "d": "Consigue 750 días verdes en total",
+    "m": "greens",
+    "v": 750
+   },
+   {
+    "t": "600 días limpios",
+    "d": "600 días a 0",
+    "m": "zero",
+    "v": 600
+   },
+   {
+    "t": "150 con holgura",
+    "d": "150 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 150,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "time",
+      "v": 8088,
+      "cig": [
+       "time",
+       16
+      ],
+      "iqos": [
+       "time",
+       15
+      ],
+      "vape": [
+       "plastic",
+       31
+      ]
+     }
+    }
+   },
+   {
+    "t": "750 días a la mitad",
+    "d": "750 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 750
+   },
+   {
+    "t": "80 semanas perfectas",
+    "d": "80 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 80
+   },
+   {
+    "t": "Cuentas en 10 s",
+    "d": "Termina Cuentas en menos de 10 s",
+    "m": "mathBest",
+    "v": 10
+   },
+   {
+    "t": "Hucha de 3.500 €",
+    "d": "Ahorra 3.500 €",
+    "m": "money",
+    "v": 3500
+   },
+   {
+    "t": "Rebote de 80",
+    "d": "Haz 80 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 80,
+    "was": {
+     "m": "eco",
+     "it": {
+      "m": "eco",
+      "f": "co2",
+      "v": 10581,
+      "cig": [
+       "co2",
+       11
+      ],
+      "iqos": [
+       "butts",
+       27
+      ],
+      "vape": [
+       "plastic",
+       32
+      ]
+     }
+    }
+   },
+   {
+    "t": "Racha de 910",
+    "d": "910 días verdes seguidos",
+    "m": "streak",
+    "v": 910,
+    "p": true
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 17600,
+    "p": true,
+    "cig": [
+     "trees",
+     6
+    ],
+    "iqos": [
+     "butts",
+     28
+    ],
+    "vape": [
+     "plastic",
+     33
+    ]
+   }
+  ]
+ },
+ {
+  "name": "Estrella polar",
+  "light": "#FFF6CF",
+  "dark": "#C9A200",
+  "prem": false,
+  "reward": "brújula de estrellas",
+  "days": 1046,
+  "items": [
+   {
+    "t": "Racha de 700",
+    "d": "700 días verdes seguidos",
+    "m": "streak",
+    "v": 700
+   },
+   {
+    "t": "Hucha de 3.750 €",
+    "d": "Ahorra 3.750 €",
+    "m": "money",
+    "v": 3750
+   },
+   {
+    "t": "855 días a menos",
+    "d": "855 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 855
+   },
+   {
+    "t": "650 días limpios",
+    "d": "650 días a 0",
+    "m": "zero",
+    "v": 650
+   },
+   {
+    "t": "800 verdes",
+    "d": "Consigue 800 días verdes en total",
+    "m": "greens",
+    "v": 800
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 13176,
+    "cig": [
+     "co2",
+     12
+    ],
+    "iqos": [
+     "time",
+     16
+    ],
+    "vape": [
+     "plastic",
+     33
+    ]
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 8598,
+    "o": {
+     "t": "11.500 que no fueron",
+     "d": "Evita 11.500 cigarros",
+     "m": "avoided",
+     "v": 11500
+    },
+    "cig": [
+     "butts",
+     28
+    ],
+    "iqos": [
+     "butts",
+     28
+    ]
+   },
+   {
+    "t": "3.500 nubes explotadas",
+    "d": "Explota 3.500 nubes en total",
+    "m": "popTotal",
+    "v": 3500
+   },
+   {
+    "t": "800 días a la mitad",
+    "d": "800 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 800
+   },
+   {
+    "t": "Seiscientos sin humo",
+    "d": "600 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 600
+   },
+   {
+    "t": "Arco: 45 puntos",
+    "d": "Haz 45 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 45,
+    "p": true,
+    "was": {
+     "m": "crave",
+     "v": 525
+    }
+   },
+   {
+    "t": "Golf en 19 golpes",
+    "d": "Termina el minigolf en 19 golpes o menos",
+    "m": "golfStrokes",
+    "v": 19,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Galaxia",
+  "light": "#D9D0FF",
+  "dark": "#5A3FD0",
+  "prem": false,
+  "reward": "estela de estrellas",
+  "days": 1095,
+  "items": [
+   {
+    "t": "Dos años sin humo",
+    "d": "730 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 730
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 6303,
+    "o": {
+     "t": "12.500 que no fueron",
+     "d": "Evita 12.500 cigarros",
+     "m": "avoided",
+     "v": 12500
+    },
+    "cig": [
+     "trees",
+     6
+    ],
+    "iqos": [
+     "butts",
+     29
+    ]
+   },
+   {
+    "t": "900 días a menos",
+    "d": "900 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 900
+   },
+   {
+    "t": "700 días limpios",
+    "d": "700 días a 0",
+    "m": "zero",
+    "v": 700
+   },
+   {
+    "t": "Hucha de 4.000 €",
+    "d": "Ahorra 4.000 €",
+    "m": "money",
+    "v": 4000
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 13692,
+    "cig": [
+     "time",
+     17
+    ],
+    "iqos": [
+     "time",
+     17
+    ],
+    "vape": [
+     "plastic",
+     34
+    ]
+   },
+   {
+    "t": "850 días a la mitad",
+    "d": "850 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 850
+   },
+   {
+    "t": "52 bajadas",
+    "d": "Baja tu límite 52 veces",
+    "m": "drops",
+    "v": 52
+   },
+   {
+    "t": "850 verdes",
+    "d": "Consigue 850 días verdes en total",
+    "m": "greens",
+    "v": 850
+   },
+   {
+    "t": "Rebote de 85",
+    "d": "Haz 85 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 85,
+    "was": {
+     "m": "crave",
+     "v": 400
+    }
+   },
+   {
+    "t": "Racha de 1.050",
+    "d": "1.050 días verdes seguidos",
+    "m": "streak",
+    "v": 1050,
+    "p": true
+   },
+   {
+    "t": "Rayos: 120 puntos",
+    "d": "Haz 120 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 120,
+    "p": true,
+    "was": {
+     "m": "proReport",
+     "v": 18
+    }
+   }
+  ]
+ },
+ {
+  "name": "Planeta de caramelo",
+  "light": "#FFE0F0",
+  "dark": "#E0559A",
+  "prem": false,
+  "reward": "gafas de caramelo",
+  "days": 1145,
+  "items": [
+   {
+    "t": "900 verdes",
+    "d": "Consigue 900 días verdes en total",
+    "m": "greens",
+    "v": 900
+   },
+   {
+    "t": "Hucha de 4.250 €",
+    "d": "Ahorra 4.250 €",
+    "m": "money",
+    "v": 4250
+   },
+   {
+    "t": "900 días a la mitad",
+    "d": "900 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 900
+   },
+   {
+    "t": "750 días limpios",
+    "d": "750 días a 0",
+    "m": "zero",
+    "v": 750
+   },
+   {
+    "t": "Racha de 740",
+    "d": "740 días verdes seguidos",
+    "m": "streak",
+    "v": 740
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 0,
+    "cig": [
+     "water",
+     14
+    ],
+    "iqos": [
+     "energy",
+     15
+    ],
+    "vape": [
+     "plastic",
+     34
+    ]
+   },
+   {
+    "t": "Reloj: menos de 0,2 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,2 s de desvío",
+    "m": "relojBest",
+    "v": 200
+   },
+   {
+    "t": "160 de golpe",
+    "d": "Haz 160 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 160
+   },
+   {
+    "t": "950 días a menos",
+    "d": "950 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 950
+   },
+   {
+    "t": "85 semanas perfectas",
+    "d": "85 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 85
+   },
+   {
+    "t": "Torre de 35",
+    "d": "Levanta 35 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 35,
+    "p": true
+   },
+   {
+    "t": "35 recorridos",
+    "d": "Termina el minigolf 35 veces",
+    "m": "golfPlays",
+    "v": 35,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Mar de estrellas",
+  "light": "#DDF3FF",
+  "dark": "#2E7FC4",
+  "prem": false,
+  "reward": "gorro de marinero estelar",
+  "days": 1196,
+  "items": [
+   {
+    "t": "780 días sin humo",
+    "d": "780 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 780
+   },
+   {
+    "t": "950 verdes",
+    "d": "Consigue 950 días verdes en total",
+    "m": "greens",
+    "v": 950
+   },
+   {
+    "t": "Hucha de 4.500 €",
+    "d": "Ahorra 4.500 €",
+    "m": "money",
+    "v": 4500
+   },
+   {
+    "t": "800 días limpios",
+    "d": "800 días a 0",
+    "m": "zero",
+    "v": 800
+   },
+   {
+    "t": "160 con holgura",
+    "d": "160 días fumando 2 menos que tu límite",
+    "m": "under2",
+    "v": 160
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "v": 0,
+    "cig": [
+     "co2",
+     12
+    ],
+    "iqos": [
+     "time",
+     16
+    ],
+    "vape": [
+     "plastic",
+     34
+    ]
+   },
+   {
+    "t": "Rebote de 90",
+    "d": "Haz 90 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 90
+   },
+   {
+    "t": "60 partidas de Verdad o mito",
+    "d": "Juega 60 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 60
+   },
+   {
+    "t": "950 días a la mitad",
+    "d": "950 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 950
+   },
+   {
+    "t": "55 bajadas",
+    "d": "Baja tu límite 55 veces",
+    "m": "drops",
+    "v": 55
+   },
+   {
+    "t": "Arco: 48 puntos",
+    "d": "Haz 48 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 48,
+    "p": true
+   },
+   {
+    "t": "40 partidas de Rayos",
+    "d": "Juega 40 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 40,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Lluvia de meteoros",
+  "light": "#FFE9D6",
+  "dark": "#E0662E",
+  "prem": false,
+  "reward": "paraguas de meteoros",
+  "days": 1248,
+  "items": [
+   {
+    "t": "Racha de 800",
+    "d": "800 días verdes seguidos",
+    "m": "streak",
+    "v": 800
+   },
+   {
+    "t": "1.000 verdes",
+    "d": "Consigue 1.000 días verdes en total",
+    "m": "greens",
+    "v": 1000
+   },
+   {
+    "t": "Hucha de 4.750 €",
+    "d": "Ahorra 4.750 €",
+    "m": "money",
+    "v": 4750
+   },
+   {
+    "t": "1.000 días a menos",
+    "d": "1.000 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 1000
+   },
+   {
+    "t": "850 días limpios",
+    "d": "850 días a 0",
+    "m": "zero",
+    "v": 850
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 0,
+    "cig": [
+     "butts",
+     28
+    ],
+    "iqos": [
+     "butts",
+     29
+    ]
+   },
+   {
+    "t": "50 cuentas atrás",
+    "d": "Juega 50 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 50
+   },
+   {
+    "t": "Cuentas en 9 s",
+    "d": "Termina Cuentas en menos de 9 s",
+    "m": "mathBest",
+    "v": 9
+   },
+   {
+    "t": "90 semanas perfectas",
+    "d": "90 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 90
+   },
+   {
+    "t": "1.000 días a la mitad",
+    "d": "1.000 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 1000
+   },
+   {
+    "t": "Torre de 40",
+    "d": "Levanta 40 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 40,
+    "p": true
+   },
+   {
+    "t": "Golf en 18 golpes",
+    "d": "Termina el minigolf en 18 golpes o menos",
+    "m": "golfStrokes",
+    "v": 18,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Aurora austral",
+  "light": "#DFFBF0",
+  "dark": "#1FAF8A",
+  "prem": false,
+  "reward": "bufanda de aurora",
+  "days": 1301,
+  "items": [
+   {
+    "t": "850 días sin humo",
+    "d": "850 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 850
+   },
+   {
+    "t": "1.050 verdes",
+    "d": "Consigue 1.050 días verdes en total",
+    "m": "greens",
+    "v": 1050
+   },
+   {
+    "t": "Hucha de 5.000 €",
+    "d": "Ahorra 5.000 €",
+    "m": "money",
+    "v": 5000
+   },
+   {
+    "t": "900 días limpios",
+    "d": "900 días a 0",
+    "m": "zero",
+    "v": 900
+   },
+   {
+    "t": "400 con margen",
+    "d": "400 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 400
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "v": 0,
+    "cig": [
+     "trees",
+     6
+    ],
+    "iqos": [
+     "butts",
+     29
+    ]
+   },
+   {
+    "t": "4.000 nubes explotadas",
+    "d": "Explota 4.000 nubes en total",
+    "m": "popTotal",
+    "v": 4000
+   },
+   {
+    "t": "Reloj: menos de 0,18 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,18 s de desvío",
+    "m": "relojBest",
+    "v": 180
+   },
+   {
+    "t": "1.050 días a la mitad",
+    "d": "1.050 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 1050
+   },
+   {
+    "t": "58 bajadas",
+    "d": "Baja tu límite 58 veces",
+    "m": "drops",
+    "v": 58
+   },
+   {
+    "t": "Arco: 50 puntos",
+    "d": "Haz 50 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 50,
+    "p": true
+   },
+   {
+    "t": "Rayos: 140 puntos",
+    "d": "Haz 140 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 140,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Planeta Tiny",
+  "light": "#FFF3C4",
+  "dark": "#F2A900",
+  "prem": false,
+  "reward": "Tiny Rex galáctico",
+  "days": 1355,
+  "items": [
+   {
+    "t": "Racha de 850",
+    "d": "850 días verdes seguidos",
+    "m": "streak",
+    "v": 850
+   },
+   {
+    "t": "1.100 verdes",
+    "d": "Consigue 1.100 días verdes en total",
+    "m": "greens",
+    "v": 1100
+   },
+   {
+    "t": "Hucha de 5.500 €",
+    "d": "Ahorra 5.500 €",
+    "m": "money",
+    "v": 5500
+   },
+   {
+    "t": "900 días sin humo",
+    "d": "900 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 900
+   },
+   {
+    "t": "950 días limpios",
+    "d": "950 días a 0",
+    "m": "zero",
+    "v": 950
+   },
+   {
+    "t": "1.100 días a menos",
+    "d": "1.100 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 1100
+   },
+   {
+    "t": "1.100 días a la mitad",
+    "d": "1.100 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 1100
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "v": 0,
+    "cig": [
+     "time",
+     17
+    ],
+    "iqos": [
+     "time",
+     17
+    ],
+    "vape": [
+     "plastic",
+     34
+    ]
+   },
+   {
+    "t": "Rebote de 100",
+    "d": "Haz 100 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 100
+   },
+   {
+    "t": "170 de golpe",
+    "d": "Haz 170 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 170
+   },
+   {
+    "t": "Rayos: 150 puntos",
+    "d": "Haz 150 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 150,
+    "p": true
+   },
+   {
+    "t": "Torre de 45",
+    "d": "Levanta 45 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 45,
+    "p": true
+   }
+  ]
+ }
+]

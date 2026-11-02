@@ -1,0 +1,5403 @@
+[
+ {
+  "name": "Pradera",
+  "light": "#C9F2CF",
+  "dark": "#4CD964",
+  "prem": false,
+  "reward": "sombrero de paja",
+  "days": 3,
+  "items": [
+   {
+    "t": "Primer paso",
+    "d": "Crea tu plan",
+    "m": "setup",
+    "v": 1,
+    "id": "w0-setup"
+   },
+   {
+    "t": "Primer pop",
+    "d": "Explota 9 nubes en total",
+    "m": "popTotal",
+    "v": 9,
+    "id": "w0-popTotal"
+   },
+   {
+    "t": "Vencí las ganas",
+    "d": "Vence las ganas 1 vez con «Tengo ganas»",
+    "m": "crave",
+    "v": 1,
+    "id": "w0-crave"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "v": 2,
+    "o": {
+     "t": "3 que no fueron",
+     "d": "Evita 3 cigarros",
+     "m": "avoided",
+     "v": 3
+    },
+    "cig": [
+     "water",
+     0
+    ],
+    "iqos": [
+     "energy",
+     0
+    ],
+    "id": "w0-eco-water"
+   },
+   {
+    "t": "Siempre a mano",
+    "d": "Añade el widget a tu pantalla",
+    "m": "widget",
+    "v": 1,
+    "id": "w0-widget"
+   },
+   {
+    "t": "Primera hucha",
+    "d": "Ahorra 1 €",
+    "m": "money",
+    "v": 1,
+    "id": "w0-money"
+   },
+   {
+    "t": "45 min sin fumar",
+    "d": "Aguanta 45 min despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 45,
+    "id": "w0-gapBest"
+   },
+   {
+    "id": "w0-tutSeen-1",
+    "t": "Paseo con Tiny",
+    "d": "Completa el tutorial de la app",
+    "m": "tutSeen",
+    "v": 1
+   },
+   {
+    "t": "10 de golpe",
+    "d": "Haz 10 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 10,
+    "id": "w0-popBest"
+   },
+   {
+    "t": "2 verdes",
+    "d": "Consigue 2 días verdes en total",
+    "m": "greens",
+    "v": 2,
+    "id": "w0-greens"
+   },
+   {
+    "t": "Torre de 5",
+    "d": "Levanta 5 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 5,
+    "p": true,
+    "id": "w0-torreBest-p"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "v": 5,
+    "p": true,
+    "cig": [
+     "butts",
+     0
+    ],
+    "iqos": [
+     "butts",
+     1
+    ],
+    "vape": [
+     "plastic",
+     1
+    ],
+    "id": "w0-eco-p-butts"
+   }
+  ]
+ },
+ {
+  "name": "Huerto",
+  "light": "#FFE3D1",
+  "dark": "#FF8A5B",
+  "prem": false,
+  "reward": "cesta de fruta",
+  "days": 7,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     1
+    ],
+    "iqos": [
+     "energy",
+     0
+    ],
+    "o": {
+     "t": "1 que no fueron",
+     "d": "Evita 1 cigarros",
+     "m": "avoided",
+     "v": 1,
+     "s": 1
+    },
+    "id": "w1-eco-water"
+   },
+   {
+    "id": "w1-daysLess",
+    "t": "2 días a menos",
+    "d": "2 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w1-monthPct-10",
+    "t": "Un 10 % verde",
+    "d": "10 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 10
+   },
+   {
+    "id": "w1-avoided",
+    "t": "2 que no fueron",
+    "d": "Evita 2 cigarros",
+    "m": "avoided",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w1-greens",
+    "t": "3 verdes",
+    "d": "Consigue 3 días verdes en total",
+    "m": "greens",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w1-money",
+    "t": "Hucha de 1 €",
+    "d": "Ahorra 1 €",
+    "m": "money",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "t": "Respira con Tiny",
+    "d": "Completa una vez los 2 minutos de Respirar",
+    "m": "breathDone",
+    "v": 1,
+    "was": {
+     "m": "crave",
+     "v": 3
+    },
+    "id": "w1-breathDone"
+   },
+   {
+    "t": "Tu voz cuenta",
+    "d": "Cuéntanos qué tal en «Danos tu opinión»",
+    "m": "feedback",
+    "v": 1,
+    "id": "w1-feedback"
+   },
+   {
+    "id": "w1-popBest",
+    "t": "10 de golpe",
+    "d": "Haz 10 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 10
+   },
+   {
+    "id": "w1-reboteBest",
+    "t": "Rebote de 12",
+    "d": "Haz 12 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 12
+   },
+   {
+    "id": "w1-golfPlays-p2",
+    "t": "Recorrido de 5 hoyos",
+    "d": "Termina un minigolf de 5 hoyos",
+    "m": "golf5",
+    "v": 1,
+    "p": true
+   },
+   {
+    "id": "w1-torreBest-p",
+    "t": "Torre de 6",
+    "d": "Levanta 6 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 6,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Playa",
+  "light": "#FFE9B8",
+  "dark": "#FFB547",
+  "prem": false,
+  "reward": "gafas de sol",
+  "days": 12,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     1
+    ],
+    "iqos": [
+     "butts",
+     2
+    ],
+    "vape": [
+     "plastic",
+     0
+    ],
+    "id": "w2-eco-butts"
+   },
+   {
+    "id": "w2-streak",
+    "t": "Racha de 5",
+    "d": "5 días verdes seguidos",
+    "m": "streak",
+    "v": 5
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     2
+    ],
+    "iqos": [
+     "energy",
+     1
+    ],
+    "o": {
+     "t": "2 que no fueron",
+     "d": "Evita 2 cigarros",
+     "m": "avoided",
+     "v": 2,
+     "s": 1
+    },
+    "id": "w2-eco-water"
+   },
+   {
+    "id": "w2-tips",
+    "t": "2 consejos",
+    "d": "Lee 2 consejos del día",
+    "m": "tips",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w2-daysLess",
+    "t": "3 días a menos",
+    "d": "3 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w2-money",
+    "t": "Hucha de 2 €",
+    "d": "Ahorra 2 €",
+    "m": "money",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w2-greens",
+    "t": "3 verdes",
+    "d": "Consigue 3 días verdes en total",
+    "m": "greens",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "t": "Corre la voz",
+    "d": "Comparte TinyQuit 1 vez",
+    "m": "share",
+    "v": 1,
+    "id": "w2-share"
+   },
+   {
+    "id": "w2-vmBest",
+    "t": "Verdad o mito: 6 de 10",
+    "d": "Acierta 6 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 6
+   },
+   {
+    "id": "w2-relojBest",
+    "t": "Reloj: menos de 1,5 s",
+    "d": "Termina el Reloj de Tiny con menos de 1,5 s de desvío",
+    "m": "relojBest",
+    "v": 1500
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     0
+    ],
+    "iqos": [
+     "time",
+     0
+    ],
+    "o": {
+     "t": "2 que no fueron",
+     "d": "Evita 2 cigarros",
+     "m": "avoided",
+     "v": 2,
+     "s": 1
+    },
+    "p": true,
+    "id": "w2-eco-co2-p"
+   },
+   {
+    "id": "w2-arcoBest-p",
+    "t": "Arco: 20 puntos",
+    "d": "Haz 20 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 20,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Colinas",
+  "light": "#D4F5C4",
+  "dark": "#6BCB4E",
+  "prem": false,
+  "reward": "cometa de colores",
+  "days": 19,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     1
+    ],
+    "o": {
+     "t": "2 que no fueron",
+     "d": "Evita 2 cigarros",
+     "m": "avoided",
+     "v": 2,
+     "s": 1
+    },
+    "id": "w3-eco-time"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     3
+    ],
+    "iqos": [
+     "butts",
+     3
+    ],
+    "vape": [
+     "plastic",
+     1
+    ],
+    "id": "w3-eco-butts"
+   },
+   {
+    "id": "w3-under1",
+    "t": "1 con margen",
+    "d": "1 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w3-gapBest",
+    "t": "1 h 30 sin fumar",
+    "d": "Aguanta 1 h 30 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 90
+   },
+   {
+    "id": "w3-monthPct-20",
+    "t": "Un 20 % verde",
+    "d": "20 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 20
+   },
+   {
+    "id": "w3-greens",
+    "t": "4 verdes",
+    "d": "Consigue 4 días verdes en total",
+    "m": "greens",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w3-dropPct",
+    "t": "−10 % de media",
+    "d": "Tu media de 30 días, un 10 % por debajo de cuando empezaste",
+    "m": "dropPct",
+    "v": 10
+   },
+   {
+    "id": "w3-money",
+    "t": "Hucha de 4 €",
+    "d": "Ahorra 4 €",
+    "m": "money",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w3-mathBest",
+    "t": "Cuentas en 30 s",
+    "d": "Termina Cuentas en menos de 30 s",
+    "m": "mathBest",
+    "v": 30
+   },
+   {
+    "id": "w3-popTotal",
+    "t": "20 nubes explotadas",
+    "d": "Explota 20 nubes en total",
+    "m": "popTotal",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w3-daysLess-p",
+    "t": "3 días a menos",
+    "d": "3 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 3,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w3-rayosBest-p",
+    "t": "Primera partida de Rayos",
+    "d": "Juega 1 partida de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 1,
+    "p": true,
+    "s": 1
+   }
+  ]
+ },
+ {
+  "name": "Bosque",
+  "light": "#BDEBC8",
+  "dark": "#2FA85A",
+  "prem": false,
+  "reward": "bufanda de hojas",
+  "days": 28,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     4
+    ],
+    "iqos": [
+     "energy",
+     2
+    ],
+    "vape": [
+     "plastic",
+     3
+    ],
+    "id": "w4-eco-water"
+   },
+   {
+    "id": "w4-streak",
+    "t": "Racha de 8",
+    "d": "8 días verdes seguidos",
+    "m": "streak",
+    "v": 8
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     2
+    ],
+    "iqos": [
+     "time",
+     2
+    ],
+    "o": {
+     "t": "6 que no fueron",
+     "d": "Evita 6 cigarros",
+     "m": "avoided",
+     "v": 6,
+     "s": 1
+    },
+    "id": "w4-eco-co2"
+   },
+   {
+    "id": "w4-under1",
+    "t": "1 con margen",
+    "d": "1 días fumando 1 menos que tu límite",
+    "m": "under1",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w4-tips",
+    "t": "2 consejos",
+    "d": "Lee 2 consejos del día",
+    "m": "tips",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w4-daysLess",
+    "t": "5 días a menos",
+    "d": "5 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 5,
+    "s": 1
+   },
+   {
+    "id": "w4-money",
+    "t": "Hucha de 6 €",
+    "d": "Ahorra 6 €",
+    "m": "money",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w4-greens",
+    "t": "6 verdes",
+    "d": "Consigue 6 días verdes en total",
+    "m": "greens",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w4-vmPlays",
+    "t": "Primera partida de Verdad o mito",
+    "d": "Juega 1 partida de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w4-relojPlays",
+    "t": "Primera cuenta atrás",
+    "d": "Juega 1 partida al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "t": "Primer hoyo de leyenda",
+    "d": "Juega 1 hoyo en Golf de leyenda",
+    "m": "g3Holes",
+    "v": 1,
+    "p": true,
+    "id": "w4-golfPlays-p2"
+   },
+   {
+    "id": "w4-rayosPlays-p",
+    "t": "Rayos: 10 puntos",
+    "d": "Haz 10 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 10,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Lago",
+  "light": "#CDEBFF",
+  "dark": "#3E97D1",
+  "prem": false,
+  "reward": "barquito de papel",
+  "days": 38,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     6
+    ],
+    "iqos": [
+     "butts",
+     8
+    ],
+    "vape": [
+     "plastic",
+     4
+    ],
+    "id": "w5-eco-butts"
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     4
+    ],
+    "iqos": [
+     "time",
+     3
+    ],
+    "vape": [
+     "plastic",
+     5
+    ],
+    "id": "w5-eco-time"
+   },
+   {
+    "id": "w5-monthPct-30",
+    "t": "Un 30 % verde",
+    "d": "30 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 30
+   },
+   {
+    "id": "w5-daysLess",
+    "t": "6 días a menos",
+    "d": "6 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w5-avoided",
+    "t": "30 que no fueron",
+    "d": "Evita 30 cigarros",
+    "m": "avoided",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w5-gapBest",
+    "t": "1 h 45 sin fumar",
+    "d": "Aguanta 1 h 45 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 105
+   },
+   {
+    "id": "w5-money",
+    "t": "Hucha de 9 €",
+    "d": "Ahorra 9 €",
+    "m": "money",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w5-greens",
+    "t": "7 verdes",
+    "d": "Consigue 7 días verdes en total",
+    "m": "greens",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w5-mathPlays",
+    "t": "Primeras cuentas",
+    "d": "Termina Cuentas 1 vez",
+    "m": "mathPlays",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w5-popBest",
+    "t": "14 de golpe",
+    "d": "Haz 14 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 14
+   },
+   {
+    "id": "w5-rayosPlays-p2",
+    "t": "2 partidas de Rayos",
+    "d": "Juega 2 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 2,
+    "p": true,
+    "s": 1
+   },
+   {
+    "id": "w5-golfPlays-p",
+    "t": "Recorrido de 10 hoyos",
+    "d": "Termina un minigolf de 10 hoyos",
+    "m": "golf10",
+    "v": 1,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Girasoles",
+  "light": "#FFF1B8",
+  "dark": "#E0A800",
+  "prem": false,
+  "reward": "girasol en la oreja",
+  "days": 49,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     3
+    ],
+    "o": {
+     "t": "6 que no fueron",
+     "d": "Evita 6 cigarros",
+     "m": "avoided",
+     "v": 6,
+     "s": 1
+    },
+    "id": "w6-eco-co2"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     8
+    ],
+    "iqos": [
+     "butts",
+     9
+    ],
+    "vape": [
+     "plastic",
+     6
+    ],
+    "id": "w6-eco-butts"
+   },
+   {
+    "id": "w6-encS_playa-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en la playa",
+    "m": "encS_playa",
+    "v": 1
+   },
+   {
+    "id": "w6-lateFirst-3",
+    "t": "Retrasa el primero",
+    "d": "Aguanta sin fumar hasta las diez de la mañana 3 días",
+    "m": "lateFirst",
+    "v": 3
+   },
+   {
+    "id": "w6-daysLess",
+    "t": "6 días a menos",
+    "d": "6 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w6-money",
+    "t": "Hucha de 12 €",
+    "d": "Ahorra 12 €",
+    "m": "money",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w6-greens",
+    "t": "7 verdes",
+    "d": "Consigue 7 días verdes en total",
+    "m": "greens",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w6-gapBest",
+    "t": "2 h sin fumar",
+    "d": "Aguanta 2 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 120
+   },
+   {
+    "id": "w6-reboteBest",
+    "t": "Rebote de 15",
+    "d": "Haz 15 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 15
+   },
+   {
+    "id": "w6-vmBest",
+    "t": "Verdad o mito: 7 de 10",
+    "d": "Acierta 7 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 7
+   },
+   {
+    "t": "Hoyo de leyenda en +2",
+    "d": "Termina una partida de 1 hoyo en Golf de leyenda con +2 o menos",
+    "m": "g3Rel1",
+    "v": 2,
+    "p": true,
+    "id": "w6-golfPlays-p2"
+   },
+   {
+    "id": "w6-torreBest-p",
+    "t": "Torre de 8",
+    "d": "Levanta 8 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 8,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Montaña",
+  "light": "#D6E4F5",
+  "dark": "#6C8EBF",
+  "prem": false,
+  "reward": "gorro de montaña",
+  "days": 62,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     4
+    ],
+    "iqos": [
+     "time",
+     4
+    ],
+    "o": {
+     "t": "8 que no fueron",
+     "d": "Evita 8 cigarros",
+     "m": "avoided",
+     "v": 8,
+     "s": 1
+    },
+    "id": "w7-eco-co2"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     6
+    ],
+    "iqos": [
+     "energy",
+     4
+    ],
+    "vape": [
+     "plastic",
+     7
+    ],
+    "id": "w7-eco-water"
+   },
+   {
+    "id": "w7-dropPct",
+    "t": "−30 % de media",
+    "d": "Tu media de 30 días, un 30 % por debajo de cuando empezaste",
+    "m": "dropPct",
+    "v": 30
+   },
+   {
+    "id": "w7-monthPct-40",
+    "t": "Un 40 % verde",
+    "d": "40 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 40
+   },
+   {
+    "id": "w7-gapBest",
+    "t": "2 h 15 sin fumar",
+    "d": "Aguanta 2 h 15 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 135
+   },
+   {
+    "id": "w7-avoided",
+    "t": "70 que no fueron",
+    "d": "Evita 70 cigarros",
+    "m": "avoided",
+    "v": 70,
+    "s": 1
+   },
+   {
+    "id": "w7-money",
+    "t": "Hucha de 20 €",
+    "d": "Ahorra 20 €",
+    "m": "money",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w7-greens",
+    "t": "8 verdes",
+    "d": "Consigue 8 días verdes en total",
+    "m": "greens",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "id": "w7-relojBest",
+    "t": "Reloj: menos de 1,2 s",
+    "d": "Termina el Reloj de Tiny con menos de 1,2 s de desvío",
+    "m": "relojBest",
+    "v": 1200
+   },
+   {
+    "id": "w7-mathBest",
+    "t": "Cuentas en 26 s",
+    "d": "Termina Cuentas en menos de 26 s",
+    "m": "mathBest",
+    "v": 26
+   },
+   {
+    "id": "w7-daysLess-p",
+    "t": "6 días a menos",
+    "d": "6 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 6,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w7-arcoBest-p",
+    "t": "Arco: 24 puntos",
+    "d": "Haz 24 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 24,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Río",
+  "light": "#CFF3F0",
+  "dark": "#2BB8A6",
+  "prem": false,
+  "reward": "caña de pescar",
+  "days": 77,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     5
+    ],
+    "o": {
+     "t": "9 que no fueron",
+     "d": "Evita 9 cigarros",
+     "m": "avoided",
+     "v": 9,
+     "s": 1
+    },
+    "id": "w8-eco-time"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     11
+    ],
+    "iqos": [
+     "butts",
+     13
+    ],
+    "vape": [
+     "plastic",
+     8
+    ],
+    "id": "w8-eco-butts"
+   },
+   {
+    "id": "w8-half",
+    "t": "5 días a la mitad",
+    "d": "5 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 5,
+    "s": 1
+   },
+   {
+    "id": "w8-tips",
+    "t": "4 consejos",
+    "d": "Lee 4 consejos del día",
+    "m": "tips",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w8-daysLess",
+    "t": "8 días a menos",
+    "d": "8 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "id": "w8-avoided",
+    "t": "90 que no fueron",
+    "d": "Evita 90 cigarros",
+    "m": "avoided",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w8-money",
+    "t": "Hucha de 28 €",
+    "d": "Ahorra 28 €",
+    "m": "money",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w8-greens",
+    "t": "9 verdes",
+    "d": "Consigue 9 días verdes en total",
+    "m": "greens",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w8-popTotal",
+    "t": "28 nubes explotadas",
+    "d": "Explota 28 nubes en total",
+    "m": "popTotal",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w8-vmPlays",
+    "t": "2 partidas de Verdad o mito",
+    "d": "Juega 2 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w8-pescaTotal-3",
+    "t": "Buena pesca",
+    "d": "Pesca 3 peces",
+    "m": "pescaTotal",
+    "v": 3,
+    "p": true
+   },
+   {
+    "id": "w8-rayosBest-p",
+    "t": "2 gotas grandes",
+    "d": "Rompe 2 gotas grandes en una partida de Rayos de sol",
+    "m": "rayosBig",
+    "v": 2,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Desierto",
+  "light": "#FFE0B3",
+  "dark": "#E0913A",
+  "prem": false,
+  "reward": "pañuelo del desierto",
+  "days": 92,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     5
+    ],
+    "iqos": [
+     "time",
+     5
+    ],
+    "o": {
+     "t": "12 que no fueron",
+     "d": "Evita 12 cigarros",
+     "m": "avoided",
+     "v": 12,
+     "s": 1
+    },
+    "id": "w9-eco-co2"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     8
+    ],
+    "iqos": [
+     "energy",
+     5
+    ],
+    "vape": [
+     "plastic",
+     9
+    ],
+    "id": "w9-eco-water"
+   },
+   {
+    "id": "w9-dropPct",
+    "t": "−50 % de media",
+    "d": "Tu media de 30 días, un 50 % por debajo de cuando empezaste",
+    "m": "dropPct",
+    "v": 50
+   },
+   {
+    "id": "w9-streak",
+    "t": "Racha de 18",
+    "d": "18 días verdes seguidos",
+    "m": "streak",
+    "v": 18
+   },
+   {
+    "id": "w9-gapBest",
+    "t": "3 h 15 sin fumar",
+    "d": "Aguanta 3 h 15 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 195
+   },
+   {
+    "id": "w9-daysLess",
+    "t": "8 días a menos",
+    "d": "8 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "id": "w9-money",
+    "t": "Hucha de 30 €",
+    "d": "Ahorra 30 €",
+    "m": "money",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w9-greens",
+    "t": "9 verdes",
+    "d": "Consigue 9 días verdes en total",
+    "m": "greens",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w9-relojPlays",
+    "t": "2 partidas al Reloj",
+    "d": "Juega 2 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w9-mathPlays",
+    "t": "2 partidas de Cuentas",
+    "d": "Termina Cuentas 2 veces",
+    "m": "mathPlays",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w9-half-p",
+    "t": "7 días a la mitad",
+    "d": "7 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 7,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w9-rayosPlays-p",
+    "t": "Rayos: 20 puntos",
+    "d": "Haz 20 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 20,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Oasis",
+  "light": "#E2F7D8",
+  "dark": "#56B86A",
+  "prem": false,
+  "reward": "abanico de palma",
+  "days": 109,
+  "items": [
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     0
+    ],
+    "iqos": [
+     "butts",
+     14
+    ],
+    "vape": [
+     "plastic",
+     10
+    ],
+    "id": "w10-eco-trees"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     14
+    ],
+    "o": {
+     "t": "14 que no fueron",
+     "d": "Evita 14 cigarros",
+     "m": "avoided",
+     "v": 14,
+     "s": 1
+    },
+    "id": "w10-eco-butts"
+   },
+   {
+    "id": "w10-streak",
+    "t": "Racha de 19",
+    "d": "19 días verdes seguidos",
+    "m": "streak",
+    "v": 19
+   },
+   {
+    "id": "w10-gapBest",
+    "t": "5 h sin fumar",
+    "d": "Aguanta 5 h despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 300
+   },
+   {
+    "id": "w10-half",
+    "t": "8 días a la mitad",
+    "d": "8 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "id": "w10-daysLess",
+    "t": "10 días a menos",
+    "d": "10 días fumando menos que al empezar",
+    "m": "daysLess",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w10-money",
+    "t": "Hucha de 40 €",
+    "d": "Ahorra 40 €",
+    "m": "money",
+    "v": 40,
+    "s": 1
+   },
+   {
+    "id": "w10-greens",
+    "t": "10 verdes",
+    "d": "Consigue 10 días verdes en total",
+    "m": "greens",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w10-popBest",
+    "t": "18 de golpe",
+    "d": "Haz 18 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 18
+   },
+   {
+    "id": "w10-monthPct-50",
+    "t": "Un 50 % verde",
+    "d": "50 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 50
+   },
+   {
+    "id": "w10-g3Par3in2-1",
+    "t": "Par 3 en 2",
+    "d": "Haz un par 3 en 2 golpes en Golf de leyenda",
+    "m": "g3Par3in2",
+    "v": 1,
+    "p": true
+   },
+   {
+    "id": "w10-golfPlays-p",
+    "t": "Recorrido de 15 hoyos",
+    "d": "Termina un minigolf de 15 hoyos",
+    "m": "golf15",
+    "v": 1,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Lavanda",
+  "light": "#EDE4FF",
+  "dark": "#9B7BFF",
+  "prem": false,
+  "reward": "ramito de lavanda",
+  "days": 127,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     8
+    ],
+    "iqos": [
+     "time",
+     7
+    ],
+    "vape": [
+     "plastic",
+     11
+    ],
+    "id": "w11-eco-time"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     9
+    ],
+    "iqos": [
+     "energy",
+     7
+    ],
+    "vape": [
+     "plastic",
+     12
+    ],
+    "id": "w11-eco-water"
+   },
+   {
+    "id": "w11-gapBest",
+    "t": "8 h 30 sin fumar",
+    "d": "Aguanta 8 h 30 despierto sin fumar, entre dos cigarros o desde el último (las horas de sueño no cuentan)",
+    "m": "gapBest",
+    "v": 510
+   },
+   {
+    "id": "w11-vmPlays-x",
+    "t": "7 partidas de Verdad o mito",
+    "d": "Juega 7 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w11-tagged-3",
+    "t": "Detective de motivos",
+    "d": "Apunta el motivo de 3 cigarros",
+    "m": "tagged",
+    "v": 3
+   },
+   {
+    "id": "w11-avoided",
+    "t": "180 que no fueron",
+    "d": "Evita 180 cigarros",
+    "m": "avoided",
+    "v": 180,
+    "s": 1
+   },
+   {
+    "id": "w11-money",
+    "t": "Hucha de 50 €",
+    "d": "Ahorra 50 €",
+    "m": "money",
+    "v": 50,
+    "s": 1
+   },
+   {
+    "id": "w11-greens",
+    "t": "10 verdes",
+    "d": "Consigue 10 días verdes en total",
+    "m": "greens",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w11-vmBest",
+    "t": "Verdad o mito: 8 de 10",
+    "d": "Acierta 8 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 8
+   },
+   {
+    "id": "w11-relojBest",
+    "t": "Reloj: menos de 0,95 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,95 s de desvío",
+    "m": "relojBest",
+    "v": 950
+   },
+   {
+    "id": "w11-half-p",
+    "t": "8 días a la mitad",
+    "d": "8 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 8,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w11-torreBest-p",
+    "t": "Torre de 10",
+    "d": "Levanta 10 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 10,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Selva",
+  "light": "#C6F0D0",
+  "dark": "#1F9E5A",
+  "prem": false,
+  "reward": "corona de flores",
+  "days": 147,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     6
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w12-eco-co2"
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     1
+    ],
+    "iqos": [
+     "butts",
+     17
+    ],
+    "vape": [
+     "plastic",
+     13
+    ],
+    "id": "w12-eco-trees"
+   },
+   {
+    "id": "w12-zeroStreak",
+    "t": "2 días sin humo",
+    "d": "2 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 2
+   },
+   {
+    "id": "w12-half",
+    "t": "9 días a la mitad",
+    "d": "9 días fumando la mitad que al empezar",
+    "m": "half",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w12-encS_parque-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en el parque",
+    "m": "encS_parque",
+    "v": 1
+   },
+   {
+    "id": "w12-money",
+    "t": "Hucha de 60 €",
+    "d": "Ahorra 60 €",
+    "m": "money",
+    "v": 60,
+    "s": 1
+   },
+   {
+    "id": "w12-zero",
+    "t": "6 días limpios",
+    "d": "6 días a 0",
+    "m": "zero",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w12-greens",
+    "t": "10 verdes",
+    "d": "Consigue 10 días verdes en total",
+    "m": "greens",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w12-mathBest",
+    "t": "Cuentas en 23 s",
+    "d": "Termina Cuentas en menos de 23 s",
+    "m": "mathBest",
+    "v": 23
+   },
+   {
+    "id": "w12-popTotal",
+    "t": "35 nubes explotadas",
+    "d": "Explota 35 nubes en total",
+    "m": "popTotal",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     17
+    ],
+    "iqos": [
+     "butts",
+     18
+    ],
+    "vape": [
+     "plastic",
+     14
+    ],
+    "p": true,
+    "id": "w12-eco-butts-p"
+   },
+   {
+    "id": "w12-arcoBest-p",
+    "t": "Arco: 25 puntos",
+    "d": "Haz 25 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 25,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Sabana",
+  "light": "#FFE8C2",
+  "dark": "#D98A00",
+  "prem": false,
+  "reward": "sombrero explorador",
+  "days": 167,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     9
+    ],
+    "iqos": [
+     "time",
+     8
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w13-eco-time"
+   },
+   {
+    "id": "w13-popTotal-x",
+    "t": "120 nubes explotadas",
+    "d": "Explota 120 nubes en total",
+    "m": "popTotal",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w13-mathPlays-x",
+    "t": "7 partidas de Cuentas",
+    "d": "Termina Cuentas 7 veces",
+    "m": "mathPlays",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w13-monthPct-60",
+    "t": "Un 60 % verde",
+    "d": "60 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 60
+   },
+   {
+    "id": "w13-money",
+    "t": "Hucha de 60 €",
+    "d": "Ahorra 60 €",
+    "m": "money",
+    "v": 60,
+    "s": 1
+   },
+   {
+    "id": "w13-avoided",
+    "t": "225 que no fueron",
+    "d": "Evita 225 cigarros",
+    "m": "avoided",
+    "v": 225,
+    "s": 1
+   },
+   {
+    "id": "w13-zero",
+    "t": "10 días limpios",
+    "d": "10 días a 0",
+    "m": "zero",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w13-greens",
+    "t": "12 verdes",
+    "d": "Consigue 12 días verdes en total",
+    "m": "greens",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w13-vmPlays",
+    "t": "3 partidas de Verdad o mito",
+    "d": "Juega 3 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w13-relojPlays",
+    "t": "3 partidas al Reloj",
+    "d": "Juega 3 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w13-zeroStreak-p",
+    "t": "6 días sin humo",
+    "d": "6 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 6,
+    "p": true
+   },
+   {
+    "id": "w13-rayosBest-p",
+    "t": "Combo ×10",
+    "d": "Haz un combo de 10 en Rayos de sol",
+    "m": "rayosCombo",
+    "v": 10,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Volcán",
+  "light": "#FFD6C9",
+  "dark": "#E0603A",
+  "prem": false,
+  "reward": "gafas de lava",
+  "days": 189,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     10
+    ],
+    "iqos": [
+     "energy",
+     9
+    ],
+    "vape": [
+     "plastic",
+     17
+    ],
+    "id": "w14-eco-water"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     18
+    ],
+    "iqos": [
+     "butts",
+     19
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w14-eco-butts"
+   },
+   {
+    "id": "w14-zeroStreak",
+    "t": "9 días sin humo",
+    "d": "9 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 9
+   },
+   {
+    "id": "w14-dressed-1",
+    "t": "Vísteme",
+    "d": "Ponme un accesorio del armario",
+    "m": "dressed",
+    "v": 1
+   },
+   {
+    "id": "w14-money",
+    "t": "Hucha de 60 €",
+    "d": "Ahorra 60 €",
+    "m": "money",
+    "v": 60,
+    "s": 1
+   },
+   {
+    "id": "w14-avoided",
+    "t": "250 que no fueron",
+    "d": "Evita 250 cigarros",
+    "m": "avoided",
+    "v": 250,
+    "s": 1
+   },
+   {
+    "id": "w14-zero",
+    "t": "12 días limpios",
+    "d": "12 días a 0",
+    "m": "zero",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w14-greens",
+    "t": "14 verdes",
+    "d": "Consigue 14 días verdes en total",
+    "m": "greens",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w14-mathPlays",
+    "t": "3 partidas de Cuentas",
+    "d": "Termina Cuentas 3 veces",
+    "m": "mathPlays",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w14-popBest",
+    "t": "25 de golpe",
+    "d": "Haz 25 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 25
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     10
+    ],
+    "iqos": [
+     "time",
+     9
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "p": true,
+    "id": "w14-eco-time-p"
+   },
+   {
+    "id": "w14-rayosPlays-p",
+    "t": "3 granizos",
+    "d": "Rompe 3 granizos en una partida de Rayos de sol",
+    "m": "rayosHail",
+    "v": 3,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Faro",
+  "light": "#D6EEFF",
+  "dark": "#2F7BEA",
+  "prem": false,
+  "reward": "gorro de marinero",
+  "days": 212,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     7
+    ],
+    "vape": [
+     "plastic",
+     18
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w15-eco-co2"
+   },
+   {
+    "id": "w15-zeroStreak",
+    "t": "12 días sin humo",
+    "d": "12 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 12
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     2
+    ],
+    "iqos": [
+     "butts",
+     21
+    ],
+    "vape": [
+     "plastic",
+     19
+    ],
+    "id": "w15-eco-trees"
+   },
+   {
+    "id": "w15-cleanNight-3",
+    "t": "Noche sin humo",
+    "d": "Pasa 3 noches sin fumar después de las nueve",
+    "m": "cleanNight",
+    "v": 3
+   },
+   {
+    "id": "w15-money",
+    "t": "Hucha de 70 €",
+    "d": "Ahorra 70 €",
+    "m": "money",
+    "v": 70,
+    "s": 1
+   },
+   {
+    "id": "w15-avoided",
+    "t": "275 que no fueron",
+    "d": "Evita 275 cigarros",
+    "m": "avoided",
+    "v": 275,
+    "s": 1
+   },
+   {
+    "id": "w15-zero",
+    "t": "14 días limpios",
+    "d": "14 días a 0",
+    "m": "zero",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w15-greens",
+    "t": "15 verdes",
+    "d": "Consigue 15 días verdes en total",
+    "m": "greens",
+    "v": 15,
+    "s": 1
+   },
+   {
+    "id": "w15-reboteBest",
+    "t": "Rebote de 24",
+    "d": "Haz 24 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 24
+   },
+   {
+    "id": "w15-vmBest",
+    "t": "Verdad o mito: 9 de 10",
+    "d": "Acierta 9 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 9
+   },
+   {
+    "id": "w15-rayosPlays-p2",
+    "t": "¡Arcoíris!",
+    "d": "Atrapa un arcoíris en Rayos de sol",
+    "m": "rayosRainbow",
+    "v": 1,
+    "p": true
+   },
+   {
+    "t": "3 de leyenda en +6",
+    "d": "Termina un recorrido de 3 hoyos en Golf de leyenda con +6 o menos",
+    "m": "g3Rel3",
+    "v": 6,
+    "p": true,
+    "id": "w15-golfPlays-p"
+   }
+  ]
+ },
+ {
+  "name": "Glaciar",
+  "light": "#DDF3FF",
+  "dark": "#5DB8E8",
+  "prem": false,
+  "reward": "orejeras de nieve",
+  "days": 236,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     11
+    ],
+    "iqos": [
+     "time",
+     10
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w16-eco-time"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     11
+    ],
+    "iqos": [
+     "energy",
+     10
+    ],
+    "vape": [
+     "plastic",
+     20
+    ],
+    "id": "w16-eco-water"
+   },
+   {
+    "id": "w16-zeroStreak",
+    "t": "17 días sin humo",
+    "d": "17 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 17
+   },
+   {
+    "id": "w16-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w16-streak",
+    "t": "Racha de 25",
+    "d": "25 días verdes seguidos",
+    "m": "streak",
+    "v": 25
+   },
+   {
+    "id": "w16-money",
+    "t": "Hucha de 70 €",
+    "d": "Ahorra 70 €",
+    "m": "money",
+    "v": 70,
+    "s": 1
+   },
+   {
+    "id": "w16-zero",
+    "t": "15 días limpios",
+    "d": "15 días a 0",
+    "m": "zero",
+    "v": 15,
+    "s": 1
+   },
+   {
+    "id": "w16-greens",
+    "t": "16 verdes",
+    "d": "Consigue 16 días verdes en total",
+    "m": "greens",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w16-relojBest",
+    "t": "Reloj: menos de 0,75 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,75 s de desvío",
+    "m": "relojBest",
+    "v": 750
+   },
+   {
+    "id": "w16-mathBest",
+    "t": "Cuentas en 20 s",
+    "d": "Termina Cuentas en menos de 20 s",
+    "m": "mathBest",
+    "v": 20
+   },
+   {
+    "id": "w16-golfPlays-p2",
+    "t": "10 hoyos en +5",
+    "d": "Termina 10 hoyos con +5 o menos frente al par",
+    "m": "golfRel10",
+    "v": 5,
+    "p": true
+   },
+   {
+    "id": "w16-torreBest-p",
+    "t": "Torre de 12",
+    "d": "Levanta 12 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 12,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Fiordo",
+  "light": "#DCE6FA",
+  "dark": "#5A7BC8",
+  "prem": false,
+  "reward": "casco vikingo",
+  "days": 262,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     19
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w17-eco-butts"
+   },
+   {
+    "id": "w17-zeroStreak",
+    "t": "20 días sin humo",
+    "d": "20 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 20
+   },
+   {
+    "id": "w17-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w17-streak",
+    "t": "Racha de 30",
+    "d": "30 días verdes seguidos",
+    "m": "streak",
+    "v": 30
+   },
+   {
+    "id": "w17-monthPct-70",
+    "t": "Un 70 % verde",
+    "d": "70 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 70
+   },
+   {
+    "id": "w17-money",
+    "t": "Hucha de 80 €",
+    "d": "Ahorra 80 €",
+    "m": "money",
+    "v": 80,
+    "s": 1
+   },
+   {
+    "id": "w17-zero",
+    "t": "16 días limpios",
+    "d": "16 días a 0",
+    "m": "zero",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w17-greens",
+    "t": "20 verdes",
+    "d": "Consigue 20 días verdes en total",
+    "m": "greens",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w17-popTotal",
+    "t": "50 nubes explotadas",
+    "d": "Explota 50 nubes en total",
+    "m": "popTotal",
+    "v": 50,
+    "s": 1
+   },
+   {
+    "id": "w17-vmPlays",
+    "t": "4 partidas de Verdad o mito",
+    "d": "Juega 4 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w17-golfPlays-p2",
+    "t": "Hoyo en uno",
+    "d": "Mete un hoyo de un solo golpe",
+    "m": "golfAce",
+    "v": 1,
+    "p": true
+   },
+   {
+    "id": "w17-arcoBest-p",
+    "t": "Arco: 28 puntos",
+    "d": "Haz 28 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 28,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cascada",
+  "light": "#CFEFFF",
+  "dark": "#3AA8F0",
+  "prem": false,
+  "reward": "gafas de buceo",
+  "days": 288,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     20
+    ],
+    "iqos": [
+     "butts",
+     22
+    ],
+    "vape": [
+     "plastic",
+     22
+    ],
+    "id": "w18-eco-butts"
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     12
+    ],
+    "iqos": [
+     "time",
+     11
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w18-eco-time"
+   },
+   {
+    "id": "w18-streak",
+    "t": "Racha de 40",
+    "d": "40 días verdes seguidos",
+    "m": "streak",
+    "v": 40
+   },
+   {
+    "id": "w18-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w18-zeroStreak",
+    "t": "30 días sin humo",
+    "d": "30 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 30
+   },
+   {
+    "id": "w18-money",
+    "t": "Hucha de 80 €",
+    "d": "Ahorra 80 €",
+    "m": "money",
+    "v": 80,
+    "s": 1
+   },
+   {
+    "id": "w18-zero",
+    "t": "16 días limpios",
+    "d": "16 días a 0",
+    "m": "zero",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w18-greens",
+    "t": "20 verdes",
+    "d": "Consigue 20 días verdes en total",
+    "m": "greens",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w18-relojPlays",
+    "t": "4 partidas al Reloj",
+    "d": "Juega 4 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w18-mathPlays",
+    "t": "4 partidas de Cuentas",
+    "d": "Termina Cuentas 4 veces",
+    "m": "mathPlays",
+    "v": 4,
+    "s": 1
+   },
+   {
+    "id": "w18-golfPlays-p2",
+    "t": "5 hoyos en +1",
+    "d": "Termina 5 hoyos con +1 o menos frente al par",
+    "m": "golfRel5",
+    "v": 1,
+    "p": true
+   },
+   {
+    "id": "w18-rayosBest-p",
+    "t": "Rayos: 35 puntos",
+    "d": "Haz 35 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 35,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cueva de cristal",
+  "light": "#E4DCFF",
+  "dark": "#6A55D8",
+  "prem": false,
+  "reward": "linterna de cristal",
+  "days": 316,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     21
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w19-eco-butts"
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     8
+    ],
+    "vape": [
+     "plastic",
+     23
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w19-eco-co2"
+   },
+   {
+    "id": "w19-streak",
+    "t": "Racha de 50",
+    "d": "50 días verdes seguidos",
+    "m": "streak",
+    "v": 50
+   },
+   {
+    "id": "w19-zeroStreak",
+    "t": "35 días sin humo",
+    "d": "35 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 35
+   },
+   {
+    "id": "w19-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w19-money",
+    "t": "Hucha de 80 €",
+    "d": "Ahorra 80 €",
+    "m": "money",
+    "v": 80,
+    "s": 1
+   },
+   {
+    "id": "w19-zero",
+    "t": "18 días limpios",
+    "d": "18 días a 0",
+    "m": "zero",
+    "v": 18,
+    "s": 1
+   },
+   {
+    "id": "w19-greens",
+    "t": "21 verdes",
+    "d": "Consigue 21 días verdes en total",
+    "m": "greens",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w19-popBest",
+    "t": "35 de golpe",
+    "d": "Haz 35 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 35
+   },
+   {
+    "id": "w19-reboteBest",
+    "t": "Rebote de 30",
+    "d": "Haz 30 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 30
+   },
+   {
+    "t": "18 hoyos de leyenda",
+    "d": "Juega 18 hoyos en Golf de leyenda (en total)",
+    "m": "g3Holes",
+    "v": 18,
+    "p": true,
+    "id": "w19-golfPlays-p2"
+   },
+   {
+    "id": "w19-rayosPlays-p",
+    "t": "5 gotas grandes",
+    "d": "Rompe 5 gotas grandes en una partida de Rayos de sol",
+    "m": "rayosBig",
+    "v": 5,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Arcoíris",
+  "light": "#FFE3EF",
+  "dark": "#F06C9B",
+  "prem": false,
+  "reward": "parche pirata",
+  "days": 345,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     12
+    ],
+    "iqos": [
+     "energy",
+     12
+    ],
+    "vape": [
+     "plastic",
+     24
+    ],
+    "id": "w20-eco-water"
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     3
+    ],
+    "iqos": [
+     "butts",
+     23
+    ],
+    "o": {
+     "t": "40 que no fueron",
+     "d": "Evita 40 cigarros",
+     "m": "avoided",
+     "v": 40,
+     "s": 1
+    },
+    "id": "w20-eco-trees"
+   },
+   {
+    "id": "w20-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w20-avoided",
+    "t": "250 que no fueron",
+    "d": "Evita 250 cigarros",
+    "m": "avoided",
+    "v": 250,
+    "s": 1
+   },
+   {
+    "id": "w20-medMin-10",
+    "t": "Mente en calma",
+    "d": "Medita 10 minutos en total",
+    "m": "medMin",
+    "v": 10
+   },
+   {
+    "id": "w20-money",
+    "t": "Hucha de 80 €",
+    "d": "Ahorra 80 €",
+    "m": "money",
+    "v": 80,
+    "s": 1
+   },
+   {
+    "id": "w20-zero",
+    "t": "20 días limpios",
+    "d": "20 días a 0",
+    "m": "zero",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w20-greens",
+    "t": "21 verdes",
+    "d": "Consigue 21 días verdes en total",
+    "m": "greens",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w20-vmBest",
+    "t": "Verdad o mito: 10 de 10",
+    "d": "Acierta 10 de 10 en ¿Verdad o mito?",
+    "m": "vmBest",
+    "v": 10
+   },
+   {
+    "id": "w20-relojBest",
+    "t": "Reloj: menos de 0,6 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,6 s de desvío",
+    "m": "relojBest",
+    "v": 600
+   },
+   {
+    "id": "w20-zeroStreak-p",
+    "t": "45 días sin humo",
+    "d": "45 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 45,
+    "p": true
+   },
+   {
+    "t": "Par de leyenda",
+    "d": "Termina una partida de 1 hoyo en Golf de leyenda al par o mejor",
+    "m": "g3Rel1",
+    "v": 0,
+    "p": true,
+    "id": "w20-golfPlays-p"
+   }
+  ]
+ },
+ {
+  "name": "Isla del cielo",
+  "light": "#E6DBFF",
+  "dark": "#9B7BFF",
+  "prem": false,
+  "reward": "alas de nube",
+  "days": 375,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     13
+    ],
+    "iqos": [
+     "time",
+     12
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w21-eco-time"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     22
+    ],
+    "vape": [
+     "plastic",
+     25
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w21-eco-butts"
+   },
+   {
+    "id": "w21-streak",
+    "t": "Racha de 90",
+    "d": "90 días verdes seguidos",
+    "m": "streak",
+    "v": 90
+   },
+   {
+    "id": "w21-monthPct-80",
+    "t": "Un 80 % verde",
+    "d": "80 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 80
+   },
+   {
+    "id": "w21-zeroStreak",
+    "t": "60 días sin humo",
+    "d": "60 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 60
+   },
+   {
+    "id": "w21-money",
+    "t": "Hucha de 90 €",
+    "d": "Ahorra 90 €",
+    "m": "money",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w21-zero",
+    "t": "20 días limpios",
+    "d": "20 días a 0",
+    "m": "zero",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w21-greens",
+    "t": "24 verdes",
+    "d": "Consigue 24 días verdes en total",
+    "m": "greens",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w21-mathBest",
+    "t": "Cuentas en 18 s",
+    "d": "Termina Cuentas en menos de 18 s",
+    "m": "mathBest",
+    "v": 18
+   },
+   {
+    "id": "w21-popTotal",
+    "t": "70 nubes explotadas",
+    "d": "Explota 70 nubes en total",
+    "m": "popTotal",
+    "v": 70,
+    "s": 1
+   },
+   {
+    "id": "w21-perfectWeek-p",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w21-torreBest-p",
+    "t": "Torre de 16",
+    "d": "Levanta 16 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 16,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Nubes de algodón",
+  "light": "#FFE3F1",
+  "dark": "#E86FB0",
+  "prem": false,
+  "reward": "algodón de azúcar",
+  "days": 406,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     9
+    ],
+    "vape": [
+     "plastic",
+     26
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w22-eco-co2"
+   },
+   {
+    "id": "w22-streak",
+    "t": "Racha de 110",
+    "d": "110 días verdes seguidos",
+    "m": "streak",
+    "v": 110
+   },
+   {
+    "id": "w22-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w22-avoided",
+    "t": "275 que no fueron",
+    "d": "Evita 275 cigarros",
+    "m": "avoided",
+    "v": 275,
+    "s": 1
+   },
+   {
+    "id": "w22-encS_feria-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en la feria",
+    "m": "encS_feria",
+    "v": 1
+   },
+   {
+    "id": "w22-money",
+    "t": "Hucha de 90 €",
+    "d": "Ahorra 90 €",
+    "m": "money",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w22-zero",
+    "t": "20 días limpios",
+    "d": "20 días a 0",
+    "m": "zero",
+    "v": 20,
+    "s": 1
+   },
+   {
+    "id": "w22-greens",
+    "t": "24 verdes",
+    "d": "Consigue 24 días verdes en total",
+    "m": "greens",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w22-vmPlays",
+    "t": "5 partidas de Verdad o mito",
+    "d": "Juega 5 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 5,
+    "s": 1
+   },
+   {
+    "id": "w22-relojPlays",
+    "t": "5 partidas al Reloj",
+    "d": "Juega 5 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 5,
+    "s": 1
+   },
+   {
+    "id": "w22-zeroStreak-p",
+    "t": "70 días sin humo",
+    "d": "70 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 70,
+    "p": true
+   },
+   {
+    "id": "w22-arcoBest-p",
+    "t": "Arco: 30 puntos",
+    "d": "Haz 30 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 30,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Pico nevado",
+  "light": "#DCEBFF",
+  "dark": "#4F79C9",
+  "prem": false,
+  "reward": "bandera de cumbre",
+  "days": 438,
+  "items": [
+   {
+    "id": "w23-zeroStreak",
+    "t": "85 días sin humo",
+    "d": "85 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 85
+   },
+   {
+    "id": "w23-streak",
+    "t": "Racha de 140",
+    "d": "140 días verdes seguidos",
+    "m": "streak",
+    "v": 140
+   },
+   {
+    "id": "w23-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w23-greenMonday-2",
+    "t": "Lunes verde",
+    "d": "Consigue 2 lunes en verde",
+    "m": "greenMonday",
+    "v": 2
+   },
+   {
+    "id": "w23-money",
+    "t": "Hucha de 90 €",
+    "d": "Ahorra 90 €",
+    "m": "money",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w23-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w23-zero",
+    "t": "21 días limpios",
+    "d": "21 días a 0",
+    "m": "zero",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w23-greens",
+    "t": "24 verdes",
+    "d": "Consigue 24 días verdes en total",
+    "m": "greens",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w23-mathPlays",
+    "t": "5 partidas de Cuentas",
+    "d": "Termina Cuentas 5 veces",
+    "m": "mathPlays",
+    "v": 5,
+    "s": 1
+   },
+   {
+    "id": "w23-popBest",
+    "t": "50 de golpe",
+    "d": "Haz 50 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 50
+   },
+   {
+    "id": "w23-avoided-p",
+    "t": "275 que no fueron",
+    "d": "Evita 275 cigarros",
+    "m": "avoided",
+    "v": 275,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w23-rayosBest-p",
+    "t": "4 partidas de Rayos",
+    "d": "Juega 4 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 4,
+    "p": true,
+    "s": 1
+   }
+  ]
+ },
+ {
+  "name": "Aurora",
+  "light": "#D7F5EC",
+  "dark": "#34C6A0",
+  "prem": false,
+  "reward": "halo de aurora",
+  "days": 471,
+  "items": [
+   {
+    "id": "w24-streak",
+    "t": "Racha de 170",
+    "d": "170 días verdes seguidos",
+    "m": "streak",
+    "v": 170
+   },
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     4
+    ],
+    "iqos": [
+     "butts",
+     25
+    ],
+    "vape": [
+     "plastic",
+     27
+    ],
+    "id": "w24-eco-trees"
+   },
+   {
+    "id": "w24-share-3",
+    "t": "Corre la voz",
+    "d": "Comparte TinyQuit 3 veces",
+    "m": "share",
+    "v": 3
+   },
+   {
+    "id": "w24-avoided",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1
+   },
+   {
+    "id": "w24-zeroStreak",
+    "t": "110 días sin humo",
+    "d": "110 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 110
+   },
+   {
+    "id": "w24-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w24-zero",
+    "t": "21 días limpios",
+    "d": "21 días a 0",
+    "m": "zero",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w24-greens",
+    "t": "25 verdes",
+    "d": "Consigue 25 días verdes en total",
+    "m": "greens",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w24-reboteBest",
+    "t": "Rebote de 40",
+    "d": "Haz 40 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 40
+   },
+   {
+    "id": "w24-vmPlays",
+    "t": "6 partidas de Verdad o mito",
+    "d": "Juega 6 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w24-perfectWeek-p",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w24-rayosPlays-p",
+    "t": "Combo ×15",
+    "d": "Haz un combo de 15 en Rayos de sol",
+    "m": "rayosCombo",
+    "v": 15,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Arrecife",
+  "light": "#C2F2F2",
+  "dark": "#1FB8B8",
+  "prem": false,
+  "reward": "aleta de coral",
+  "days": 505,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     23
+    ],
+    "vape": [
+     "plastic",
+     28
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w25-eco-butts"
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     15
+    ],
+    "iqos": [
+     "time",
+     13
+    ],
+    "o": {
+     "t": "40 que no fueron",
+     "d": "Evita 40 cigarros",
+     "m": "avoided",
+     "v": 40,
+     "s": 1
+    },
+    "id": "w25-eco-time"
+   },
+   {
+    "id": "w25-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w25-streak",
+    "t": "Racha de 210",
+    "d": "210 días verdes seguidos",
+    "m": "streak",
+    "v": 210
+   },
+   {
+    "id": "w25-encSF_playa-1",
+    "t": "Visto y no visto",
+    "d": "Encuentra a Tiny en la playa en menos de veinte segundos (medio o difícil)",
+    "m": "encSF_playa",
+    "v": 1
+   },
+   {
+    "id": "w25-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w25-zero",
+    "t": "21 días limpios",
+    "d": "21 días a 0",
+    "m": "zero",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w25-greens",
+    "t": "25 verdes",
+    "d": "Consigue 25 días verdes en total",
+    "m": "greens",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w25-relojBest",
+    "t": "Reloj: menos de 0,45 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,45 s de desvío",
+    "m": "relojBest",
+    "v": 450
+   },
+   {
+    "id": "w25-mathBest",
+    "t": "Cuentas en 15 s",
+    "d": "Termina Cuentas en menos de 15 s",
+    "m": "mathBest",
+    "v": 15
+   },
+   {
+    "id": "w25-avoided-p",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1,
+    "p": true
+   },
+   {
+    "t": "6 de leyenda en +8",
+    "d": "Termina un recorrido de 6 hoyos en Golf de leyenda con +8 o menos",
+    "m": "g3Rel6",
+    "v": 8,
+    "p": true,
+    "id": "w25-golfPlays-p"
+   }
+  ]
+ },
+ {
+  "name": "Bahía",
+  "light": "#D3EEFF",
+  "dark": "#2A8FD8",
+  "prem": false,
+  "reward": "gorra de capitán",
+  "days": 541,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     13
+    ],
+    "iqos": [
+     "energy",
+     13
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w26-eco-water"
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     10
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w26-eco-co2"
+   },
+   {
+    "id": "w26-streak",
+    "t": "Racha de 240",
+    "d": "240 días verdes seguidos",
+    "m": "streak",
+    "v": 240
+   },
+   {
+    "id": "w26-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w26-avoided",
+    "t": "350 que no fueron",
+    "d": "Evita 350 cigarros",
+    "m": "avoided",
+    "v": 350,
+    "s": 1
+   },
+   {
+    "id": "w26-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w26-zero",
+    "t": "24 días limpios",
+    "d": "24 días a 0",
+    "m": "zero",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w26-greens",
+    "t": "28 verdes",
+    "d": "Consigue 28 días verdes en total",
+    "m": "greens",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w26-popTotal",
+    "t": "90 nubes explotadas",
+    "d": "Explota 90 nubes en total",
+    "m": "popTotal",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w26-vmPlays",
+    "t": "7 partidas de Verdad o mito",
+    "d": "Juega 7 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w26-zeroStreak-p",
+    "t": "145 días sin humo",
+    "d": "145 días seguidos sin fumar",
+    "m": "zeroStreak",
+    "v": 145,
+    "p": true
+   },
+   {
+    "id": "w26-pescaSpecies-5",
+    "t": "Coleccionista",
+    "d": "Pesca 5 especies distintas",
+    "m": "pescaSpecies",
+    "v": 5,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cerezos",
+  "light": "#FFE0EC",
+  "dark": "#F06C9B",
+  "prem": false,
+  "reward": "flor de cerezo",
+  "days": 577,
+  "items": [
+   {
+    "id": "w27-streak",
+    "t": "Racha de 270",
+    "d": "270 días verdes seguidos",
+    "m": "streak",
+    "v": 270
+   },
+   {
+    "id": "w27-monthPct-90",
+    "t": "Un 90 % verde",
+    "d": "90 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 90
+   },
+   {
+    "id": "w27-perfectWeek",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w27-lateFirst-10",
+    "t": "Retrasa el primero",
+    "d": "Aguanta sin fumar hasta las diez de la mañana 10 días",
+    "m": "lateFirst",
+    "v": 10
+   },
+   {
+    "id": "w27-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w27-avoided",
+    "t": "450 que no fueron",
+    "d": "Evita 450 cigarros",
+    "m": "avoided",
+    "v": 450,
+    "s": 1
+   },
+   {
+    "id": "w27-zero",
+    "t": "24 días limpios",
+    "d": "24 días a 0",
+    "m": "zero",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w27-greens",
+    "t": "28 verdes",
+    "d": "Consigue 28 días verdes en total",
+    "m": "greens",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w27-relojPlays",
+    "t": "6 partidas al Reloj",
+    "d": "Juega 6 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w27-mathPlays",
+    "t": "6 partidas de Cuentas",
+    "d": "Termina Cuentas 6 veces",
+    "m": "mathPlays",
+    "v": 6,
+    "s": 1
+   },
+   {
+    "id": "w27-avoided-p",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1,
+    "p": true
+   },
+   {
+    "id": "w27-arcoBest-p",
+    "t": "Arco: 35 puntos",
+    "d": "Haz 35 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 35,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cañón",
+  "light": "#FFDCCB",
+  "dark": "#D0643A",
+  "prem": false,
+  "reward": "pañuelo vaquero",
+  "days": 615,
+  "items": [
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     5
+    ],
+    "iqos": [
+     "butts",
+     26
+    ],
+    "vape": [
+     "plastic",
+     29
+    ],
+    "id": "w28-eco-trees"
+   },
+   {
+    "id": "w28-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w28-streak",
+    "t": "Racha de 310",
+    "d": "310 días verdes seguidos",
+    "m": "streak",
+    "v": 310
+   },
+   {
+    "id": "w28-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w28-encS_mercado-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en el mercado",
+    "m": "encS_mercado",
+    "v": 1
+   },
+   {
+    "id": "w28-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w28-zero",
+    "t": "25 días limpios",
+    "d": "25 días a 0",
+    "m": "zero",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w28-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w28-popBest",
+    "t": "70 de golpe",
+    "d": "Haz 70 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 70
+   },
+   {
+    "id": "w28-reboteBest",
+    "t": "Rebote de 50",
+    "d": "Haz 50 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 50
+   },
+   {
+    "id": "w28-golfPlays-p2",
+    "t": "5 hoyos al par",
+    "d": "Termina 5 hoyos al par o mejor",
+    "m": "golfRel5",
+    "v": 0,
+    "p": true
+   },
+   {
+    "id": "w28-rayosBest-p",
+    "t": "6 granizos",
+    "d": "Rompe 6 granizos en una partida de Rayos de sol",
+    "m": "rayosHail",
+    "v": 6,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Bosque mágico",
+  "light": "#DDE3FF",
+  "dark": "#4A5BC8",
+  "prem": false,
+  "reward": "sombrero de mago",
+  "days": 653,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     16
+    ],
+    "iqos": [
+     "time",
+     15
+    ],
+    "vape": [
+     "plastic",
+     30
+    ],
+    "id": "w29-eco-time"
+   },
+   {
+    "id": "w29-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w29-avoided",
+    "t": "275 que no fueron",
+    "d": "Evita 275 cigarros",
+    "m": "avoided",
+    "v": 275,
+    "s": 1
+   },
+   {
+    "id": "w29-relojPlays-x",
+    "t": "12 partidas al Reloj",
+    "d": "Juega 12 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w29-money",
+    "t": "Hucha de 90 €",
+    "d": "Ahorra 90 €",
+    "m": "money",
+    "v": 90,
+    "s": 1
+   },
+   {
+    "id": "w29-greenWeekend-1",
+    "t": "Finde verde",
+    "d": "Consigue un fin de semana entero en verde",
+    "m": "greenWeekend",
+    "v": 1
+   },
+   {
+    "id": "w29-zero",
+    "t": "21 días limpios",
+    "d": "21 días a 0",
+    "m": "zero",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w29-greens",
+    "t": "25 verdes",
+    "d": "Consigue 25 días verdes en total",
+    "m": "greens",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w29-vmPlays",
+    "t": "8 partidas de Verdad o mito",
+    "d": "Juega 8 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "id": "w29-relojBest",
+    "t": "Reloj: menos de 0,35 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,35 s de desvío",
+    "m": "relojBest",
+    "v": 350
+   },
+   {
+    "t": "3 de leyenda en +2",
+    "d": "Termina un recorrido de 3 hoyos en Golf de leyenda con +2 o menos",
+    "m": "g3Rel3",
+    "v": 2,
+    "p": true,
+    "id": "w29-golfPlays-p2"
+   },
+   {
+    "id": "w29-rayosPlays-p",
+    "t": "Rayos: 50 puntos",
+    "d": "Haz 50 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 50,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Jardín zen",
+  "light": "#E4F3DE",
+  "dark": "#5E9E5A",
+  "prem": false,
+  "reward": "bonsái de bolsillo",
+  "days": 693,
+  "items": [
+   {
+    "id": "w30-tagged-20",
+    "t": "Detective de motivos",
+    "d": "Apunta el motivo de 20 cigarros",
+    "m": "tagged",
+    "v": 20
+   },
+   {
+    "id": "w30-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w30-mathPlays-x",
+    "t": "14 partidas de Cuentas",
+    "d": "Termina Cuentas 14 veces",
+    "m": "mathPlays",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w30-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w30-cleanNight-10",
+    "t": "Noche sin humo",
+    "d": "Pasa 10 noches sin fumar después de las nueve",
+    "m": "cleanNight",
+    "v": 10
+   },
+   {
+    "id": "w30-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w30-zero",
+    "t": "25 días limpios",
+    "d": "25 días a 0",
+    "m": "zero",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w30-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w30-mathBest",
+    "t": "Cuentas en 13 s",
+    "d": "Termina Cuentas en menos de 13 s",
+    "m": "mathBest",
+    "v": 13
+   },
+   {
+    "id": "w30-popTotal",
+    "t": "120 nubes explotadas",
+    "d": "Explota 120 nubes en total",
+    "m": "popTotal",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w30-rayosPlays-p2",
+    "t": "3 arcoíris",
+    "d": "Atrapa 3 arcoíris en Rayos de sol (en total)",
+    "m": "rayosRainbow",
+    "v": 3,
+    "p": true
+   },
+   {
+    "id": "w30-golfPlays-p",
+    "t": "3 hoyos en uno",
+    "d": "Mete 3 hoyos de un solo golpe (en total)",
+    "m": "golfAce",
+    "v": 3,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Viñedo",
+  "light": "#EDE0F5",
+  "dark": "#8A4FB0",
+  "prem": false,
+  "reward": "boina de viñedo",
+  "days": 733,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     24
+    ],
+    "iqos": [
+     "butts",
+     30
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w31-eco-butts"
+   },
+   {
+    "id": "w31-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w31-avoided",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1
+   },
+   {
+    "id": "w31-mathPlays-x",
+    "t": "14 partidas de Cuentas",
+    "d": "Termina Cuentas 14 veces",
+    "m": "mathPlays",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w31-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w31-encSH_parque-1",
+    "t": "Experto en buscar",
+    "d": "Encuentra a Tiny en el parque en difícil",
+    "m": "encSH_parque",
+    "v": 1
+   },
+   {
+    "id": "w31-zero",
+    "t": "21 días limpios",
+    "d": "21 días a 0",
+    "m": "zero",
+    "v": 21,
+    "s": 1
+   },
+   {
+    "id": "w31-greens",
+    "t": "25 verdes",
+    "d": "Consigue 25 días verdes en total",
+    "m": "greens",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w31-vmPlays",
+    "t": "9 partidas de Verdad o mito",
+    "d": "Juega 9 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w31-relojPlays",
+    "t": "7 partidas al Reloj",
+    "d": "Juega 7 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "t": "45 hoyos de leyenda",
+    "d": "Juega 45 hoyos en Golf de leyenda (en total)",
+    "m": "g3Holes",
+    "v": 45,
+    "p": true,
+    "id": "w31-golfPlays-p2"
+   },
+   {
+    "id": "w31-torreBest-p",
+    "t": "Torre de 28",
+    "d": "Levanta 28 pisos en una partida de Torre de Tiny",
+    "m": "torreBest",
+    "v": 28,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Castillo de nubes",
+  "light": "#EEF4FF",
+  "dark": "#8AA2E6",
+  "prem": false,
+  "reward": "corona de nubes",
+  "days": 775,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     11
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w32-eco-co2"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     25
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w32-eco-butts"
+   },
+   {
+    "id": "w32-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w32-avoided",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1
+   },
+   {
+    "id": "w32-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w32-medMin-30",
+    "t": "Mente en calma",
+    "d": "Medita 30 minutos en total",
+    "m": "medMin",
+    "v": 30
+   },
+   {
+    "id": "w32-zero",
+    "t": "24 días limpios",
+    "d": "24 días a 0",
+    "m": "zero",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w32-greens",
+    "t": "28 verdes",
+    "d": "Consigue 28 días verdes en total",
+    "m": "greens",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w32-mathPlays",
+    "t": "7 partidas de Cuentas",
+    "d": "Termina Cuentas 7 veces",
+    "m": "mathPlays",
+    "v": 7,
+    "s": 1
+   },
+   {
+    "id": "w32-popBest",
+    "t": "90 de golpe",
+    "d": "Haz 90 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 90
+   },
+   {
+    "t": "9 de leyenda en +12",
+    "d": "Termina un recorrido de 9 hoyos en Golf de leyenda con +12 o menos",
+    "m": "g3Rel9",
+    "v": 12,
+    "p": true,
+    "id": "w32-golfPlays-p2"
+   },
+   {
+    "id": "w32-arcoBest-p",
+    "t": "Arco: 40 puntos",
+    "d": "Haz 40 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 40,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Palacio de hielo",
+  "light": "#E0F6FF",
+  "dark": "#3FA9D6",
+  "prem": false,
+  "reward": "cetro de hielo",
+  "days": 818,
+  "items": [
+   {
+    "id": "w33-encS_nieve-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en la nieve",
+    "m": "encS_nieve",
+    "v": 1
+   },
+   {
+    "id": "w33-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w33-relojPlays-x",
+    "t": "14 partidas al Reloj",
+    "d": "Juega 14 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w33-avoided",
+    "t": "400 que no fueron",
+    "d": "Evita 400 cigarros",
+    "m": "avoided",
+    "v": 400,
+    "s": 1
+   },
+   {
+    "id": "w33-share-5",
+    "t": "Corre la voz",
+    "d": "Comparte TinyQuit 5 veces",
+    "m": "share",
+    "v": 5
+   },
+   {
+    "id": "w33-money",
+    "t": "Hucha de 125 €",
+    "d": "Ahorra 125 €",
+    "m": "money",
+    "v": 125,
+    "s": 1
+   },
+   {
+    "id": "w33-zero",
+    "t": "28 días limpios",
+    "d": "28 días a 0",
+    "m": "zero",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w33-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w33-reboteBest",
+    "t": "Rebote de 60",
+    "d": "Haz 60 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 60
+   },
+   {
+    "id": "w33-vmPlays",
+    "t": "10 partidas de Verdad o mito",
+    "d": "Juega 10 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w33-golfPlays-p2",
+    "t": "5 hoyos: 1 bajo par",
+    "d": "Termina 5 hoyos con 1 bajo par o mejor",
+    "m": "golfRel5",
+    "v": -1,
+    "p": true
+   },
+   {
+    "id": "w33-rayosBest-p",
+    "t": "Combo ×20",
+    "d": "Haz un combo de 20 en Rayos de sol",
+    "m": "rayosCombo",
+    "v": 20,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Luna",
+  "light": "#E3E0F5",
+  "dark": "#7A74C8",
+  "prem": false,
+  "reward": "casco espacial",
+  "days": 861,
+  "items": [
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     6
+    ],
+    "iqos": [
+     "butts",
+     31
+    ],
+    "vape": [
+     "plastic",
+     31
+    ],
+    "id": "w34-eco-trees"
+   },
+   {
+    "id": "w34-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w34-avoided",
+    "t": "300 que no fueron",
+    "d": "Evita 300 cigarros",
+    "m": "avoided",
+    "v": 300,
+    "s": 1
+   },
+   {
+    "id": "w34-mathPlays-x",
+    "t": "14 partidas de Cuentas",
+    "d": "Termina Cuentas 14 veces",
+    "m": "mathPlays",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "id": "w34-money",
+    "t": "Hucha de 100 €",
+    "d": "Ahorra 100 €",
+    "m": "money",
+    "v": 100,
+    "s": 1
+   },
+   {
+    "id": "w34-greenMonday-6",
+    "t": "Lunes verde",
+    "d": "Consigue 6 lunes en verde",
+    "m": "greenMonday",
+    "v": 6
+   },
+   {
+    "id": "w34-zero",
+    "t": "24 días limpios",
+    "d": "24 días a 0",
+    "m": "zero",
+    "v": 24,
+    "s": 1
+   },
+   {
+    "id": "w34-greens",
+    "t": "28 verdes",
+    "d": "Consigue 28 días verdes en total",
+    "m": "greens",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w34-relojBest",
+    "t": "Reloj: menos de 0,29 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,29 s de desvío",
+    "m": "relojBest",
+    "v": 290
+   },
+   {
+    "id": "w34-mathBest",
+    "t": "Cuentas en 12 s",
+    "d": "Termina Cuentas en menos de 12 s",
+    "m": "mathBest",
+    "v": 12
+   },
+   {
+    "t": "Birdie de leyenda",
+    "d": "Termina una partida de 1 hoyo en Golf de leyenda con 1 bajo par o mejor",
+    "m": "g3Rel1",
+    "v": -1,
+    "p": true,
+    "id": "w34-golfPlays-p2"
+   },
+   {
+    "id": "w34-rayosPlays-p",
+    "t": "8 gotas grandes",
+    "d": "Rompe 8 gotas grandes en una partida de Rayos de sol",
+    "m": "rayosBig",
+    "v": 8,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Cometa",
+  "light": "#E0E8FF",
+  "dark": "#4F6BE0",
+  "prem": false,
+  "reward": "estela de cometa",
+  "days": 906,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     14
+    ],
+    "iqos": [
+     "energy",
+     15
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w35-eco-water"
+   },
+   {
+    "id": "w35-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w35-avoided",
+    "t": "350 que no fueron",
+    "d": "Evita 350 cigarros",
+    "m": "avoided",
+    "v": 350,
+    "s": 1
+   },
+   {
+    "id": "w35-relojPlays-x",
+    "t": "15 partidas al Reloj",
+    "d": "Juega 15 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 15,
+    "s": 1
+   },
+   {
+    "id": "w35-encSF_feria-1",
+    "t": "Visto y no visto",
+    "d": "Encuentra a Tiny en la feria en menos de veinte segundos (medio o difícil)",
+    "m": "encSF_feria",
+    "v": 1
+   },
+   {
+    "id": "w35-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w35-zero",
+    "t": "25 días limpios",
+    "d": "25 días a 0",
+    "m": "zero",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w35-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w35-popTotal",
+    "t": "160 nubes explotadas",
+    "d": "Explota 160 nubes en total",
+    "m": "popTotal",
+    "v": 160,
+    "s": 1
+   },
+   {
+    "id": "w35-vmPlays",
+    "t": "11 partidas de Verdad o mito",
+    "d": "Juega 11 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 11,
+    "s": 1
+   },
+   {
+    "id": "w35-rayosPlays-p2",
+    "t": "Rayos: 70 puntos",
+    "d": "Haz 70 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 70,
+    "p": true
+   },
+   {
+    "id": "w35-golfPlays-p",
+    "t": "8 recorridos",
+    "d": "Termina el minigolf 8 veces",
+    "m": "golfPlays",
+    "v": 8,
+    "p": true,
+    "s": 1
+   }
+  ]
+ },
+ {
+  "name": "Anillos",
+  "light": "#FFEBD1",
+  "dark": "#E08A2E",
+  "prem": false,
+  "reward": "cinturón de anillos",
+  "days": 952,
+  "items": [
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     15
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w36-eco-water"
+   },
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     17
+    ],
+    "iqos": [
+     "time",
+     16
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w36-eco-time"
+   },
+   {
+    "id": "w36-dressed-5",
+    "t": "Vísteme",
+    "d": "Ponme 5 accesorios distintos del armario",
+    "m": "dressed",
+    "v": 5
+   },
+   {
+    "id": "w36-perfectWeek",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w36-avoided",
+    "t": "400 que no fueron",
+    "d": "Evita 400 cigarros",
+    "m": "avoided",
+    "v": 400,
+    "s": 1
+   },
+   {
+    "id": "w36-money",
+    "t": "Hucha de 140 €",
+    "d": "Ahorra 140 €",
+    "m": "money",
+    "v": 140,
+    "s": 1
+   },
+   {
+    "id": "w36-zero",
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w36-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w36-relojPlays",
+    "t": "9 partidas al Reloj",
+    "d": "Juega 9 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 9,
+    "s": 1
+   },
+   {
+    "id": "w36-mathPlays",
+    "t": "8 partidas de Cuentas",
+    "d": "Termina Cuentas 8 veces",
+    "m": "mathPlays",
+    "v": 8,
+    "s": 1
+   },
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     12
+    ],
+    "o": {
+     "t": "400 que no fueron",
+     "d": "Evita 400 cigarros",
+     "m": "avoided",
+     "v": 400,
+     "s": 1
+    },
+    "p": true,
+    "id": "w36-eco-co2-p"
+   },
+   {
+    "id": "w36-pescaKg-5",
+    "t": "¡Qué pieza!",
+    "d": "Pesca un pez de 5 kg o más",
+    "m": "pescaKg",
+    "v": 5,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Nebulosa",
+  "light": "#F1E2FF",
+  "dark": "#A45AE0",
+  "prem": false,
+  "reward": "gafas de estrella",
+  "days": 999,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     26
+    ],
+    "iqos": [
+     "butts",
+     27
+    ],
+    "o": {
+     "t": "40 que no fueron",
+     "d": "Evita 40 cigarros",
+     "m": "avoided",
+     "v": 40,
+     "s": 1
+    },
+    "id": "w37-eco-butts"
+   },
+   {
+    "id": "w37-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w37-relojPlays-x",
+    "t": "15 partidas al Reloj",
+    "d": "Juega 15 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 15,
+    "s": 1
+   },
+   {
+    "id": "w37-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w37-lateFirst-25",
+    "t": "Retrasa el primero",
+    "d": "Aguanta sin fumar hasta las diez de la mañana 25 días",
+    "m": "lateFirst",
+    "v": 25
+   },
+   {
+    "id": "w37-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w37-zero",
+    "t": "25 días limpios",
+    "d": "25 días a 0",
+    "m": "zero",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w37-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w37-popBest",
+    "t": "125 de golpe",
+    "d": "Haz 125 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 125
+   },
+   {
+    "id": "w37-reboteBest",
+    "t": "Rebote de 80",
+    "d": "Haz 80 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 80
+   },
+   {
+    "id": "w37-g3Par3in2-5",
+    "t": "Par 3 en 2",
+    "d": "Haz 5 veces un par 3 en 2 golpes en Golf de leyenda",
+    "m": "g3Par3in2",
+    "v": 5,
+    "p": true
+   },
+   {
+    "id": "w37-arcoBest-p",
+    "t": "Arco: 45 puntos",
+    "d": "Haz 45 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 45,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Estrella polar",
+  "light": "#FFF6CF",
+  "dark": "#C9A200",
+  "prem": false,
+  "reward": "brújula de estrellas",
+  "days": 1046,
+  "items": [
+   {
+    "id": "w38-perfectWeek",
+    "t": "Semana perfecta",
+    "d": "1 semana entera en verde",
+    "m": "perfectWeek",
+    "v": 1,
+    "s": 1
+   },
+   {
+    "id": "w38-relojPlays-x",
+    "t": "16 partidas al Reloj",
+    "d": "Juega 16 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w38-mathPlays-x",
+    "t": "16 partidas de Cuentas",
+    "d": "Termina Cuentas 16 veces",
+    "m": "mathPlays",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w38-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w38-encS_mar-1",
+    "t": "Turista de Tiny",
+    "d": "Encuentra a Tiny en el fondo del mar",
+    "m": "encS_mar",
+    "v": 1
+   },
+   {
+    "id": "w38-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w38-zero",
+    "t": "25 días limpios",
+    "d": "25 días a 0",
+    "m": "zero",
+    "v": 25,
+    "s": 1
+   },
+   {
+    "id": "w38-greens",
+    "t": "30 verdes",
+    "d": "Consigue 30 días verdes en total",
+    "m": "greens",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w38-vmPlays",
+    "t": "12 partidas de Verdad o mito",
+    "d": "Juega 12 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w38-relojBest",
+    "t": "Reloj: menos de 0,23 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,23 s de desvío",
+    "m": "relojBest",
+    "v": 230
+   },
+   {
+    "id": "w38-golfPlays-p2",
+    "t": "10 hoyos: 1 bajo par",
+    "d": "Termina 10 hoyos con 1 bajo par o mejor",
+    "m": "golfRel10",
+    "v": -1,
+    "p": true
+   },
+   {
+    "id": "w38-rayosBest-p",
+    "t": "10 granizos",
+    "d": "Rompe 10 granizos en una partida de Rayos de sol",
+    "m": "rayosHail",
+    "v": 10,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Galaxia",
+  "light": "#D9D0FF",
+  "dark": "#5A3FD0",
+  "prem": false,
+  "reward": "estela de estrellas",
+  "days": 1095,
+  "items": [
+   {
+    "id": "w39-monthPct-100",
+    "t": "Un 100 % verde",
+    "d": "100 % de días verdes en un mes",
+    "m": "monthPct",
+    "v": 100
+   },
+   {
+    "id": "w39-perfectWeek",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w39-vmPlays-x",
+    "t": "16 partidas de Verdad o mito",
+    "d": "Juega 16 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w39-avoided",
+    "t": "450 que no fueron",
+    "d": "Evita 450 cigarros",
+    "m": "avoided",
+    "v": 450,
+    "s": 1
+   },
+   {
+    "id": "w39-greenWeekend-4",
+    "t": "Finde verde",
+    "d": "Consigue 4 fines de semana enteros en verde",
+    "m": "greenWeekend",
+    "v": 4
+   },
+   {
+    "id": "w39-money",
+    "t": "Hucha de 150 €",
+    "d": "Ahorra 150 €",
+    "m": "money",
+    "v": 150,
+    "s": 1
+   },
+   {
+    "id": "w39-zero",
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w39-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w39-mathBest",
+    "t": "Cuentas en 10 s",
+    "d": "Termina Cuentas en menos de 10 s",
+    "m": "mathBest",
+    "v": 10
+   },
+   {
+    "id": "w39-popTotal",
+    "t": "225 nubes explotadas",
+    "d": "Explota 225 nubes en total",
+    "m": "popTotal",
+    "v": 225,
+    "s": 1
+   },
+   {
+    "t": "9 de leyenda en +6",
+    "d": "Termina un recorrido de 9 hoyos en Golf de leyenda con +6 o menos",
+    "m": "g3Rel9",
+    "v": 6,
+    "p": true,
+    "id": "w39-golfPlays-p2"
+   },
+   {
+    "id": "w39-rayosPlays-p",
+    "t": "6 partidas de Rayos",
+    "d": "Juega 6 partidas de Rayos de sol",
+    "m": "rayosPlays",
+    "v": 6,
+    "p": true,
+    "s": 1
+   }
+  ]
+ },
+ {
+  "name": "Planeta de caramelo",
+  "light": "#FFE0F0",
+  "dark": "#E0559A",
+  "prem": false,
+  "reward": "gafas de caramelo",
+  "days": 1145,
+  "items": [
+   {
+    "m": "eco",
+    "f": "trees",
+    "g": 1,
+    "cig": [
+     "trees",
+     7
+    ],
+    "iqos": [
+     "butts",
+     28
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w40-eco-trees"
+   },
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     30
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w40-eco-butts"
+   },
+   {
+    "id": "w40-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w40-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w40-money",
+    "t": "Hucha de 120 €",
+    "d": "Ahorra 120 €",
+    "m": "money",
+    "v": 120,
+    "s": 1
+   },
+   {
+    "id": "w40-encSH_mercado-1",
+    "t": "Experto en buscar",
+    "d": "Encuentra a Tiny en el mercado en difícil",
+    "m": "encSH_mercado",
+    "v": 1
+   },
+   {
+    "id": "w40-zero",
+    "t": "28 días limpios",
+    "d": "28 días a 0",
+    "m": "zero",
+    "v": 28,
+    "s": 1
+   },
+   {
+    "id": "w40-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w40-vmPlays",
+    "t": "13 partidas de Verdad o mito",
+    "d": "Juega 13 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 13,
+    "s": 1
+   },
+   {
+    "id": "w40-relojPlays",
+    "t": "12 partidas al Reloj",
+    "d": "Juega 12 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 12,
+    "s": 1
+   },
+   {
+    "id": "w40-rayosPlays-p2",
+    "t": "Combo ×30",
+    "d": "Haz un combo de 30 en Rayos de sol",
+    "m": "rayosCombo",
+    "v": 30,
+    "p": true
+   },
+   {
+    "id": "w40-golfPlays-p",
+    "t": "15 hoyos: 2 bajo par",
+    "d": "Termina 15 hoyos con 2 bajo par o mejor",
+    "m": "golfRel15",
+    "v": -2,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Mar de estrellas",
+  "light": "#DDF3FF",
+  "dark": "#2E7FC4",
+  "prem": false,
+  "reward": "gorro de marinero estelar",
+  "days": 1196,
+  "items": [
+   {
+    "m": "eco",
+    "f": "co2",
+    "g": 1,
+    "cig": [
+     "co2",
+     13
+    ],
+    "vape": [
+     "plastic",
+     32
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w41-eco-co2"
+   },
+   {
+    "id": "w41-perfectWeek",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w41-avoided",
+    "t": "365 que no fueron",
+    "d": "Evita 365 cigarros",
+    "m": "avoided",
+    "v": 365,
+    "s": 1
+   },
+   {
+    "id": "w41-relojPlays-x",
+    "t": "16 partidas al Reloj",
+    "d": "Juega 16 partidas al Reloj de Tiny",
+    "m": "relojPlays",
+    "v": 16,
+    "s": 1
+   },
+   {
+    "id": "w41-money",
+    "t": "Hucha de 125 €",
+    "d": "Ahorra 125 €",
+    "m": "money",
+    "v": 125,
+    "s": 1
+   },
+   {
+    "id": "w41-cleanNight-25",
+    "t": "Noche sin humo",
+    "d": "Pasa 25 noches sin fumar después de las nueve",
+    "m": "cleanNight",
+    "v": 25
+   },
+   {
+    "id": "w41-zero",
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w41-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w41-mathPlays",
+    "t": "10 partidas de Cuentas",
+    "d": "Termina Cuentas 10 veces",
+    "m": "mathPlays",
+    "v": 10,
+    "s": 1
+   },
+   {
+    "id": "w41-popBest",
+    "t": "175 de golpe",
+    "d": "Haz 175 puntos en una partida de Nubes",
+    "m": "popBest",
+    "v": 175
+   },
+   {
+    "t": "100 hoyos de leyenda",
+    "d": "Juega 100 hoyos en Golf de leyenda (en total)",
+    "m": "g3Holes",
+    "v": 100,
+    "p": true,
+    "id": "w41-golfPlays-p2"
+   },
+   {
+    "id": "w41-pescaTotal-50",
+    "t": "Buena pesca",
+    "d": "Pesca 50 peces",
+    "m": "pescaTotal",
+    "v": 50,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Lluvia de meteoros",
+  "light": "#FFE9D6",
+  "dark": "#E0662E",
+  "prem": false,
+  "reward": "paraguas de meteoros",
+  "days": 1248,
+  "items": [
+   {
+    "m": "eco",
+    "f": "time",
+    "g": 1,
+    "cig": [
+     "time",
+     18
+    ],
+    "iqos": [
+     "time",
+     17
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w42-eco-time"
+   },
+   {
+    "id": "w42-tagged-60",
+    "t": "Detective de motivos",
+    "d": "Apunta el motivo de 60 cigarros",
+    "m": "tagged",
+    "v": 60
+   },
+   {
+    "id": "w42-perfectWeek",
+    "t": "3 semanas perfectas",
+    "d": "3 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 3,
+    "s": 1
+   },
+   {
+    "id": "w42-avoided",
+    "t": "500 que no fueron",
+    "d": "Evita 500 cigarros",
+    "m": "avoided",
+    "v": 500,
+    "s": 1
+   },
+   {
+    "id": "w42-medMin-60",
+    "t": "Mente en calma",
+    "d": "Medita 60 minutos en total",
+    "m": "medMin",
+    "v": 60
+   },
+   {
+    "id": "w42-money",
+    "t": "Hucha de 150 €",
+    "d": "Ahorra 150 €",
+    "m": "money",
+    "v": 150,
+    "s": 1
+   },
+   {
+    "id": "w42-zero",
+    "t": "35 días limpios",
+    "d": "35 días a 0",
+    "m": "zero",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w42-greens",
+    "t": "40 verdes",
+    "d": "Consigue 40 días verdes en total",
+    "m": "greens",
+    "v": 40,
+    "s": 1
+   },
+   {
+    "id": "w42-reboteBest",
+    "t": "Rebote de 100",
+    "d": "Haz 100 puntos en una partida de Rebote",
+    "m": "reboteBest",
+    "v": 100
+   },
+   {
+    "id": "w42-vmPlays",
+    "t": "14 partidas de Verdad o mito",
+    "d": "Juega 14 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 14,
+    "s": 1
+   },
+   {
+    "t": "6 de leyenda en +1",
+    "d": "Termina un recorrido de 6 hoyos en Golf de leyenda con +1 o menos",
+    "m": "g3Rel6",
+    "v": 1,
+    "p": true,
+    "id": "w42-golfPlays-p2"
+   },
+   {
+    "id": "w42-arcoBest-p",
+    "t": "Arco: 50 puntos",
+    "d": "Haz 50 puntos en una partida de Tiro con arco",
+    "m": "arcoBest",
+    "v": 50,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Aurora austral",
+  "light": "#DFFBF0",
+  "dark": "#1FAF8A",
+  "prem": false,
+  "reward": "bufanda de aurora",
+  "days": 1301,
+  "items": [
+   {
+    "id": "w43-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w43-avoided",
+    "t": "400 que no fueron",
+    "d": "Evita 400 cigarros",
+    "m": "avoided",
+    "v": 400,
+    "s": 1
+   },
+   {
+    "id": "w43-mathPlays-x",
+    "t": "18 partidas de Cuentas",
+    "d": "Termina Cuentas 18 veces",
+    "m": "mathPlays",
+    "v": 18,
+    "s": 1
+   },
+   {
+    "id": "w43-vmPlays-x",
+    "t": "18 partidas de Verdad o mito",
+    "d": "Juega 18 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 18,
+    "s": 1
+   },
+   {
+    "id": "w43-money",
+    "t": "Hucha de 125 €",
+    "d": "Ahorra 125 €",
+    "m": "money",
+    "v": 125,
+    "s": 1
+   },
+   {
+    "id": "w43-encSF_mar-1",
+    "t": "Visto y no visto",
+    "d": "Encuentra a Tiny en el fondo del mar en menos de veinte segundos (medio o difícil)",
+    "m": "encSF_mar",
+    "v": 1
+   },
+   {
+    "id": "w43-zero",
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w43-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w43-relojBest",
+    "t": "Reloj: menos de 0,18 s",
+    "d": "Termina el Reloj de Tiny con menos de 0,18 s de desvío",
+    "m": "relojBest",
+    "v": 180
+   },
+   {
+    "id": "w43-mathBest",
+    "t": "Cuentas en 9 s",
+    "d": "Termina Cuentas en menos de 9 s",
+    "m": "mathBest",
+    "v": 9
+   },
+   {
+    "id": "w43-golfPlays-p2",
+    "t": "8 hoyos en uno",
+    "d": "Mete 8 hoyos de un solo golpe (en total)",
+    "m": "golfAce",
+    "v": 8,
+    "p": true
+   },
+   {
+    "id": "w43-rayosBest-p",
+    "t": "6 arcoíris",
+    "d": "Atrapa 6 arcoíris en Rayos de sol (en total)",
+    "m": "rayosRainbow",
+    "v": 6,
+    "p": true
+   }
+  ]
+ },
+ {
+  "name": "Planeta Tiny",
+  "light": "#FFF3C4",
+  "dark": "#F2A900",
+  "prem": false,
+  "reward": "Tiny Rex galáctico",
+  "days": 1355,
+  "items": [
+   {
+    "m": "eco",
+    "f": "butts",
+    "g": 1,
+    "cig": [
+     "butts",
+     31
+    ],
+    "iqos": [
+     "butts",
+     29
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w44-eco-butts"
+   },
+   {
+    "m": "eco",
+    "f": "water",
+    "g": 1,
+    "cig": [
+     "water",
+     16
+    ],
+    "o": {
+     "t": "20 que no fueron",
+     "d": "Evita 20 cigarros",
+     "m": "avoided",
+     "v": 20,
+     "s": 1
+    },
+    "id": "w44-eco-water"
+   },
+   {
+    "id": "w44-perfectWeek",
+    "t": "2 semanas perfectas",
+    "d": "2 semanas enteras en verde",
+    "m": "perfectWeek",
+    "v": 2,
+    "s": 1
+   },
+   {
+    "id": "w44-avoided",
+    "t": "400 que no fueron",
+    "d": "Evita 400 cigarros",
+    "m": "avoided",
+    "v": 400,
+    "s": 1
+   },
+   {
+    "id": "w44-money",
+    "t": "Hucha de 125 €",
+    "d": "Ahorra 125 €",
+    "m": "money",
+    "v": 125,
+    "s": 1
+   },
+   {
+    "id": "w44-encSH_nieve-1",
+    "t": "Experto en buscar",
+    "d": "Encuentra a Tiny en la nieve en difícil",
+    "m": "encSH_nieve",
+    "v": 1
+   },
+   {
+    "id": "w44-zero",
+    "t": "30 días limpios",
+    "d": "30 días a 0",
+    "m": "zero",
+    "v": 30,
+    "s": 1
+   },
+   {
+    "id": "w44-greens",
+    "t": "35 verdes",
+    "d": "Consigue 35 días verdes en total",
+    "m": "greens",
+    "v": 35,
+    "s": 1
+   },
+   {
+    "id": "w44-popTotal",
+    "t": "300 nubes explotadas",
+    "d": "Explota 300 nubes en total",
+    "m": "popTotal",
+    "v": 300,
+    "s": 1
+   },
+   {
+    "id": "w44-vmPlays",
+    "t": "15 partidas de Verdad o mito",
+    "d": "Juega 15 partidas de ¿Verdad o mito?",
+    "m": "vmPlays",
+    "v": 15,
+    "s": 1
+   },
+   {
+    "t": "9 de leyenda al par",
+    "d": "Termina un recorrido de 9 hoyos en Golf de leyenda al par o mejor",
+    "m": "g3Rel9",
+    "v": 0,
+    "p": true,
+    "id": "w44-golfPlays-p2"
+   },
+   {
+    "id": "w44-rayosPlays-p",
+    "t": "Rayos: 100 puntos",
+    "d": "Haz 100 puntos en una partida de Rayos de sol",
+    "m": "rayosBest",
+    "v": 100,
+    "p": true
+   }
+  ]
+ }
+]
