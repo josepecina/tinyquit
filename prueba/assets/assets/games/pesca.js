@@ -154,6 +154,12 @@
   const baitOpen = (s, b) => DEMO() || !b.need || (s.n[b.need[0]] || 0) >= b.need[1];
   const placeOpen = (s, p) => DEMO() || !p.need || species(s, p.from) >= p.need;
   const rodOpen = (s, r) => DEMO() || species(s) >= r.need;
+  // 7.3: cómo se desbloquea cada cosa (se enseña siempre junto al candado)
+  const delEs = (t) => t.replace(/ de el /g, ' del ');
+  const placeNeedS = (p) => { const pf = PLACES.find((q) => q.id === p.from); return delEs(`${p.need} ${TQT('especies de')} ${TQT(pf ? pf.name : '').toLowerCase()}`); };
+  const placeNeed = (p) => delEs(tf('Se abre con {a}', placeNeedS(p)));
+  const rodNeed = (r) => tf('Se abre con {a}', `${r.need} ${TQT('especies')}`);
+  const baitNeed = (s, b) => tf('Pesca {a} para conseguirlo', `${b.need[1]} × ${TQT(FBY[b.need[0]].name)}`) + ` (${s.n[b.need[0]] || 0}/${b.need[1]})`;
   const ROD = (s) => RODS.find((r) => r.id === s.rodId) || RODS[0];
   const PL = (s) => PLACES.find((p) => p.id === s.place) || PLACES[0];
   function createState() {
@@ -230,6 +236,10 @@
   // ------------------------------------------------------------------ utilidades de dibujo
   function rr(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
   function ell(ctx, x, y, rx, ry, c) { ctx.fillStyle = c; ctx.beginPath(); ctx.ellipse(x, y, rx, ry, 0, 0, 7); ctx.fill(); }
+  function padlock(ctx, x, y, k, col) { // 7.3: candado dibujado (los emojis no salen igual en todos los móviles)
+    ctx.save(); ctx.translate(x, y); ctx.scale(k, k); const c = col || '#8A93A6'; ctx.strokeStyle = c; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-4, 0); ctx.lineTo(-4, -3.5); ctx.arc(0, -3.5, 4, Math.PI, 0); ctx.lineTo(4, 0); ctx.stroke();
+    rr(ctx, -6.5, -1, 13, 10.5, 3); ctx.fillStyle = c; ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.beginPath(); ctx.arc(0, 3.6, 1.6, 0, 7); ctx.fill(); ctx.restore(); }
   function fillRR(ctx, x, y, w, h, r, c) { rr(ctx, x, y, w, h, r); ctx.fillStyle = c; ctx.fill(); }
   function vgrad(ctx, y0, y1, stops) { const g = ctx.createLinearGradient(0, y0, 0, y1); stops.forEach(([o, c]) => g.addColorStop(o, c)); return g; }
   function txt(ctx, s, x, y, size, color, weight, align) { ctx.font = `${weight || 600} ${size}px ${FD}`; ctx.fillStyle = color; ctx.textAlign = align || 'center'; ctx.textBaseline = 'middle'; ctx.fillText(s, x, y); }
@@ -799,13 +809,15 @@
   function music(s, on) { s.mus = on; s.playing = on; save(s); try { if (root.TQ_MUSIC) root.TQ_MUSIC(on); } catch (e) { /* nada */ } tqSend({ ev: 'music', on }); }
   function hud(ctx, s, C, v) {
     const ty = v.y0 + 10, h = 36; UI.top = [];
-    const pB = { x: 12, y: ty, w: 128, h, k: 'place' }, tB = { x: 146, y: ty, w: 106, h, k: 'time' }, bB = { x: 258, y: ty, w: 44, h, k: 'book' }, sB = { x: 308, y: ty, w: 44, h, k: 'sound' }; UI.top.push(pB, tB, bB, sB);
-    pill(ctx, pB, true); ctx.save(); ctx.translate(30, ty + 18); ctx.strokeStyle = '#17A89A'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath(); for (let k = 0; k < 2; k++) { ctx.moveTo(-8, -3 + k * 6); ctx.quadraticCurveTo(-4, -7 + k * 6, 0, -3 + k * 6); ctx.quadraticCurveTo(4, 1 + k * 6, 8, -3 + k * 6); } ctx.stroke(); ctx.restore();
-    ctx.font = `700 13.5px ${FD}`; const pn = TQT(PL(s).name); const pn2 = ctx.measureText(pn).width > 78 ? pn.replace(/^(El|La) /, '') : pn; txt(ctx, pn2.charAt(0).toUpperCase() + pn2.slice(1), 44, ty + 18.5, ctx.measureText(pn2).width > 78 ? 12 : 13.5, INK, 700, 'left');
-    ctx.fillStyle = MUTED; ctx.beginPath(); ctx.moveTo(126, ty + 15); ctx.lineTo(132, ty + 15); ctx.lineTo(129, ty + 20); ctx.fill();
-    pill(ctx, tB); todIcon(ctx, 165, ty + 18, s.tod); txt(ctx, TQT(todName(s.tod)), 180, ty + 18.5, 13, INK, 600, 'left');
-    pill(ctx, bB); bookIcon(ctx, bB.x + 22, ty + 18); rr(ctx, bB.x + 26, ty - 5, 24, 16, 8); ctx.fillStyle = '#17A89A'; ctx.fill(); txt(ctx, `${species(s)}`, bB.x + 38, ty + 3.5, 10, '#fff', 700);
-    pill(ctx, sB); speaker(ctx, sB.x + 21, ty + 18, !!s.playing);
+    // 7.3: botón ≡ para volver al menú de la pesca (no a «Tengo ganas»)
+    const mB = { x: 10, y: ty, w: 40, h, k: 'menu' }, pB = { x: 56, y: ty, w: 114, h, k: 'place' }, tB = { x: 176, y: ty, w: 90, h, k: 'time' }, bB = { x: 272, y: ty, w: 40, h, k: 'book' }, sB = { x: 318, y: ty, w: 34, h, k: 'sound' }; UI.top.push(mB, pB, tB, bB, sB);
+    pill(ctx, mB); ctx.strokeStyle = INK; ctx.lineWidth = 2.2; ctx.lineCap = 'round'; ctx.beginPath(); for (let k = -1; k <= 1; k++) { ctx.moveTo(mB.x + 13, ty + 18 + k * 5.5); ctx.lineTo(mB.x + 27, ty + 18 + k * 5.5); } ctx.stroke();
+    pill(ctx, pB, true); ctx.save(); ctx.translate(pB.x + 16, ty + 18); ctx.strokeStyle = '#17A89A'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath(); for (let k = 0; k < 2; k++) { ctx.moveTo(-7, -3 + k * 6); ctx.quadraticCurveTo(-3.5, -7 + k * 6, 0, -3 + k * 6); ctx.quadraticCurveTo(3.5, 1 + k * 6, 7, -3 + k * 6); } ctx.stroke(); ctx.restore();
+    ctx.font = `700 13px ${FD}`; const pn = TQT(PL(s).name); const pn2 = ctx.measureText(pn).width > 64 ? pn.replace(/^(El|La) /, '') : pn; fitTxt(ctx, pn2.charAt(0).toUpperCase() + pn2.slice(1), pB.x + 28, ty + 18.5, 13, 66, INK, 700, 'left');
+    ctx.fillStyle = MUTED; ctx.beginPath(); ctx.moveTo(pB.x + pB.w - 15, ty + 15); ctx.lineTo(pB.x + pB.w - 9, ty + 15); ctx.lineTo(pB.x + pB.w - 12, ty + 20); ctx.fill();
+    pill(ctx, tB); todIcon(ctx, tB.x + 17, ty + 18, s.tod); fitTxt(ctx, TQT(todName(s.tod)), tB.x + 31, ty + 18.5, 12.5, tB.w - 37, INK, 600, 'left');
+    pill(ctx, bB); bookIcon(ctx, bB.x + 20, ty + 18); rr(ctx, bB.x + 22, ty - 5, 24, 16, 8); ctx.fillStyle = '#17A89A'; ctx.fill(); txt(ctx, `${species(s)}`, bB.x + 34, ty + 3.5, 10, '#fff', 700);
+    pill(ctx, sB); speaker(ctx, sB.x + 18, ty + 18, !!s.playing);
     // mensajes / pelea
     const my = ty + 64;
     if (s.phase === 'fight') fightBar(ctx, s, my);
@@ -867,12 +879,12 @@
     const top = Math.max(v.y0 + 12, 10), bot = Math.min(v.y1 - 12, 640); rr(ctx, 10, top, 340, bot - top, 26); ctx.fillStyle = vgrad(ctx, top, bot, [[0, '#FFFBF3'], [1, '#FFF1DD']]); ctx.fill();
     txt(ctx, TQT('Libro de peces'), 180, top + 26, 21, INK, 700); txt(ctx, tf('{a} especies', `${species(s)}/${FISH.length}`), 180, top + 48, 12.5, MUTED, 600);
     bk.close = { x: 304, y: top + 9, w: 36, h: 36 }; fillRR(ctx, 304, top + 9, 36, 36, 18, '#F0E6D4'); txt(ctx, '✕', 322, top + 28, 17, INK, 700);
-    bk.tabs = []; [{ id: 'equipo', name: 'Equipo' }].concat(PLACES).forEach((p, i) => { const on = bk.place === p.id, w = 75, tx = 21 + (i % 4) * (w + 4), ty = top + 60 + Math.floor(i / 4) * 32; bk.tabs.push({ x: tx, y: ty, w, h: 28, p }); rr(ctx, tx, ty, w, 28, 14); ctx.fillStyle = on ? vgrad(ctx, ty, ty + 28, [[0, '#4FD1C1'], [1, '#17A89A']]) : '#F0E6D4'; ctx.fill(); ctx.font = `700 12px ${FD}`; const nm = TQT(p.name); const nm2 = ctx.measureText(nm).width > w - 10 ? nm.replace(/^(El|La) /, '') : nm; txt(ctx, nm2.charAt(0).toUpperCase() + nm2.slice(1), tx + w / 2, ty + 14.5, 12, on ? '#fff' : INK, 700); });
+    bk.tabs = []; [{ id: 'equipo', name: 'Equipo' }].concat(PLACES).forEach((p, i) => { const on = bk.place === p.id, w = 75, tx = 21 + (i % 4) * (w + 4), ty = top + 60 + Math.floor(i / 4) * 32; bk.tabs.push({ x: tx, y: ty, w, h: 28, p }); rr(ctx, tx, ty, w, 28, 14); ctx.fillStyle = on ? vgrad(ctx, ty, ty + 28, [[0, '#4FD1C1'], [1, '#17A89A']]) : '#F0E6D4'; ctx.fill(); ctx.font = `700 12px ${FD}`; const nm = TQT(p.name); const nm2 = ctx.measureText(nm).width > w - 10 ? nm.replace(/^(El|La) /, '') : nm; const lk = p.need && !placeOpen(s, p); if (lk) padlock(ctx, tx + 12, ty + 14, .72, on ? '#fff' : MUTED); fitTxt(ctx, nm2.charAt(0).toUpperCase() + nm2.slice(1), tx + w / 2 + (lk ? 7 : 0), ty + 14.5, 12, w - (lk ? 26 : 10), on ? '#fff' : lk ? MUTED : INK, 700); });
     if (bk.place === 'equipo') { bk.cells = []; let y = top + 134; txt(ctx, TQT('Cañas'), 30, y, 14, INK, 700, 'left'); y += 14;
-      RODS.forEach((r) => { const open = rodOpen(s, r); rr(ctx, 22, y, 316, 50, 14); ctx.fillStyle = '#FFFFFF'; ctx.fill(); rodIcon(ctx, r, 48, y + 25, !open); txt(ctx, TQT(r.name), 76, y + 17, 14, open ? INK : MUTED, 700, 'left'); fitTxt(ctx, `${TQT('Hasta')} ${Math.round(48 * r.dist)} m · ${TQT('aguanta')} ${r.kg} kg` + (open ? '' : ` · ${r.need} ${TQT('especies')}`), 76, y + 35, 11.5, 250, '#17A89A', 600, 'left'); y += 56; });
+      RODS.forEach((r) => { const open = rodOpen(s, r); rr(ctx, 22, y, 316, 50, 14); ctx.fillStyle = '#FFFFFF'; ctx.fill(); rodIcon(ctx, r, 48, y + 25, !open); txt(ctx, TQT(r.name), 76, y + 17, 14, open ? INK : MUTED, 700, 'left'); fitTxt(ctx, open ? `${TQT('Hasta')} ${Math.round(48 * r.dist)} m · ${TQT('aguanta')} ${r.kg} kg` : rodNeed(r), 76, y + 35, 11.5, open ? 250 : 222, open ? '#17A89A' : '#E8833A', open ? 600 : 700, 'left'); if (!open) padlock(ctx, 316, y + 25, 1, MUTED); y += 56; });
       y += 8; txt(ctx, TQT('Cebos'), 30, y, 14, INK, 700, 'left'); y += 14;
       const BD = { lombriz: 'Gusta a casi todos los peces de agua dulce.', maiz: 'Dulce y vistoso: carpas, bogas y koi.', grillo: 'Salta en la superficie: percas y black bass.', gamba: 'El cebo del mar y de los peces grandes.', cuchara: 'Brilla al recogerla: para los cazadores.' };
-      BAITS.forEach((b) => { const open = baitOpen(s, b); rr(ctx, 22, y, 316, 44, 14); ctx.fillStyle = '#FFFFFF'; ctx.fill(); baitIcon(ctx, b.id, 48, y + 22, 1, !open); txt(ctx, TQT(b.name), 76, y + 15, 13.5, open ? INK : MUTED, 700, 'left'); fitTxt(ctx, TQT(BD[b.id]), 76, y + 31, 11, 252, '#4A5068', 500, 'left'); y += 48; });
+      BAITS.forEach((b) => { const open = baitOpen(s, b); rr(ctx, 22, y, 316, 44, 14); ctx.fillStyle = '#FFFFFF'; ctx.fill(); baitIcon(ctx, b.id, 48, y + 22, 1, !open); txt(ctx, TQT(b.name), 76, y + 15, 13.5, open ? INK : MUTED, 700, 'left'); fitTxt(ctx, open ? TQT(BD[b.id]) : baitNeed(s, b), 76, y + 31, 11, open ? 252 : 222, open ? '#4A5068' : '#E8833A', open ? 500 : 700, 'left'); if (!open) padlock(ctx, 316, y + 22, 1, MUTED); y += 48; });
       ctx.restore(); ctx.globalAlpha = 1; return; }
     const list = FISH.filter((f) => f.p === bk.place), ch = chances(s, bk.place); bk.cells = [];
     const cw = 101, chh = 80, gx = 23, gy = top + 130;
@@ -887,13 +899,23 @@
     // ficha grande: dibujo del pez, curiosidad, récord, tamaño máximo
     const f = FBY[bk.sel] || list[0], dy = gy + Math.ceil(list.length / 3) * (chh + 5) + 2, got = s.n[f.id] > 0, dh = bot - dy - 30;
     if (dh > 90) { rr(ctx, 20, dy, 320, dh, 18); ctx.fillStyle = '#FFFFFF'; ctx.fill();
-      const big = Math.min(dh - 60, 120); ctx.save(); rr(ctx, 26, dy + 6, 308, big, 14); ctx.clip(); ctx.fillStyle = vgrad(ctx, dy, dy + big, [[0, '#EAF6FB'], [1, '#D3ECF5']]); ctx.fillRect(26, dy + 6, 308, big); drawFish(ctx, f, 180, dy + 6 + big / 2, fitLen(f, 250, big - 18), 1, s.t * 1.5, got ? 'full' : 'unknown'); ctx.restore();
-      let ly = dy + big + 22; txt(ctx, got ? TQT(f.name) : '???', 180, ly, 16, INK, 700); ly += 20;
+      // 7.3: el texto nunca se sale de la ficha: se mide primero y el dibujo del pez se queda con lo que sobra
       const maxCm = Math.round(lenM(f, f.kg[1]) * 100), info = got ? `${TQT('Récord')}: ${fmtKg(s.best[f.id])} · ${TQT('Hasta')} ${maxCm} cm ${TQT('y')} ${fmtKg(f.kg[1])}` : `${TQT('Rareza')}: ${TQT(RAR[f.r].name)} · ${TQT('Hasta')} ${maxCm} cm`;
-      txt(ctx, info, 180, ly, 12, '#E8833A', 700); ly += 18;
-      if (ly < dy + dh - 30) ly += para(ctx, got ? TQT(f.cur) : TQT('Aún no lo has pescado.'), 180, ly, 296, 12.5, '#4A5068', 500, 1.3);
-      if (ly < dy + dh - 10) para(ctx, `${TQT(TIMEN[f.t])} · ${TQT(tec(f) === 'recogida' ? 'Pica mientras recoges' : 'Pica con el cebo quieto')} · ${tf('Cebos: {a}', BAITS.filter((b) => f.b[b.id]).map((b) => TQT(b.name)).join(', '))}`, 180, ly + 2, 296, 11.5, '#17A89A', 600, 1.3); }
-    txt(ctx, tf('% con {a} a esta hora', TQT((BAITS.find((b) => b.id === s.bait) || BAITS[0]).name)), 180, bot - 13, 10.5, MUTED, 600);
+      const curT = got ? TQT(f.cur) : TQT('Aún no lo has pescado.'), tipT = `${TQT(TIMEN[f.t])} · ${TQT(tec(f) === 'recogida' ? 'Pica mientras recoges' : 'Pica con el cebo quieto')} · ${tf('Cebos: {a}', BAITS.filter((b) => f.b[b.id]).map((b) => TQT(b.name)).join(', '))}`;
+      ctx.font = `500 12.5px ${FD}`; const curL = wrap(ctx, curT, 296).length; ctx.font = `600 11.5px ${FD}`; const tipL = wrap(ctx, tipT, 296).length;
+      const need = (c1, t1) => 70 + (c1 ? curL * 16.25 + 4 : 0) + (t1 ? tipL * 14.95 + 2 : 0); let sc = true, stp = true;
+      if (dh - need(1, 1) < 58) sc = false; if (!sc && dh - need(0, 1) < 46) stp = false;
+      const big = Math.max(34, Math.min(120, dh - need(sc, stp)));
+      ctx.save(); rr(ctx, 20, dy, 320, dh, 18); ctx.clip();
+      ctx.save(); rr(ctx, 26, dy + 6, 308, big, 14); ctx.clip(); ctx.fillStyle = vgrad(ctx, dy, dy + big, [[0, '#EAF6FB'], [1, '#D3ECF5']]); ctx.fillRect(26, dy + 6, 308, big); drawFish(ctx, f, 180, dy + 6 + big / 2, fitLen(f, 250, big - 18), 1, s.t * 1.5, got ? 'full' : 'unknown'); ctx.restore();
+      let ly = dy + big + 22; fitTxt(ctx, got ? TQT(f.name) : '???', 180, ly, 16, 296, INK, 700); ly += 20;
+      fitTxt(ctx, info, 180, ly, 12, 300, '#E8833A', 700); ly += 18;
+      if (sc) ly += para(ctx, curT, 180, ly, 296, 12.5, '#4A5068', 500, 1.3) + 4;
+      if (stp) para(ctx, tipT, 180, ly + 2, 296, 11.5, '#17A89A', 600, 1.3);
+      ctx.restore(); }
+    const lockP = PLACES.find((q) => q.id === bk.place);
+    if (lockP && lockP.need && !placeOpen(s, lockP)) { ctx.font = `700 11px ${FD}`; const lt = placeNeed(lockP), lw = Math.min(280, ctx.measureText(lt).width); padlock(ctx, 180 - lw / 2 - 9, bot - 14, .72, '#E8833A'); fitTxt(ctx, lt, 186, bot - 13, 11, 280, '#E8833A', 700); }
+    else txt(ctx, tf('% con {a} a esta hora', TQT((BAITS.find((b) => b.id === s.bait) || BAITS[0]).name)), 180, bot - 13, 10.5, MUTED, 600);
     ctx.restore(); ctx.globalAlpha = 1;
   }
   function pickerDraw(ctx, s, v) { // elegir lugar
@@ -902,7 +924,7 @@
     PLACES.forEach((p, i) => { const x = 34 + (i % 2) * 150, y = y0 + 56 + Math.floor(i / 2) * 86, open = placeOpen(s, p), on = p.id === s.place, b = { x, y, w: 142, h: 78, p }; s.pickHits.push(b);
       rr(ctx, x, y, 142, 78, 18); ctx.fillStyle = on ? vgrad(ctx, y, y + 78, [[0, '#4FD1C1'], [1, '#17A89A']]) : open ? '#FFFFFF' : '#F1ECE3'; ctx.fill();
       const n = species(s, p.id), tot = FISH.filter((f) => f.p === p.id).length; txt(ctx, TQT(p.name), x + 71, y + 30, 14.5, on ? '#fff' : open ? INK : MUTED, 700);
-      txt(ctx, open ? `${n}/${tot} ${TQT('especies')}` : tf('{a} especies de antes', p.need), x + 71, y + 54, 11.5, on ? '#E8FFFA' : open ? '#17A89A' : MUTED, 600); });
+      if (!open) { padlock(ctx, x + 71, y + 13, .72, MUTED); fitTxt(ctx, placeNeedS(p), x + 71, y + 54, 11.5, 128, '#E8833A', 700); } else txt(ctx, `${n}/${tot} ${TQT('especies')}`, x + 71, y + 54, 11.5, on ? '#E8FFFA' : '#17A89A', 600); });
   }
   function placeThumb(ctx, id, x, y, w, h, night) {
     ctx.save(); rr(ctx, x, y, w, h, 16); ctx.clip(); const hy = y + h * .55, g = (y0, y1, st) => vgrad(ctx, y0, y1, st);
@@ -943,14 +965,18 @@
     txt(ctx, TQT('Pesca con Tiny'), 180, y + 30, 24, INK, 700);
     const tot = Object.values(s.n).reduce((a, b) => a + b, 0); let bestF = null, bk = 0; for (const k in s.best) if (s.best[k] > bk) { bk = s.best[k]; bestF = FBY[k]; }
     fitTxt(ctx, `${species(s)}/${FISH.length} ${TQT('especies')} · ${tot} ${TQT('capturas')}` + (bestF ? ` · ${TQT(bestF.name)} ${fmtKg(bk)}` : ''), 180, y + 56, 12.5, 300, MUTED, 600);
-    const pi = PLACES.findIndex((q) => q.id === s.place), night = todIdx(s.tod) === 3;
-    carousel(ctx, s, 'place', PLACES, pi, y + 72, 118, (c, p, x, yy, w, hh, big) => { placeThumb(ctx, p.id, x, yy, w, hh, night); const open = placeOpen(s, p); rr(ctx, x, yy + hh - (big ? 30 : 22), w, big ? 30 : 22, 0); ctx.save(); rr(ctx, x, yy, w, hh, 16); ctx.clip(); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(x, yy + hh - (big ? 30 : 22), w, 30); ctx.restore(); const n = species(s, p.id), tt = FISH.filter((f) => f.p === p.id).length; fitTxt(ctx, (open ? '' : '🔒 ') + TQT(p.name) + (big ? `  ·  ${n}/${tt}` : ''), x + w / 2, yy + hh - (big ? 15 : 11), big ? 14 : 10, w - 12, INK, 700); if (big) { ctx.strokeStyle = '#17A89A'; ctx.lineWidth = 3; rr(ctx, x, yy, w, hh, 16); ctx.stroke(); } });
+    s.carSel = s.carSel || {}; const pi = s.carSel.place != null ? s.carSel.place : PLACES.findIndex((q) => q.id === s.place), night = todIdx(s.tod) === 3;
+    carousel(ctx, s, 'place', PLACES, pi, y + 72, 118, (c, p, x, yy, w, hh, big) => { placeThumb(ctx, p.id, x, yy, w, hh, night); const open = placeOpen(s, p); rr(ctx, x, yy + hh - (big ? 30 : 22), w, big ? 30 : 22, 0); ctx.save(); rr(ctx, x, yy, w, hh, 16); ctx.clip(); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(x, yy + hh - (big ? 30 : 22), w, 30); ctx.restore(); const n = species(s, p.id), tt = FISH.filter((f) => f.p === p.id).length; if (!open) { ctx.save(); rr(ctx, x, yy, w, hh, 16); ctx.clip(); ctx.fillStyle = 'rgba(236,232,224,.5)'; ctx.fillRect(x, yy, w, hh); ctx.restore(); padlock(ctx, x + w / 2, yy + (hh - (big ? 30 : 22)) / 2, big ? 2.1 : 1.4, '#6E7891'); } fitTxt(ctx, TQT(p.name) + (big && open ? `  ·  ${n}/${tt}` : ''), x + w / 2, yy + hh - (big ? 15 : 11), big ? 14 : 10, w - 12, open ? INK : MUTED, 700); if (big) { ctx.strokeStyle = '#17A89A'; ctx.lineWidth = 3; rr(ctx, x, yy, w, hh, 16); ctx.stroke(); } });
     const ti = todIdx(s.tod);
     carousel(ctx, s, 'tod', TODS, ti, y + 216, 82, (c, it, x, yy, w, hh, big) => { rr(ctx, x, yy, w, hh, 16); ctx.fillStyle = big ? vgrad(ctx, yy, yy + hh, [[0, '#4FD1C1'], [1, '#17A89A']]) : '#F2EEE6'; ctx.fill(); ctx.save(); ctx.translate(x + w / 2, yy + hh * .38); ctx.scale(big ? 1.3 : .9, big ? 1.3 : .9); todIcon(ctx, 0, 0, it[1]); ctx.restore(); fitTxt(ctx, TQT(it[0]), x + w / 2, yy + hh * .78, big ? 13 : 10, w - 8, big ? '#fff' : INK, 700); });
-    const ri = Math.max(0, RODS.findIndex((r) => r.id === s.rodId));
-    carousel(ctx, s, 'rod', RODS, ri, y + 326, 72, (c, r, x, yy, w, hh, big) => { const open = rodOpen(s, r); rr(ctx, x, yy, w, hh, 16); ctx.fillStyle = big ? vgrad(ctx, yy, yy + hh, [[0, '#FFE7B8'], [1, '#FCD58C']]) : '#F2EEE6'; ctx.fill(); if (big) { ctx.save(); ctx.translate(x + w * .2, yy + hh / 2); ctx.scale(1.1, 1.1); rodIcon(ctx, r, 0, 0, !open); ctx.restore(); fitTxt(ctx, TQT(r.name), x + w * .65, yy + hh * .4, 14, w * .44, INK, 700); fitTxt(ctx, `${Math.round(48 * r.dist)} m · ${r.kg} kg`, x + w * .65, yy + hh * .68, 11, w * .44, MUTED, 600); } else { ctx.save(); ctx.translate(x + w / 2, yy + hh * .4); ctx.scale(.8, .8); rodIcon(ctx, r, 0, 0, !open); ctx.restore(); fitTxt(ctx, TQT(r.name), x + w / 2, yy + hh * .8, 9, w - 10, INK, 700); } });
-    txt(ctx, TQT('Desliza para cambiar'), 180, y + 422, 11, MUTED, 600);
-    s.goB = { x: 80, y: y + 440, w: 200, h: 52 }; gbutton(ctx, s.goB.x, s.goB.y, s.goB.w, s.goB.h, '#4FD1C1', '#17A89A', '#0F7F74', TQT('¡A pescar!'), 19);
+    const ri = s.carSel.rod != null ? s.carSel.rod : Math.max(0, RODS.findIndex((r) => r.id === s.rodId));
+    carousel(ctx, s, 'rod', RODS, ri, y + 326, 72, (c, r, x, yy, w, hh, big) => { const open = rodOpen(s, r); rr(ctx, x, yy, w, hh, 16); ctx.fillStyle = big ? vgrad(ctx, yy, yy + hh, [[0, '#FFE7B8'], [1, '#FCD58C']]) : '#F2EEE6'; ctx.fill(); if (big) { ctx.save(); ctx.translate(x + w * .2, yy + hh / 2); ctx.scale(1.1, 1.1); rodIcon(ctx, r, 0, 0, !open); ctx.restore(); fitTxt(ctx, TQT(r.name), x + w * .65, yy + hh * .4, 14, w * .44, INK, 700); fitTxt(ctx, `${Math.round(48 * r.dist)} m · ${r.kg} kg`, x + w * .65, yy + hh * .68, 11, w * .44, MUTED, 600); } else { ctx.save(); ctx.translate(x + w / 2, yy + hh * .4); ctx.scale(.8, .8); rodIcon(ctx, r, 0, 0, !open); ctx.restore(); fitTxt(ctx, TQT(r.name), x + w / 2, yy + hh * .8, 9, w - 10, INK, 700); } if (!open) padlock(ctx, x + w - 16, yy + 16, big ? 1.1 : .8, '#6E7891'); });
+    // 7.3: se ve todo (lugares y cañas bloqueados con candado) y, si el elegido está cerrado, cómo se abre
+    const lp = PLACES[pi], lr = RODS[ri], lkT = !placeOpen(s, lp) ? placeNeed(lp) : !rodOpen(s, lr) ? rodNeed(lr) : ''; s.menuLocked = !!lkT;
+    s.hintShake = Math.max(0, (s.hintShake || 0) - 1 / 60); const shx = Math.sin(s.hintShake * 40) * s.hintShake * 14;
+    if (lkT) { ctx.font = `700 12px ${FD}`; const lw = Math.min(290, ctx.measureText(lkT).width); padlock(ctx, 180 + shx - lw / 2 - 10, y + 421, .8, '#E8833A'); fitTxt(ctx, lkT, 186 + shx, y + 422, 12, 290, '#E8833A', 700); }
+    else txt(ctx, TQT('Desliza para cambiar'), 180, y + 422, 11, MUTED, 600);
+    s.goB = { x: 80, y: y + 440, w: 200, h: 52 }; if (lkT) gbutton(ctx, s.goB.x, s.goB.y, s.goB.w, s.goB.h, '#D5DCE5', '#B9C3D0', '#98A3B3', TQT('Bloqueado'), 19); else gbutton(ctx, s.goB.x, s.goB.y, s.goB.w, s.goB.h, '#4FD1C1', '#17A89A', '#0F7F74', TQT('¡A pescar!'), 19);
   }
   const TUT = [['Lanza', 'Mantén pulsado y suelta en la franja dorada. Mueve el dedo a los lados para apuntar (a ojo: ¡cuesta pillarle el truco!).'], ['Busca los peces', 'Lanza cerca de las sombras o saltos. Al recoger, mueve el dedo a los lados para guiar el sedal hacia ellos.'], ['¡A pelear!', 'Cuando vibre fuerte, toca. Mantén para recoger, suelta si la tensión sube y desliza hacia donde marque la flecha.']];
   function tutDraw(ctx, s, v) { const [t, b] = TUT[s.tutStep], y = 200; ctx.fillStyle = 'rgba(12,22,42,.45)'; ctx.fillRect(v.x0, v.y0, v.x1 - v.x0, v.y1 - v.y0); rr(ctx, 40, y + 5, 280, 210, 26); ctx.fillStyle = 'rgba(0,0,0,.15)'; ctx.fill(); rr(ctx, 40, y, 280, 210, 26); ctx.fillStyle = '#FFFFFF'; ctx.fill();
@@ -992,13 +1018,14 @@
     if (s.phase === 'card') { if (hit(UI.card, p, 8) && s.card.t > .4) { const c = s.card; s.card = null; s.phase = 'idle'; setFace(s, 'calm'); if (c.isNew) s.book = { place: c.f.p, sel: c.f.id, anim: { id: c.f.id }, t: 0 }; } return; }
     for (const b of UI.top) if (hit(b, p, 2)) { const calm = s.phase === 'idle';
       if (b.k === 'sound') music(s, !s.playing);
+      else if (b.k === 'menu') { if (s.menu) return; if (calm) { s.menu = true; s.carSel = {}; s.book = null; s.pick = false; } else say(s, 'Termina de pescar para volver al menú', 1.5); }
       else if (b.k === 'book') { if (calm) s.book = { place: s.place, sel: null, t: 0 }; else say(s, 'Termina de pescar para abrir el libro', 1.5); }
       else if (b.k === 'place') { if (calm) s.pick = true; else say(s, 'Termina de pescar para cambiar de lugar', 1.5); }
       else say(s, 'El día pasa solo: algunos peces solo salen a ciertas horas', 2.2);
       return; }
     if (s.tutStep != null) { if (hit(s.tutB, p, 6)) { s.tutStep++; if (s.tutStep > 2) { s.tutStep = null; s.tut = 1; save(s); } } return; }
     if (s.menu) { for (const key in s.carRects || {}) { const R = s.carRects[key]; if (p.y >= R.y - 6 && p.y <= R.y + R.h + 14) { s.carDown = { key, x: p.x, cx: p.x }; return; } }
-      if (hit(s.goB, p, 6)) { s.menu = false; if (s.mus) music(s, true); if (!s.tut) s.tutStep = 0; } return; }
+      if (hit(s.goB, p, 6)) { if (s.menuLocked) { s.hintShake = .5; vib(25); return; } s.carSel = {}; s.menu = false; if (s.mus) music(s, true); if (!s.tut) s.tutStep = 0; } return; }
     if (s.phase === 'lifted' || s.phase === 'fly') return;
     const calm = s.phase === 'idle';
     if (hit(UI.rodB, p, 2)) { s.baitSwing = .8; if (!calm) { say(s, 'Cambia de caña cuando no estés pescando', 1.6); return; } const open = RODS.filter((r) => rodOpen(s, r)), i = open.findIndex((r) => r.id === s.rodId), nx = open[(i + 1) % open.length]; s.rodId = nx.id; save(s); say(s, tf('Caña de {a}', TQT(nx.name).toLowerCase()) + ` · ${TQT('hasta')} ${Math.round(48 * nx.dist)} m`, 1.8); const locked = RODS.find((r) => !rodOpen(s, r)); if (locked && open.length === 1) say(s, tf('La caña de {a} se consigue con', TQT(locked.name).toLowerCase()) + ` ${locked.need} ${TQT('especies')}`, 2.4); return; }
@@ -1008,11 +1035,13 @@
     s.holding = true; s.downX = p.x; s.drag = 0; s.aim0 = 0; s.aim = 0;
     if (s.phase === 'idle') startCast(s); else if (s.phase === 'wait' || s.phase === 'bite') tapDuringWait(s);
   }
-  function onMove(e) { if (!H) return; const s = H.s, p = toL(e); s.px = p.x; s.py = p.y; if (s.carDown) { s.carDown.cx = p.x; return; } if (s.holding) { s.drag = clamp((p.x - s.downX) / 70, -1, 1); if (s.phase === 'charge') s.aim = clamp(s.aim0 + (p.x - s.downX) / 260, -.28, .28); } }
+  function onMove(e) { if (!H) return; const s = H.s, p = toL(e); s.px = p.x; s.py = p.y; if (s.carDown) { const now = performance.now(), cd = s.carDown, dtm = Math.max(1, now - (cd.lt || now - 16)); cd.v = (cd.v || 0) * .6 + ((p.x - cd.cx) / dtm) * .4; cd.lt = now; cd.cx = p.x; return; } if (s.holding) { s.drag = clamp((p.x - s.downX) / 70, -1, 1); if (s.phase === 'charge') s.aim = clamp(s.aim0 + (p.x - s.downX) / 260, -.28, .28); } }
   const wrapI = (i, n) => ((i % n) + n) % n; // carrusel infinito
-  function carStep(s, key, d) { if (key === 'place') { const i = wrapI(PLACES.findIndex((q) => q.id === s.place) + d, PLACES.length), pl = PLACES[i]; if (placeOpen(s, pl) && pl.id !== s.place) { s.place = pl.id; initPlace(s); save(s); vib(8); } }
-    else if (key === 'tod') { const i = wrapI(todIdx(s.tod) + d, 4); s.tod = TODS[i][1]; initPlace(s); vib(8); } else { const i = wrapI(RODS.findIndex((r) => r.id === s.rodId) + d, RODS.length); if (rodOpen(s, RODS[i])) { s.rodId = RODS[i].id; save(s); vib(8); } } }
-  function onUp(e) { if (!H) return; const s = H.s; if (s.carDown) { const p = toL(e), dx = p.x - s.carDown.x, C = s.car && s.car[s.carDown.key], gap = (s.carRects[s.carDown.key].h * 1.5) * .78; if (C) C.pos -= dx / gap; const steps = Math.abs(dx) > 28 ? -Math.round(dx / gap) || (dx < 0 ? 1 : -1) : p.x < 92 ? -1 : p.x > 268 ? 1 : 0; carStep(s, s.carDown.key, steps); s.carDown = null; return; } s.holding = false; s.drag = 0; if (s.phase === 'charge') release(s); }
+  function carStep(s, key, d) { s.carSel = s.carSel || {};
+    if (key === 'place') { const cur = s.carSel.place != null ? s.carSel.place : PLACES.findIndex((q) => q.id === s.place), i = wrapI(cur + d, PLACES.length), pl = PLACES[i]; s.carSel.place = i; if (placeOpen(s, pl) && pl.id !== s.place) { s.place = pl.id; initPlace(s); save(s); } if (d) vib(8); }
+    else if (key === 'tod') { const i = wrapI(todIdx(s.tod) + d, 4); s.tod = TODS[i][1]; initPlace(s); vib(8); }
+    else { const cur = s.carSel.rod != null ? s.carSel.rod : Math.max(0, RODS.findIndex((r) => r.id === s.rodId)), i = wrapI(cur + d, RODS.length); s.carSel.rod = i; if (rodOpen(s, RODS[i])) { s.rodId = RODS[i].id; save(s); } if (d) vib(8); } }
+  function onUp(e) { if (!H) return; const s = H.s; if (s.carDown) { const p = toL(e), dx = p.x - s.carDown.x, C = s.car && s.car[s.carDown.key], gap = (s.carRects[s.carDown.key].h * 1.5) * .78; if (C) C.pos -= dx / gap; const fl = dx + clamp((s.carDown.lt && performance.now() - s.carDown.lt < 90 ? s.carDown.v || 0 : 0) * 220, -gap * 3, gap * 3), steps = Math.abs(dx) > 28 || Math.abs(fl) > 40 ? -Math.round(fl / gap) || (fl < 0 ? 1 : -1) : p.x < 92 ? -1 : p.x > 268 ? 1 : 0; /* 7.3: con inercia */ carStep(s, s.carDown.key, steps); s.carDown = null; return; } s.holding = false; s.drag = 0; if (s.phase === 'charge') release(s); }
   function resize() {
     if (!H) return; const c = H.container, cw = c.clientWidth || W; H.canvas.style.height = '0px';
     let ch = c.clientHeight; if (ch < 50) ch = (cw * LH) / W; const dpr = Math.min(3, root.devicePixelRatio || 1);

@@ -48,7 +48,7 @@
 .g3-tempo b{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#4CD964;box-shadow:0 0 0 2px #fff;transition:left .08s}
 .g3-tempo span{position:absolute;top:100%;margin-top:2px;font-size:10px;font-weight:600;color:#22324F;text-shadow:0 1px 0 rgba(255,255,255,.8)}.g3-tempo span:first-of-type{left:2px}.g3-tempo span:last-of-type{right:2px}
 .g3-mode{position:absolute;right:12px;top:calc(146px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:11px;padding:4px 9px;cursor:pointer}.g3-mode b{font-weight:600}
-.g3-help{position:absolute;right:12px;top:calc(176px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:13px;font-weight:700;width:30px;height:30px;padding:0;border-radius:15px;cursor:pointer}
+.g3-help{position:absolute;right:12px;top:calc(180px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:13px;font-weight:700;width:30px;height:30px;padding:0;border-radius:15px;cursor:pointer}
 .g3-tut{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(34,50,79,.45);pointer-events:auto;padding:16px}
 .g3-tutbox{background:#fff;border-radius:24px;padding:14px;width:min(92vw,360px);box-shadow:0 6px 0 rgba(34,50,79,.18);display:flex;flex-direction:column;gap:10px;align-items:stretch}
 .g3-tutbox canvas{width:100%;height:auto;aspect-ratio:13/10;border-radius:18px}
@@ -113,7 +113,7 @@
 .g3-lsh{width:min(26vw,110px);height:12px;margin-top:10px;border-radius:50%;background:rgba(20,70,30,.22);animation:g3sh 1.4s ease-in-out infinite;flex:none}@keyframes g3sh{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.72);opacity:.6}}
 
 /* v8: botón de caídas (mapa de colores) */
-.g3-slb{position:absolute;right:12px;top:calc(214px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:11px;padding:4px 9px;cursor:pointer;display:flex;align-items:center;gap:5px}.g3-slb b{font-weight:600}
+.g3-slb{position:absolute;right:12px;top:calc(146px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:11px;padding:4px 9px;cursor:pointer;display:flex;align-items:center;gap:5px}.g3-slb b{font-weight:600}
 .g3-slb .g3-sldot{width:12px;height:12px;border-radius:6px;background:conic-gradient(#7FE38A,#FFD84D,#FF9A3D,#FF5A6E,#7FE38A)}
 .g3-slb.off .g3-sldot{background:#C9D3DF}
 .g3-slb2{position:absolute;right:auto;left:14px;top:14px;font-size:13px;padding:6px 12px;z-index:2}

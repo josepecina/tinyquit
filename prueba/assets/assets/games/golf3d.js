@@ -368,13 +368,14 @@
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
   function shotVel(power, acc, yawExtra) {
     const c = CLUBS[st.club], s = lie();
-    if (c.id === 'putt') { const v = puttSpeed(puttMax() * Math.max(0, power), st.yaw, true), yaw = st.yaw; return { vx: -Math.sin(yaw) * v, vz: -Math.cos(yaw) * v, vy: 0 }; } // 7.3 (F4): el putt va EXACTO por la línea marcada
+    if (c.id === 'putt') { const yaw = st.yaw - (st.puttEx || 0) * 0.055, v = puttSpeed(puttMax() * Math.max(0, power), yaw, true); return { vx: -Math.sin(yaw) * v, vz: -Math.cos(yaw) * v, vy: 0 }; } // 7.3 (F4): el putt va EXACTO por la línea marcada
     const lieK = c.id === 'wedge' && s === 'sand' ? 0.8 : SURF[s].lie, v = c.v * Math.sqrt(Math.max(0, s === 'sand' ? 0.2 + 0.8 * power : power)) * lieK, a = ((c.id === 'wedge' && s === 'sand' ? 60 : c.deg) * Math.PI) / 180, yaw = st.yaw + acc * 0.32 + (yawExtra || 0);
     return { vx: -Math.sin(yaw) * v * Math.cos(a), vz: -Math.cos(yaw) * v * Math.cos(a), vy: v * Math.sin(a) };
   }
   const sideOf = (ex) => ex * ({ driver: 1, wood: 0.9, i5: 0.7, i7: 0.55, i9: 0.4, wedge: 0.22, putt: 0 }[CLUBS[st.club].id]) * 1.2;
   function launch(power, acc, tempo) {
     const c = CLUBS[st.club], b = st.b, s = lie(), jitter = s === 'rough' ? (Math.random() - 0.5) * 0.06 : s === 'sand' ? (Math.random() - 0.5) * 0.05 : 0;
+    { const tz0 = tempo || 0; st.puttEx = c.id === 'putt' ? Math.sign(tz0) * Math.max(0, Math.abs(tz0) - 0.3) : 0; }
     const v = shotVel(power, acc, jitter); b.vx = v.vx; b.vy = v.vy; b.vz = v.vz;
     b.spin = b.spin0 = c.spin * (1 - Math.min(0.5, Math.abs(acc) * 2));
     b.bspin = b.spin0 * (0.12 + 0.88 * Math.pow(Math.min(1, power), 1.5)) * (s === 'rough' ? 0.55 : s === 'sand' ? (c.id === 'wedge' ? 0.85 : 0.6) : 1); // efecto al botar: golpes cortos y desde el rough frenan menos
@@ -533,7 +534,7 @@
   const FS = `precision highp float;
     varying vec3 vW; varying vec3 vN; varying float vD;
     uniform vec4 uGreen; uniform vec2 uTilt; uniform vec4 uBk[6]; uniform vec2 uTee; uniform float uSeaZ; uniform vec2 uCup; uniform float uTime; uniform vec4 uGB[3]; uniform vec3 uFw[6]; uniform float uFwN; uniform vec2 uBurn; uniform float uOB; uniform float uOBL; uniform vec4 uLk[3]; uniform vec4 uIs; uniform vec3 uRv[7]; uniform float uRvN;
-    uniform sampler2D uRough; uniform sampler2D uSand; uniform sampler2D uSlopeTex; uniform vec4 uSlopeBox; uniform float uSlopeOn; uniform vec4 uCliff; uniform vec3 uRock; uniform float uDry; uniform vec3 uFog; uniform float uFogN; uniform float uFogF; uniform vec3 uSun; uniform float uWet; uniform float uHail;
+    uniform sampler2D uRough; uniform sampler2D uSand; uniform sampler2D uSlopeTex; uniform sampler2D uGN; uniform vec4 uGNBox; uniform vec4 uSlopeBox; uniform float uSlopeOn; uniform vec4 uCliff; uniform vec3 uRock; uniform float uDry; uniform vec3 uFog; uniform float uFogN; uniform float uFogF; uniform vec3 uSun; uniform float uWet; uniform float uHail;
     float bkR(vec4 b, float a){ float s = b.x*0.37 + b.y*0.91; return 1.0 + 0.12*sin(2.0*a+s) + 0.08*sin(3.0*a+s*1.7) + 0.05*sin(5.0*a+s*0.6); }
     float bkD(vec4 b, vec2 p){ vec2 d = (p - b.xy) / b.zw; return length(d) / bkR(b, atan(d.y, d.x)); }
     float hs(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -604,7 +605,10 @@
       float dc = length(p - uCup);
       col = mix(col, vec3(1.0), 1.0 - smoothstep(0.062 - aa*0.3, 0.062 + aa*0.3, dc));
       col = mix(col, vec3(0.05,0.08,0.18), 1.0 - smoothstep(0.054 - aa*0.3, 0.054 + aa*0.3, dc));
-      vec3 n = normalize(vN); float l = 0.74 + 0.38 * max(dot(n, uSun), 0.0);
+      vec3 n = normalize(vN);
+      { vec2 gu = (p - uGNBox.xy) / (uGNBox.zw - uGNBox.xy); float ge = smoothstep(0.0, 0.1, min(min(gu.x, 1.0 - gu.x), min(gu.y, 1.0 - gu.y)));
+        if (ge > 0.0) { vec2 q = (texture2D(uGN, gu).rg * 2.0 - 1.0) * 0.25; vec3 ng = vec3(q.x, sqrt(max(0.0, 1.0 - dot(q, q))), q.y); n = normalize(mix(n, ng, ge)); } }
+      float l = 0.74 + 0.38 * max(dot(n, uSun), 0.0);
       col *= l; col *= 1.0 - uWet * 0.14;
       gl_FragColor = vec4(mix(col, uFog, smoothstep(uFogN, uFogF, vD)), 1.0);
     }`;
@@ -969,9 +973,14 @@
       for (let k = 0; k < 260; k++) { const x = rnd() * w, y = rnd() * w, l = 7 + rnd() * 10, dark = rnd() < 0.6; g.strokeStyle = dark ? 'rgb(255,0,0)' : 'rgb(0,255,0)'; g.lineWidth = 2.2; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + 2, y - l * 0.5, x + (rnd() - 0.5) * 6, y - l); g.stroke(); } }, true);
     const sandT = canvasTex(128, 128, (g, w) => { g.fillStyle = '#000'; g.fillRect(0, 0, w, w); for (let k = 0; k < 500; k++) { g.fillStyle = `rgb(${Math.floor(rnd() * 255)},0,0)`; g.fillRect(rnd() * w, rnd() * w, 2, 2); } }, true);
     roughT.encoding = sandT.encoding = THREE.LinearEncoding; roughT.anisotropy = sandT.anisotropy = 8;
+    // 7.3: normales finas del green (cada 15 cm) para que la luz no marque los cuadros de la malla de 1 m
+    const GNp = 3.5, GNx0 = G0.x - G0.rx - GNp, GNx1 = G0.x + G0.rx + GNp, GNz0 = G0.z - G0.rz - GNp, GNz1 = G0.z + G0.rz + GNp, GNW = Math.min(256, Math.ceil((GNx1 - GNx0) / 0.15)), GNH = Math.min(256, Math.ceil((GNz1 - GNz0) / 0.15)), GNd = new Uint8Array(GNW * GNH * 4);
+    for (let j = 0; j < GNH; j++) for (let i = 0; i < GNW; i++) { const x = GNx0 + ((i + 0.5) / GNW) * (GNx1 - GNx0), z = GNz0 + ((j + 0.5) / GNH) * (GNz1 - GNz0), e = 0.12, dx = (h(x + e, z) - h(x - e, z)) / (2 * e), dz = (h(x, z + e) - h(x, z - e)) / (2 * e), L = Math.hypot(dx, 1, dz), o = (j * GNW + i) * 4;
+      GNd[o] = Math.max(0, Math.min(255, Math.round(((-dx / L) * 4 * 0.5 + 0.5) * 255))); GNd[o + 1] = Math.max(0, Math.min(255, Math.round(((-dz / L) * 4 * 0.5 + 0.5) * 255))); GNd[o + 2] = 0; GNd[o + 3] = 255; }
+    const gnT = new THREE.DataTexture(GNd, GNW, GNH, THREE.RGBAFormat); gnT.magFilter = THREE.LinearFilter; gnT.minFilter = THREE.LinearFilter; gnT.generateMipmaps = false; gnT.needsUpdate = true;
     st.slopeHeat = null; const SH = slopeHeat(), slopeT = new THREE.CanvasTexture(SH.c); slopeT.minFilter = THREE.LinearFilter;
     groundMat = new THREE.ShaderMaterial({ vertexShader: VS, fragmentShader: FS, extensions: { derivatives: true }, uniforms: {
-      uSlopeTex: { value: slopeT }, uSlopeBox: { value: new THREE.Vector4(SH.x0, SH.ze, SH.x1, SH.zs) }, uSlopeOn: { value: 0 }, uCliff: { value: new THREE.Vector4(HOLE.land ? 1 : 0, HOLE.ocean ? HOLE.ocean.y : -99, 0, 0) }, uRock: { value: new THREE.Color(HOLE.land ? HOLE.land.rock : '#8E8B84') }, uDry: { value: HOLE.dry || 0 },
+      uGN: { value: gnT }, uGNBox: { value: new THREE.Vector4(GNx0, GNz0, GNx1, GNz1) }, uSlopeTex: { value: slopeT }, uSlopeBox: { value: new THREE.Vector4(SH.x0, SH.ze, SH.x1, SH.zs) }, uSlopeOn: { value: 0 }, uCliff: { value: new THREE.Vector4(HOLE.land ? 1 : 0, HOLE.ocean ? HOLE.ocean.y : -99, 0, 0) }, uRock: { value: new THREE.Color(HOLE.land ? HOLE.land.rock : '#8E8B84') }, uDry: { value: HOLE.dry || 0 },
       uGreen: { value: new THREE.Vector4(G0.x, G0.z, G0.rx, G0.rz) }, uTilt: { value: new THREE.Vector2(G0.tilt[0], G0.tilt[1]) }, uBk: { value: [0, 1, 2, 3, 4, 5].map((i) => { const b = HOLE.bunkers[i]; return b ? new THREE.Vector4(b[0], b[1], b[2], b[3]) : new THREE.Vector4(9999, 9999, 1, 1); }) }, uTee: { value: new THREE.Vector2(HOLE.tee.x, HOLE.tee.z - 0.5) },
       uSeaZ: { value: HOLE.seaZ == null ? -1e5 : HOLE.seaZ }, uCup: { value: new THREE.Vector2(HOLE.cup.x, HOLE.cup.z) }, uTime: { value: 0 }, uGB: { value: [0, 1, 2].map((i) => (GB[i] ? new THREE.Vector4(GB[i][0], GB[i][1], GB[i][2], GB[i][3]) : new THREE.Vector4(0, 0, 0, 1))) }, uFw: { value: [0, 1, 2, 3, 4, 5].map((i) => (HOLE.fair[i] ? new THREE.Vector3(HOLE.fair[i][0], HOLE.fair[i][1], HOLE.fair[i][2]) : new THREE.Vector3())) }, uFwN: { value: HOLE.fair.length }, uBurn: { value: new THREE.Vector2(HOLE.burn ? HOLE.burn.z : 0, HOLE.burn ? HOLE.burn.w : 0) }, uOB: { value: HOLE.ob != null ? HOLE.ob : -1e5 }, uOBL: { value: HOLE.obL != null ? HOLE.obL : -1e5 },
       uLk: { value: [0, 1, 2].map((i) => { const L = (HOLE.lakes || [])[i]; return L ? new THREE.Vector4(L[0], L[1], L[2], L[3]) : new THREE.Vector4(0, 0, 0, 0); }) }, uIs: { value: HOLE.island ? new THREE.Vector4(...HOLE.island) : new THREE.Vector4(0, 0, 0, 0) },
@@ -1105,7 +1114,7 @@
         st.flyT = (st.flyT || 0) + dt;
         const sp = Math.hypot(b.vx, b.vy, b.vz), hv = Math.hypot(b.vx, b.vz) || 1, back = 3 + Math.min(10, sp * 0.22), up = 0.8 + Math.min(3, sp * 0.06);
         const LP = st.landP;
-        if (LP && st.flyT > 0.6 && LP.d > 35) {
+        if (LP && st.flyT > 0.6 + ({ driver: 0.35, wood: 0.3, i5: 0.25, i7: 0.2, i9: 0.15, wedge: 0.1 }[CLUBS[st.club].id] || 0.2) && LP.d > 35) { // 7.3: corta un poco más tarde (más con los palos largos)
           // 7.3 (F4): cámara de TV: a un lado de donde va a caer, mirando la bola que llega (se ve avanzar y caer)
           const ux = LP.ux, uz = LP.uz, tx = LP.x + ux * 16 - uz * 9, tz = LP.z + uz * 16 + ux * 9, ty = Math.max(h(tx, tz) + 4.5, LP.y + 3.5);
           if (!st.tvCut) { st.tvCut = true; camPos.set(tx, ty, tz); camLook.set(b.x, b.y, b.z); } // corte limpio de cámara, como en la tele
@@ -1338,7 +1347,7 @@
   // v8: el green y sus alrededores pintados con mucho detalle (el mapa general se ve borroso al acercar tanto)
   function greenTile() {
     if (st.gTile) return st.gTile;
-    const pad = 9, step = 0.08, x0 = G0.x - G0.rx - pad, x1 = G0.x + G0.rx + pad, za = G0.z - G0.rz - pad, zb = G0.z + G0.rz + pad;
+    const pad = 9, step = 0.11, x0 = G0.x - G0.rx - pad, x1 = G0.x + G0.rx + pad, za = G0.z - G0.rz - pad, zb = G0.z + G0.rz + pad;
     const W2 = Math.ceil((x1 - x0) / step), H2 = Math.ceil((zb - za) / step), c = document.createElement('canvas'); c.width = W2; c.height = H2; const g = c.getContext('2d'), im = g.createImageData(W2, H2);
     for (let j = 0; j < H2; j++) for (let i = 0; i < W2; i++) {
       const x = x0 + (i + 0.5) * step, z = za + (j + 0.5) * step, s2 = surf(x, z);
@@ -1471,13 +1480,13 @@
     // curva del dedo: si el trazo se dobla (el pulgar «engancha» hacia un lado al final), más efecto hacia ese lado
     let dev = 0; const L = Math.hypot(f.x - f.x0, f.y - f.y0) || 1; for (const [px, py] of f.path || []) { const d = ((f.x - f.x0) * (py - f.y0) - (f.y - f.y0) * (px - f.x0)) / L; if (Math.abs(d) > Math.abs(dev)) dev = d; }
     const c = dev / L, exC = Math.abs(c) < 0.06 ? 0 : -Math.sign(c) * Math.min(0.8, (Math.abs(c) - 0.06) * 6), ex = Math.max(-1.3, Math.min(1.3, exA + exC));
-    if (putt) return { power: sw.charge, mult: 1, ratio, ex: 0, v: (up / dt) * 1000 }; // 7.3 (F4): putt preciso, sin azar
+    if (putt) { const exP = Math.sign(deg) * Math.min(1, Math.max(0, Math.abs(deg) - 4) / 16); return { power: sw.charge, mult: 1, ratio, ex: exP, v: (up / dt) * 1000 }; } // 7.3: distancia exacta; si el dedo no sube recto, se abre o se cierra un poco
     return { power: Math.min(1.05, sw.charge * mult), mult, ratio, ex, v: (up / dt) * 1000 };
   }
   function flickShot() {
     const sw = st.swing; if (!sw || !sw.flick || sw.done) return; sw.done = true;
     const r = flickResult(sw), putt = CLUBS[st.club].id === 'putt'; learnFlick(r.v, putt); const bp = project(st.b.x, st.b.y + BALL_R, st.b.z), f = sw.flick;
-    st.flickFx = { pts: putt ? simPutt(r.power).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
+    st.flickFx = { pts: putt ? rollSim(puttSpeed(puttMax() * r.power, st.yaw - r.ex * 0.055, true), st.yaw - r.ex * 0.055, true).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
     const pTxt = r.mult === 1 ? T('¡Lanzamiento perfecto!') : r.mult > 1 ? TF('Muy rápido: +{n} %', { n: Math.round((r.mult - 1) * 100) }) : TF('Flojo: −{n} %', { n: Math.round((1 - r.mult) * 100) });
     const dTxt = r.ex > 0 ? ' · ' + T(putt ? 'se abre' : 'se va a la derecha') : r.ex < 0 ? ' · ' + T(putt ? 'se cierra' : 'se cierra a la izquierda') : '';
     toast(pTxt + dTxt); st.hitQ = Math.max(0, 1 - Math.abs(r.mult - 1) * 3 - Math.abs(r.ex) * 0.45); if (r.mult === 1 && !r.ex) SND.perfect();
@@ -1753,8 +1762,10 @@
   }
   function introText() { const R = st.round; el.g3play.textContent = R ? TF('Jugar · hoyo {a} de {b}', { a: R.i + 1, b: R.list.length }) : T('Jugar el hoyo'); el.g3tag.textContent = T(HOLE.tag); el.g3where.textContent = T(HOLE.where); el.g3title.textContent = T(HOLE.name); el.g3sub.textContent = `${T('Par')} ${HOLE.par} · ${HOLE.len} m · ${T(HOLE.info)}`; el.g3icard.innerHTML = ''; el.g3icard.style.display = 'none'; el.g3other.textContent = T(R ? '‹ Salir al menú' : '‹ Menú'); }
   // cambia de hoyo: mismo motor, otros datos (terreno, árboles, mapa, textos). Vuelve a la vista de inicio.
+  // 7.3: compila los shaders y sube las texturas al cargar el hoyo, para que nada se compile en pleno vuelo (corte de cámara)
+  function warmGL() { try { R.compile(S, cam); S.traverse((o) => { const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : []; for (const m of ms) { for (const k in m) { const v = m[k]; if (v && v.isTexture) R.initTexture(v); } if (m.uniforms) for (const k in m.uniforms) { const v = m.uniforms[k].value; if (v && v.isTexture) R.initTexture(v); } } }); } catch (e) { /* nada */ } }
   function loadHole(i, intro) {
-    HI = i; HOLE = HOLES[i]; derive(); buildScene(); applyWeather(); el.mapImg = null; setTimeout(() => { if (!el.mapImg) el.mapImg = paintMap(720, 1080); }, 400); st.slopePts = null; st.slopeArr = null; st.slopeHeat = null; st.gTile = null; st.pp = null; st.pk = null; st.introShift = 0; st.acK = null; st.infoTxt = null; st.mmZ = null;
+    HI = i; HOLE = HOLES[i]; derive(); buildScene(); applyWeather(); st.slopePts = null; st.slopeArr = null; st.slopeHeat = null; st.gTile = null; el.mapImg = paintMap(720, 1080); greenTile(); slopeHeat(); warmGL(); // 7.3: todo lo pesado se prepara aquí, tapado por la carga (antes se calculaba en pleno vuelo y el juego se congelaba) st.pp = null; st.pk = null; st.introShift = 0; st.acK = null; st.infoTxt = null; st.mmZ = null;
     if (el.g3end) el.g3end.style.display = 'none'; st.strokes = 0; st.swing = null; st.ca = null; newRound(); resetBall(HOLE.tee); yawToCup(); st.club = pickClub(); refreshClubs();
     if (intro) { introText(); el.g3intro.style.display = ''; st.phase = 'intro'; const [p, l] = introCam(); camPos.copy(p); camLook.copy(l); }
   }
@@ -1789,5 +1800,5 @@
     canvas.addEventListener('pointerdown', onDown); window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('pointercancel', onUp);
     requestAnimationFrame(frame);
   }
-  window.TQGolf3D = { mount, again: () => showMenu(), _st: st, _dbg: { step: (dt) => { st.t += dt; for (let i = 0; i < 8; i++) physics(dt / 8); if (st.phase === "sunk") st.sinkT += dt; updateCam(dt); }, cam: () => [camPos.toArray().map((v) => +v.toFixed(2)), camLook.toArray().map((v) => +v.toFixed(2))], physics, resetBall, launch, surf, h, pickClub, yawToCup, cupD, predict, setWeather, newRound, W, HOLE, CLUBS, HOLES, loadHole, setHole: (i) => { HI = i; HOLE = HOLES[i]; derive(); st.trees = []; }, hole: () => HOLE, startCharge, release, tempoOf, simPutt, meshH, aimCam: () => aimCam(), flat: (v) => { FLAT = v; }, renderer: () => R, scene: () => S, camera: () => cam, setCam: (p, l) => { camPos.set(...p); camLook.set(...l); st.paused = true; }, h } };
+  window.TQGolf3D = { mount, again: () => showMenu(), _st: st, _dbg: { prof: () => { const o = {}; let t = performance.now(); st.gTile = null; greenTile(); o.gTile = performance.now() - t; t = performance.now(); st.slopeHeat = null; slopeHeat(); o.heat = performance.now() - t; t = performance.now(); paintMap(720, 1080); o.map = performance.now() - t; t = performance.now(); drawMap(el.g3mini, false); o.draw = performance.now() - t; return o; }, step: (dt) => { st.t += dt; for (let i = 0; i < 8; i++) physics(dt / 8); if (st.phase === "sunk") st.sinkT += dt; updateCam(dt); }, cam: () => [camPos.toArray().map((v) => +v.toFixed(2)), camLook.toArray().map((v) => +v.toFixed(2))], physics, resetBall, launch, surf, h, pickClub, yawToCup, cupD, predict, setWeather, newRound, W, HOLE, CLUBS, HOLES, loadHole, setHole: (i) => { HI = i; HOLE = HOLES[i]; derive(); st.trees = []; }, hole: () => HOLE, startCharge, release, tempoOf, simPutt, meshH, aimCam: () => aimCam(), flat: (v) => { FLAT = v; }, renderer: () => R, scene: () => S, camera: () => cam, setCam: (p, l) => { camPos.set(...p); camLook.set(...l); st.paused = true; }, h } };
 })();

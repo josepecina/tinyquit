@@ -12,6 +12,8 @@ html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-s
 <script>
 (function(){
   var started=false;
+  // 7.3: en la web app el juego va dentro de la app (iframe): el puente con la app es la página de arriba
+  try{ if(!window.TQBridge && window.parent!==window && window.parent.__tqFrameBridge){ var fid=window.frameElement&&window.frameElement.id; window.TQBridge={postMessage:function(m){ try{ window.parent.__tqFrameBridge(fid, m); }catch(e){} }}; } }catch(e){}
   function tell(ev){ try{ if(window.TQBridge&&window.TQBridge.postMessage) window.TQBridge.postMessage(JSON.stringify({ev:ev})); }catch(e){} }
   // La app llama a TQ_START('arco'|'torre'|'rayos') cuando ha puesto los textos (TQ_TR) y el récord (TQ_BEST).
   var load=function(src){return new Promise(function(r){var s=document.createElement('script');s.src=src;s.onload=r;s.onerror=r;document.body.appendChild(s);});};
