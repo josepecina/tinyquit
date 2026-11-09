@@ -458,9 +458,9 @@
     const lift = b.air > 0 ? Math.min(14, b.air * 50) : 0, sink = b.over ? Math.min(1, b.z / P.R) : 0;
     ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(b.x + 1 + lift * 0.6, b.y + 3 + lift, P.R * (1 - sink * 0.3), P.R * 0.7, 0, 0, 7); ctx.fill();
     const r = P.R * (1 + lift / 40) * (1 - sink * 0.25);
-    const sk = root.TQ_BALL; // 7.3: bola de la racha elegida en el armario o en el golf
-    if (sk && sk !== 'clasica' && root.TQBalls) { b.rot = (b.rot || 0) + Math.hypot(b.x - (b.px ?? b.x), b.y - (b.py ?? b.y)) / Math.max(1, r); b.px = b.x; b.py = b.y;
-      ctx.save(); ctx.translate(b.x, b.y - lift); ctx.rotate(b.rot); ctx.drawImage(root.TQBalls.icon(sk, 64), -r, -r, 2 * r, 2 * r); ctx.restore(); }
+    const sk = root.TQ_BALL || 'clasica'; // 7.3: bola de la racha elegida en el menú; todas ruedan de verdad
+    if (root.TQBalls && root.TQBalls.roll) { const dx = b.x - (b.px ?? b.x), dy = b.y - (b.py ?? b.y); b.px = b.x; b.py = b.y; if (!b.rm) b.rm = root.TQBalls.mat(); root.TQBalls.spin(b.rm, dx, dy, Math.max(1, P.R));
+      ctx.drawImage(root.TQBalls.roll(sk, 32, b.rm), b.x - r, b.y - lift - r, 2 * r, 2 * r); }
     else {
     const g = ctx.createRadialGradient(b.x - 2, b.y - lift - 2.5, 0.5, b.x, b.y - lift, r); g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, '#D9E6F5');
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x, b.y - lift, r, 0, 7); ctx.fill();
@@ -487,9 +487,22 @@
     const g = ctx.createLinearGradient(0, b.y, 0, b.y + b.h); g.addColorStop(0, '#7BE88A'); g.addColorStop(1, '#4CD964'); ctx.fillStyle = g; rr(ctx, b.x, b.y + off, b.w, b.h, 18); ctx.fill();
     ctx.fillStyle = COL.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `700 24px ${FD}`; ctx.fillText(label, b.x + b.w / 2, b.y + off + (sub ? 22 : b.h / 2)); if (sub) { ctx.font = `500 12px ${FD}`; ctx.fillText(sub, b.x + b.w / 2, b.y + off + 42); }
   }
+  // 7.3: carrusel de bolas de la racha en el inicio (la tarjeta sube un poco para que quepa)
+  const SY = -34, BALLB = () => { const L = root.TQ_BALLS || [], w = 40, g = L.length > 1 ? (262 - L.length * w) / (L.length - 1) : 0; return L.map((b, k) => ({ b, x: 34 + k * (w + g), y: 488, w, h: 46 })); };
+  function drawBalls(ctx, s) {
+    const BB = BALLB(); if (!BB.length || !root.TQBalls) return; const cur = root.TQ_BALL || 'clasica';
+    ctx.fillStyle = COL.ink; ctx.font = `600 13px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(s.ui.ballMsg || TQT('Tu bola'), W0 / 2, 474);
+    BB.forEach((q) => { const on = q.b.id === cur; ctx.fillStyle = on ? '#2E8B4A' : '#DCE3EC'; rr(ctx, q.x, q.y + 3, q.w, q.h, 12); ctx.fill(); ctx.fillStyle = on ? '#E3F9E6' : '#F0F4F8'; rr(ctx, q.x, q.y, q.w, q.h, 12); ctx.fill();
+      if (on) { ctx.strokeStyle = '#4CD964'; ctx.lineWidth = 2.5; rr(ctx, q.x, q.y, q.w, q.h, 12); ctx.stroke(); }
+      ctx.globalAlpha = q.b.ok ? 1 : 0.4; ctx.drawImage(root.TQBalls.icon(q.b.id, 64), q.x + 8, q.y + (q.b.ok ? 9 : 4), 24, 24); ctx.globalAlpha = 1;
+      if (!q.b.ok) { ctx.fillStyle = '#22324F'; rr(ctx, q.x, q.y + q.h - 14, q.w, 14, 7); ctx.fill(); ctx.fillStyle = '#fff'; ctx.font = `600 9px ${FD}`; ctx.fillText(TQT('Día') + ' ' + q.b.d, q.x + q.w / 2, q.y + q.h - 7); } });
+  }
+  function ballTap(s, p) { const q = BALLB().find((x) => hit(x, p, 2)); if (!q) return false;
+    if (!q.b.ok) { s.ui.ballMsg = TQT('Se consigue con {a} días de racha').replace('{a}', q.b.d); vib('error'); return true; }
+    root.TQ_BALL = q.b.id; s.ui.ballMsg = null; tqSend({ ev: 'ball', id: q.b.id }); vib('tick'); return true; }
   function drawStart(ctx, s) {
-    ctx.fillStyle = 'rgba(34,50,79,.35)'; ctx.fillRect(-60, -60, W0 + 120, H0 + 120);
-    ctx.fillStyle = '#FFFFFF'; rr(ctx, 22, 62, 286, 430, 28); ctx.fill();
+    ctx.fillStyle = 'rgba(34,50,79,.35)'; ctx.fillRect(-60, -60, W0 + 120, H0 + 120); ctx.save(); ctx.translate(0, SY);
+    ctx.fillStyle = '#FFFFFF'; rr(ctx, 22, 62, 286, root.TQ_BALLS ? 496 : 430, 28); ctx.fill();
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillStyle = '#E3F9E6'; rr(ctx, W0 / 2 - 46, 82, 92, 22, 11); ctx.fill(); ctx.fillStyle = '#1F7A34'; ctx.font = `600 11px ${FD}`; ctx.fillText(TQT('MINIJUEGO'), W0 / 2, 93.5);
     ctx.fillStyle = COL.ink; ctx.font = `700 32px ${FD}`; ctx.fillText(TQT('Minigolf'), W0 / 2, 132);
@@ -504,6 +517,7 @@
     ctx.fillStyle = '#F3F7EE'; rr(ctx, 34, 410, 262, 70, 18); ctx.fill();
     ctx.fillStyle = COL.muted; ctx.font = `600 11px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(TQT('TUS RÉCORDS'), W0 / 2, 422);
     const R = recs(); BTNS.forEach((b) => medal(ctx, b.x + b.w / 2, 448, b.n, R[b.n], s.t, false));
+    if (root.TQ_BALLS) drawBalls(ctx, s); ctx.restore();
   }
   function drawOver(ctx, s) {
     if (root.TQBridge) return; // en la app sale la tarjeta de fin de partida de la app (Otra vez · Salir · Compartir)
@@ -538,7 +552,7 @@
   function onDown(e) {
     if (!H) return; e.preventDefault(); const p = toLogical(e), s = H.s;
     try { H.canvas.setPointerCapture(e.pointerId); } catch (err) { /* nada */ }
-    if (s.phase === 'start') { BTNS.forEach((b) => { if (hit(b, p)) s.ui.pressed = b.n; }); return; }
+    if (s.phase === 'start') { const q = { x: p.x, y: p.y - SY }; if (ballTap(s, q)) return; BTNS.forEach((b) => { if (hit(b, q)) s.ui.pressed = b.n; }); return; }
     if (s.phase === 'over') { if (hit(OVER_BTN, p)) s.ui.pressed = 'over'; return; }
     const b = s.b; if (b.moving || b.ride || b.air > 0 || b.sunk) return;
     // se apunta arrastrando desde cualquier sitio: solo cuenta cuánto y hacia dónde mueves el dedo
@@ -547,7 +561,7 @@
   function onMove(e) { if (!H || !H.s.drag) return; const p = toLogical(e); H.s.aim = { x: H.s.drag.x - p.x, y: H.s.drag.y - p.y }; }
   function onUp(e) {
     if (!H) return; const s = H.s, p = toLogical(e), pr = s.ui.pressed; s.ui.pressed = null;
-    if (s.phase === 'start') { const b = BTNS.find((x) => x.n === pr); if (b && hit(b, p, 16)) startPlay(s, b.n); return; }
+    if (s.phase === 'start') { const b = BTNS.find((x) => x.n === pr); if (b && hit(b, { x: p.x, y: p.y - SY }, 16)) startPlay(s, b.n); return; }
     if (s.phase === 'over') { if (pr === 'over' && hit(OVER_BTN, p, 16)) startPlay(s, s.nHoles); return; }
     if (!s.drag) return; const a = s.aim; s.drag = null; s.aim = null;
     const len = Math.hypot(a.x, a.y); if (len < 8) return;

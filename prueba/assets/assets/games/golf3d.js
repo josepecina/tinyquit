@@ -382,7 +382,7 @@
       // rápida y lo centrada que vaya, entra, hace corbata (sale girada; si va muy lenta, hasta media vuelta) o pasa por encima
       const dc = Math.hypot(x - c.x, z - c.z), seed = Math.abs(Math.sin(x * 91.7 + z * 47.3)) % 1;
       if (dc >= CUP_R && dc < CUP_R + BALL_R * 0.6 && !ov) { const k = 1 - (dc - CUP_R) / (BALL_R * 0.6); vx += ((c.x - x) / dc) * 2.4 * k * dt; vz += ((c.z - z) / dc) * 2.4 * k * dt; }
-      if (dc < CUP_R * 0.35 && v > 1.9 && !pin) { pin = true; vx = -vx * 0.25; vz = -vz * 0.25; } // de lleno y muy fuerte: choca con la bandera y vuelve
+      if (dc < CUP_R * 0.4 && v > 1.7 && !pin) { pin = true; st.pinHit = true; const k = 0.5 + seed * 0.15, sd = (seed - 0.5) * 0.9; vx = -vx * k + vz * sd; vz = -vz * k - vx * sd; zc *= 0.2; vzc = -0.25; } // 7.3: de lleno y muy fuerte: choca con el palo, salta y puede salirse // de lleno y muy fuerte: choca con la bandera y vuelve
       if (dc < CUP_R) { if (!ov) { ov = true; zc = 0; vzc = 0; } vzc += G * dt; zc += vzc * dt; if (zc > BALL_R * 0.9) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; } }
       else if (ov) { ov = false;
         if (zc > BALL_R * 0.72) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
@@ -1126,7 +1126,7 @@
     // prueba más cerca y más alto hasta ver las dos cosas (si se puede); encuadra la bola abajo y la bandera arriba.
     const b = st.b, putt = CLUBS[st.club].id === 'putt', base = putt ? 2.2 : 4.6, up = putt ? 0.8 : 0.95, dx = Math.sin(st.yaw), dz = Math.cos(st.yaw), gy = meshH(b.x, b.z), by = gy + BALL_R * 2;
     const key = [b.x.toFixed(2), b.z.toFixed(2), st.yaw.toFixed(3), st.club].join(); if (st.acK === key) return [st.acP.clone(), st.acL.clone()];
-    const cx = HOLE.cup.x, cz = HOLE.cup.z, fy = h(cx, cz) + 1.3, cdx = cx - b.x, cdz = cz - b.z, cdl = Math.hypot(cdx, cdz) || 1, wantFlag = cupD() > 4 && (-dx * cdx - dz * cdz) / cdl > 0.82; // 7.3: solo si apuntas hacia la bandera (si no, la cámara no «tira» hacia el hoyo)
+    const cx = HOLE.cup.x, cz = HOLE.cup.z, fy = h(cx, cz) + 1.3, cdx = cx - b.x, cdz = cz - b.z, cdl = Math.hypot(cdx, cdz) || 1, wantFlag = false && cdl > 0; // 7.3 (Jose, 10 nov): sin «imán»: la cámara de apuntar es siempre la misma, apuntes donde apuntes // 7.3: solo si apuntas hacia la bandera (si no, la cámara no «tira» hacia el hoyo)
     let best = null; const rx = -dz, rz = dx; // derecha de la línea de tiro
     for (const k of [1, 1.35, 0.75, 1.8, 0.55, 2.4]) for (const lat of [0, -1.5, 1.5, -3, 3]) {
       if (best && best.flag && best.cost <= Math.abs(lat) * 0.6 + (k === 1 ? 0 : 1)) continue;
@@ -1186,8 +1186,13 @@
         const ux = st.ru.x, uz = st.ru.z, ax = st.rside === 'ball' ? bx - ux * back : c.x + ux * back, az = st.rside === 'ball' ? bz - uz * back : c.z + uz * back;
         let p = new THREE.Vector3(ax, Math.max(h(bx, bz), cy, h(ax, az)) + up, az), l = new THREE.Vector3(bx + dx * 0.5, (h(bx, bz) + cy) / 2, bz + dz * 0.5);
         if (!b.sunk && b.mode === 'air') { const gb = h(b.x, b.z); l.lerp(new THREE.Vector3(b.x, b.y, b.z), Math.min(0.7, (b.y - gb) * 0.6)); p.y = Math.max(p.y, b.y + 1.2); } // mientras bota, la bola no se sale de la pantalla
-        if (b.sunk) { if (!st.sinkDir) { const ex = camPos.x - c.x, ez = camPos.z - c.z, el = Math.hypot(ex, ez) || 1; st.sinkDir = { x: ex / el, z: ez / el }; } p = new THREE.Vector3(c.x + st.sinkDir.x * 2.4, cy + 1.7, c.z + st.sinkDir.z * 2.4); l = new THREE.Vector3(c.x, cy - 0.02, c.z); } else st.sinkDir = null; // 7.3: plano de tele a ~35°, sin perder el hoyo // 7.3: detrás de la bola, bajito: se la ve caer
-        camPos.lerp(p, 1 - Math.exp(-dt * (b.sunk ? 2.6 : 2.2))); camLook.lerp(l, 1 - Math.exp(-dt * (b.sunk ? 7 : 3))); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
+        { const dcu = Math.hypot(b.x - c.x, b.z - c.z), spd = Math.hypot(b.vx || 0, b.vz || 0), will = b.sunk || (b.mode === 'putt' && b.pt && b.pt.sim.end === 'cup') || (b.mode === 'roll' && dcu < 2 && spd < 1.2 && ((c.x - b.x) * b.vx + (c.z - b.z) * b.vz) / ((dcu * spd) || 1) > 0.9);
+          const kk = b.sunk ? 1 : will ? Math.max(0, Math.min(1, (3.2 - dcu) / 2.6)) : 0;
+          if (kk > 0) { if (!st.sinkDir) { const ex = camPos.x - c.x, ez = camPos.z - c.z, el2 = Math.hypot(ex, ez) || 1; st.sinkDir = { x: ex / el2, z: ez / el2 }; }
+            const e = kk * kk * (3 - 2 * kk), sp2 = new THREE.Vector3(c.x + st.sinkDir.x * 3.1, cy + 2.4, c.z + st.sinkDir.z * 3.1), sl = new THREE.Vector3((c.x + (b.sunk ? c.x : b.x)) / 2, cy - 0.02, (c.z + (b.sunk ? c.z : b.z)) / 2);
+            p.lerp(sp2, e); l.lerp(sl, e); } else if (!b.sunk) st.sinkDir = null; }
+        if (false) { if (!st.sinkDir) { const ex = camPos.x - c.x, ez = camPos.z - c.z, el = Math.hypot(ex, ez) || 1; st.sinkDir = { x: ex / el, z: ez / el }; } p = new THREE.Vector3(c.x + st.sinkDir.x * 2.4, cy + 1.7, c.z + st.sinkDir.z * 2.4); l = new THREE.Vector3(c.x, cy - 0.02, c.z); } else st.sinkDir = null; // 7.3: plano de tele a ~35°, sin perder el hoyo // 7.3: detrás de la bola, bajito: se la ve caer
+        camPos.lerp(p, 1 - Math.exp(-dt * (st.sinkDir ? 3.2 : 2.2))); camLook.lerp(l, 1 - Math.exp(-dt * (st.sinkDir ? 6 : 3))); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
       }
       const gy = h(camPos.x, camPos.z) + 0.4; if (camPos.y < gy) camPos.y = gy;
     }
@@ -1611,7 +1616,8 @@
     if (b.over) by -= b.zc;
     if (b.sunk) { const u = Math.min(1, st.sinkT / 0.6); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
     ball.position.set(bx, by, bz);
-    { const sp = Math.hypot(b.vx || 0, b.vz || 0); if (dt > 0 && sp > 0.01 && !b.sunk && b.mode !== 'air') { const ax = new THREE.Vector3(b.vz / sp, 0, -b.vx / sp); ball.rotateOnWorldAxis(ax, Math.min(0.6, (sp * dt) / BALL_R)); } } // la bola gira al rodar if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
+    { if (st.lbx != null && !b.sunk && b.mode !== 'air') { const ddx = bx - st.lbx, ddz = bz - st.lbz, dd = Math.hypot(ddx, ddz); if (dd > 1e-6 && dd < 0.5) ball.rotateOnWorldAxis(new THREE.Vector3(ddz / dd, 0, -ddx / dd), dd / BALL_R); } st.lbx = bx; st.lbz = bz; } // 7.3: rueda de verdad (por lo que avanza, también en el putt)
+    if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
     const bd = cam.position.distanceTo(ball.position), pxR = (BALL_R / (bd * Math.tan((cam.fov * Math.PI) / 360))) * (Hd / 2), bs = Math.max(1, 3 / Math.max(pxR, 1e-4)); ball.scale.setScalar(bs); st.ballPx = pxR * bs;
     const fk = Math.max(0, camPos.y - h(camPos.x, camPos.z) - 8) * 1.4; groundMat.uniforms.uFogN.value = st.fogN + fk; groundMat.uniforms.uFogF.value = st.fogF + fk;
     if (S.fog) { S.fog.near = st.fogN + fk; S.fog.far = st.fogF + fk + 60; } S.userData.sky.position.copy(cam.position); const pn = S.userData.pano; if (pn) pn.position.set(cam.position.x, cam.position.y + pn.userData.dy, cam.position.z);
@@ -1639,7 +1645,7 @@
       const live = sw.lastUp != null && sw.t - sw.lastUp < 0.15 ? tempoOf(sw.charge, sw.t) : sw.tempo, tp = Math.max(-1.6, Math.min(1.6, live || 0)); el.g3tdot.style.left = 50 + (tp / 1.6) * 46 + '%'; el.g3tdot.style.background = Math.abs(tp) < 0.3 ? '#4CD964' : '#FF8A5A'; }
     if (st.toastT > 0) { st.toastT -= dt; el.g3toast.textContent = st.toast; el.g3toast.style.opacity = Math.min(1, st.toastT * 2); } else el.g3toast.style.opacity = 0;
     if (st.msgT > 0) { st.msgT -= dt; el.g3msg.textContent = st.msg; el.g3msg.style.opacity = Math.min(1, st.msgT * 2); } else el.g3msg.style.opacity = 0;
-    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = 'none'; // 7.3 (Jose, 9 nov): «Caídas» desactivado del todo el.g3help.style.display = st.phase === 'aim' ? '' : 'none';
+    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = 'none'; el.g3help.style.display = st.phase === 'aim' && el.g3mini.style.display !== 'none' ? '' : 'none'; // 7.3: «Caídas» fuera; el «?» solo al apuntar, con el minimapa
     if (Math.floor(st.t * 5) !== st.ambF) { st.ambF = Math.floor(st.t * 5); ambUpdate(st.t); }
     if (Math.floor(st.t * 10) !== st.mapF) { st.mapF = Math.floor(st.t * 10); drawMap(el.g3mini, false); }
   }
@@ -1811,7 +1817,7 @@
       // 7.3: carrusel de bolas (las de la racha; las que aún no tienes, con candado y el día en que se ganan)
       const BL = window.TQ_BALLS || (window.TQBalls ? window.TQBalls.list.map((id) => ({ id, n: id, d: 0, ok: true })) : []), cur = window.TQ_BALL || 'clasica';
       el.g3mbt.textContent = T('Tu bola'); el.g3mbt.style.display = el.g3mballs.style.display = BL.length && window.TQBalls ? '' : 'none';
-      el.g3mballs.innerHTML = BL.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}"><img src="${window.TQBalls ? window.TQBalls.icon(b.id, 96).toDataURL() : ''}" alt=""><span>${b.ok ? T(b.n) : TF('Día {a}', { a: b.d })}</span>${b.ok ? '' : '<i>🔒</i>'}</button>`).join('');
+      el.g3mballs.innerHTML = BL.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}"><img src="${window.TQBalls ? window.TQBalls.icon(b.id, 96).toDataURL() : ''}" alt="">${b.ok ? '' : `<span>${TF('Día {a}', { a: b.d })}</span><i>🔒</i>`}</button>`).join('');
       el.g3mballs.querySelectorAll('button').forEach((bt) => (bt.onclick = (e) => { e.stopPropagation(); const b = BL.find((q) => q.id === bt.dataset.b); if (!b) return;
         if (!b.ok) { el.g3mnote.textContent = TF('Se consigue con {a} días de racha', { a: b.d }); vib3('error'); return; }
         window.TQ_BALL = b.id; setBallSkin(b.id); post({ ev: 'ball', id: b.id }); vib3('tick'); SND.tick(); const sl = el.g3mballs.scrollLeft; menuRefresh(); el.g3mballs.scrollLeft = sl; }));

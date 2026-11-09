@@ -597,7 +597,7 @@ const LEVELS=[
 // ======== Camino · vista, animación, gestos, burbujas y puente con la app ========
 let CFG=window.TQ_CAMINO||{};let TRX=CFG.tr||{};
 function T_(k,d,a){let s=TRX[k]||d;if(a!==undefined)s=s.replace('{a}',a);return s;}
-function send(m){try{if(window.TQBridge)TQBridge.postMessage(m);else if(window.parent&&window.parent.__tqFrameBridge)window.parent.__tqFrameBridge(m);}catch(e){}}
+function send(m){try{if(window.TQBridge)TQBridge.postMessage(m);else if(window.parent&&window.parent.__tqFrameBridge)window.parent.__tqFrameBridge(window.frameElement?window.frameElement.id:'',m);}catch(e){}}
 function defPrizes(){const P=[];const add=(d,k,t,sub,o)=>P.push(Object.assign({d,k,t,sub,id:k+d},o||{}));
  for(let d=14;d<=750;d+=14)add(d,'shield',T_('escudo','Escudo'),T_('escudoSub','Salva tu racha un día malo.'));
  [[45,'1 día'],[95,'2 días'],[165,'3 días'],[235,'4 días'],[310,'5 días'],[380,'6 días'],[455,'1 semana'],[525,'2 semanas'],[595,'1 mes'],[665,'2 semanas'],[710,'1 mes']].forEach(([d,t])=>add(d,'prem',t+' Premium','Todo desbloqueado.',{dur:t}));
@@ -667,12 +667,12 @@ function tinyPos(){let d=TODAY;PRZ.forEach(p=>{if(Math.abs(p.pos-d)<1.3)d=p.pos-
 const pts=new Map();let drag=false,pinch=null,tap=null,lastMove=0;
 cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);vx=vy=0;drag=true;if(pts.size===1)tap={x:e.clientX,y:e.clientY,t:performance.now()};else{tap=null;const a=[...pts.values()];pinch={d:Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),z};}});
 cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId),dx=e.clientX-p[0],dy=e.clientY-p[1];pts.set(e.pointerId,[e.clientX,e.clientY]);
- if(pts.size>=2&&pinch&&MODE==='big'){const a=[...pts.values()],d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),mx=(a[0][0]+a[1][0])/2,my=(a[0][1]+a[1][1])/2;zoomAt(pinch.z*d/pinch.d,mx,my);return;}
+ if(pts.size>=2&&pinch){const a=[...pts.values()],d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),mx=(a[0][0]+a[1][0])/2,my=(a[0][1]+a[1][1])/2;zoomAt(pinch.z*d/pinch.d,mx,my);return;}
  if(tap&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)>8)tap=null;if(MODE==='big'){cx-=dx/z;cy-=dy/z;}else{cx-=dx/z;}const n=performance.now(),dt=Math.max(8,n-lastMove);lastMove=n;vx=dx/z/dt;vy=MODE==='big'?dy/z/dt:0;clamp();});
 const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;if(pts.size===0){drag=false;if(performance.now()-lastMove>80){vx=vy=0;}if(tap&&performance.now()-tap.t<400)onTap(tap.x,tap.y);tap=null;}};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 cv.addEventListener('wheel',e=>{e.preventDefault();if(MODE!=='big')return;if(e.ctrlKey)zoomAt(z*Math.exp(-e.deltaY*.01),e.clientX,e.clientY);else{cy+=e.deltaY/z;clamp();}},{passive:false});
-function zoomAt(nz,sx,sy){nz=Math.max(zb*.65,Math.min(zb*2.6,nz));const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;z=nz;cx=wx-(sx-vw/2)/z;cy=wy-(sy-vh/2)/z;clamp();}
+function zoomAt(nz,sx,sy){nz=MODE==='big'?Math.max(zb*.65,Math.min(zb*2.6,nz)):Math.max(vw/(64*PX),Math.min(vw/(5*PX),nz));const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;z=nz;cx=wx-(sx-vw/2)/z;cy=wy-(sy-vh/2)/z;if(MODE!=='big'&&Math.abs(BS-Math.min(2.5,DPR*z*1.15))>.5){BS=Math.min(2.5,DPR*z*1.15);TILES.clear();SPC.clear();STC.clear();tinyC=null;}clamp();}
 function onTap(sx,sy){if(MODE!=='big'){send('open');return;}const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;let best=null,bd=30;PRZ.forEach(p=>{const d=Math.hypot(p.x-wx,p.y-5-wy);if(d<bd){bd=d;best=p;}});
  if(best){SEL=best;openBubble(best);send('tap:'+best.id);return;}const tq=tinyPos();if(Math.hypot(tq[0]-wx,tq[1]-20-wy)<36){SEL={tiny:1,x:tq[0],y:tq[1]-30};openBubble(SEL);return;}closeBubble();}
 // ---------- burbuja ----------
@@ -694,12 +694,14 @@ document.getElementById('x').onclick=()=>send('close');
 document.querySelectorAll('.chip').forEach(b=>b.onclick=e=>{e.stopPropagation();span=+b.dataset.s;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b));resize();centerToday();send('span:'+span);});
 // ---------- arranque ----------
 let booted=false;
-function boot(){if(booted)return;booted=true;TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
+function boot(){if(booted)return;booted=true;try{boot2();}catch(e){send('err:'+(e&&e.message||e));try{MODE='big';}catch(_){}}send('ready');}
+function boot2(){TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
  document.getElementById('ttl').textContent=T_('titulo','Tu camino');document.getElementById('hoy').textContent=T_('hoy','Hoy');
  document.querySelectorAll('.chip').forEach(c=>{c.textContent=T_('sp'+c.dataset.s,c.textContent);c.classList.toggle('on',+c.dataset.s===span);});
- resize();centerToday();addEventListener('resize',()=>{resize();});requestAnimationFrame(frame);send('ready');}
+ resize();centerToday();addEventListener('resize',()=>{resize();});requestAnimationFrame(frame);}
 
 function go(){if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('700 19px F'),document.fonts.load('900 10px N')]).then(boot,boot);else boot();}
 // En la app: la app llama a CAM_INIT({...}) al cargar. En el navegador sin app: arranca solo con datos de ejemplo.
-window.CAM_INIT=o=>{CFG=Object.assign({},o||{});go();};
+window.CAM_INIT=o=>{if(booted)return;CFG=Object.assign({},o||{});go();};
+send('need');setTimeout(()=>{if(!booted){send('need');setTimeout(()=>{if(!booted)go();},2500);}},1500); // si la app no contesta, arranca igual (con datos de ejemplo)
 if(window.TQ_CAMINO)go();else if(!window.TQBridge&&!(window.parent&&window.parent!==window&&window.parent.__tqFrameBridge))setTimeout(()=>{if(!booted)go();},300);

@@ -31,10 +31,23 @@
       const nx = (x + 0.5 - r) / r, ny = (y + 0.5 - r) / r, d = nx * nx + ny * ny; if (d > 1) continue; const nz = Math.sqrt(1 - d);
       let u = (u0 + Math.atan2(nx, nz) / (2 * Math.PI)) % 1; if (u < 0) u += 1; const v = 0.5 + Math.asin(ny) / Math.PI;
       const ti = (Math.min(255, Math.floor(v * 256)) * 512 + Math.min(511, Math.floor(u * 512))) * 4;
-      const dif = Math.max(0, nx * L[0] + ny * L[1] + nz * L[2]), sh = 0.5 + 0.62 * dif, sp = Math.pow(Math.max(0, 2 * dif * nz - L[2]), 24) * 120;
+      const sh = 1, sp = 0; // 7.3 (Jose): plana, sin brillo ni sombra (estilo del golf y el minigolf)
       const o = (y * px + x) * 4; im.data[o] = Math.min(255, td[ti] * sh + sp); im.data[o + 1] = Math.min(255, td[ti + 1] * sh + sp); im.data[o + 2] = Math.min(255, td[ti + 2] * sh + sp);
       im.data[o + 3] = Math.max(0, Math.min(255, (1 - Math.sqrt(d)) * r * 1.6 * 255)); }
     g.putImageData(im, 0, 0); cache[k] = c; return c;
   }
-  root.TQBalls = { skin: ballSkin, icon, list: ['clasica', 'futbol', 'espana', 'arcoiris', 'galaxia', 'tiny'] };
+  // 7.3: bola que rueda de verdad en el minigolf (vista desde arriba): matriz de giro y dibujo por píxeles (32 px, muy barato)
+  const TEX = {}, RC = {};
+  function texOf(skin) { if (!TEX[skin]) { const T = document.createElement('canvas'); T.width = 256; T.height = 128; const g = T.getContext('2d'); g.scale(0.5, 0.5); ballSkin(g, 512, 256, skin); TEX[skin] = g.getImageData(0, 0, 256, 128).data; } return TEX[skin]; }
+  const mat = () => [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  function spin(m, dx, dy, r) { const d = Math.hypot(dx, dy); if (d < 1e-4 || d > r * 6) return; const ax = -dy / d, ay = dx / d, a = d / r, c = Math.cos(a), s = Math.sin(a), t = 1 - c;
+    const Rm = [t * ax * ax + c, t * ax * ay, s * ay, t * ax * ay, t * ay * ay + c, -s * ax, -s * ay, s * ax, c], o = m.slice();
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) m[i * 3 + j] = Rm[i * 3] * o[j] + Rm[i * 3 + 1] * o[3 + j] + Rm[i * 3 + 2] * o[6 + j]; }
+  function roll(skin, px, m) { let c = RC[px]; if (!c) { c = RC[px] = document.createElement('canvas'); c.width = c.height = px; } const g = c.getContext('2d'), im = g.createImageData(px, px), td = texOf(skin), r = px / 2;
+    for (let y = 0; y < px; y++) for (let x = 0; x < px; x++) { const nx = (x + 0.5 - r) / r, ny = (y + 0.5 - r) / r, d = nx * nx + ny * ny; if (d > 1) continue; const nz = Math.sqrt(1 - d);
+      const qx = m[0] * nx + m[3] * ny + m[6] * nz, qy = m[1] * nx + m[4] * ny + m[7] * nz, qz = m[2] * nx + m[5] * ny + m[8] * nz;
+      let u = 0.5 + Math.atan2(qx, qz) / (2 * Math.PI); const v = 0.5 + Math.asin(Math.max(-1, Math.min(1, qy))) / Math.PI; const ti = (Math.min(127, Math.floor(v * 128)) * 256 + Math.min(255, Math.floor(u * 256))) * 4, o = (y * px + x) * 4;
+      const e = d > 0.82 ? 0.88 : 1; im.data[o] = td[ti] * e; im.data[o + 1] = td[ti + 1] * e; im.data[o + 2] = td[ti + 2] * e; im.data[o + 3] = Math.max(0, Math.min(255, (1 - Math.sqrt(d)) * r * 2 * 255)); }
+    g.putImageData(im, 0, 0); return c; }
+  root.TQBalls = { skin: ballSkin, icon, mat, spin, roll, list: ['clasica', 'futbol', 'espana', 'arcoiris', 'galaxia', 'tiny'] };
 })(window);

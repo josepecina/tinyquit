@@ -153,8 +153,8 @@
 .g3-mballs-t{font-size:15px;font-weight:700;margin:12px 2px 0}
 .g3-mballs{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px 4px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .g3-mballs::-webkit-scrollbar{display:none}
-.g3-mballs button{flex:none;scroll-snap-align:center;width:76px;border:0;background:#F0F4F8;border-radius:18px;padding:8px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;color:#22324F;box-shadow:0 4px 0 #DCE3EC;position:relative;cursor:pointer}
-.g3-mballs button img{width:46px;height:46px;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
-.g3-mballs button span{font-size:11px;font-weight:600;line-height:1.1;text-align:center}
+.g3-mballs button{flex:none;scroll-snap-align:center;width:72px;min-height:72px;justify-content:center;border:0;background:#F0F4F8;border-radius:18px;padding:8px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;color:#22324F;box-shadow:0 4px 0 #DCE3EC;position:relative;cursor:pointer}
+.g3-mballs button img{width:46px;height:46px}
+.g3-mballs button span{position:absolute;left:0;right:0;bottom:0;padding:3px 0;border-radius:0 0 18px 18px;background:#22324F;color:#fff;font-size:10.5px;font-weight:600;text-align:center}.g3-mballs button.lock{padding-bottom:22px}
 .g3-mballs button.on{background:#E3F9E6;box-shadow:0 0 0 3px #4CD964,0 4px 0 #2E8B4A}
 .g3-mballs button.lock img{filter:grayscale(1) opacity(.45)}.g3-mballs button.lock i{position:absolute;top:5px;right:7px;font-style:normal;font-size:13px}
