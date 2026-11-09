@@ -372,13 +372,20 @@
   // y la bola lo sigue exactamente. Si el gesto no es perfecto, se simula otra vez con el error (más largo/corto, más a un lado).
   const puttV0 = (charge) => Math.sqrt(2 * puttDec() * puttMax() * Math.max(0, charge));
   function puttSim(v0, yaw) {
-    const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
+    st.pinHit = false; const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
     for (let i = 0; i < 2400; i++) {
       const s2 = surf(x, z); if (s2 === 'sea' || s2 === 'ob') { end = s2; break; }
       const f = SURF[s2].f * Wk.fric, n = normalAt(x, z), ax = G * n.x * n.y * GREEN_SLOPE, az = G * n.z * n.y * GREEN_SLOPE, sp = Math.hypot(vx, vz);
       vx += ax * dt; vz += az * dt; if (sp > 1e-4) { const fr = Math.min(sp, f * dt); vx -= (vx / sp) * fr; vz -= (vz / sp) * fr; }
       x += vx * dt; z += vz * dt; pts.push({ x, z }); const v = Math.hypot(vx, vz);
-      if (Math.hypot(x - c.x, z - c.z) < CUP_R * 0.92 && v < 1.5) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
+      const dc = Math.hypot(x - c.x, z - c.z);
+      if (dc < CUP_R * 0.92 && v < 1.5) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
+      if (dc < CUP_R * 0.7 && v >= 1.5 && !st.pinHit) { // 7.3: rápida contra la bandera: según lo centrada que vaya, entra, rebota o sale de lado
+        st.pinHit = true; const ux = vx / v, uz = vz / v, off = (x - c.x) * uz - (z - c.z) * ux; // lado (+/−) respecto al centro
+        if (Math.abs(off) < 0.012 && v < 2.6) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; } // de lleno y no muy fuerte: dentro
+        if (Math.abs(off) < 0.012) { vx = -vx * 0.28; vz = -vz * 0.28; } // de lleno y fuerte: rebota hacia atrás
+        else { const a = Math.sign(off) * Math.min(0.9, Math.abs(off) * 22), cs = Math.cos(a), sn = Math.sin(a); const nvx = (vx * cs - vz * sn) * 0.72, nvz = (vx * sn + vz * cs) * 0.72; vx = nvx; vz = nvz; } // de lado: se tuerce y sigue
+      }
       if (v < 0.02 && Math.hypot(ax, az) < f) break;
     }
     if (end === 'rest') { const L = pts[pts.length - 1]; if (Math.hypot(L.x - c.x, L.z - c.z) < CUP_R + 0.012) end = 'cup'; }
@@ -1160,8 +1167,8 @@
         const ux = st.ru.x, uz = st.ru.z, ax = st.rside === 'ball' ? bx - ux * back : c.x + ux * back, az = st.rside === 'ball' ? bz - uz * back : c.z + uz * back;
         let p = new THREE.Vector3(ax, Math.max(h(bx, bz), cy, h(ax, az)) + up, az), l = new THREE.Vector3(bx + dx * 0.5, (h(bx, bz) + cy) / 2, bz + dz * 0.5);
         if (!b.sunk && b.mode === 'air') { const gb = h(b.x, b.z); l.lerp(new THREE.Vector3(b.x, b.y, b.z), Math.min(0.7, (b.y - gb) * 0.6)); p.y = Math.max(p.y, b.y + 1.2); } // mientras bota, la bola no se sale de la pantalla
-        if (b.sunk) { p = new THREE.Vector3(c.x - 1.6, cy + 0.9, c.z + 1.4); l = new THREE.Vector3(c.x, cy, c.z); }
-        camPos.lerp(p, 1 - Math.exp(-dt * 2.2)); camLook.lerp(l, 1 - Math.exp(-dt * 3)); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
+        if (b.sunk) { const sf = b.sinkFrom || { x: c.x + 1, z: c.z }, ddx = c.x - sf.x, ddz = c.z - sf.z, dd = Math.hypot(ddx, ddz) || 1; p = new THREE.Vector3(c.x - (ddx / dd) * 1.1 + (ddz / dd) * 0.35, cy + 0.55, c.z - (ddz / dd) * 1.1 - (ddx / dd) * 0.35); l = new THREE.Vector3(c.x, cy - 0.03, c.z); } // 7.3: detrás de la bola, bajito: se la ve caer
+        camPos.lerp(p, 1 - Math.exp(-dt * (b.sunk ? 6 : 2.2))); camLook.lerp(l, 1 - Math.exp(-dt * (b.sunk ? 9 : 3))); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
       }
       const gy = h(camPos.x, camPos.z) + 0.4; if (camPos.y < gy) camPos.y = gy;
     }
@@ -1520,8 +1527,8 @@
     let dev = 0; const L = Math.hypot(f.x - f.x0, f.y - f.y0) || 1; for (const [px, py] of f.path || []) { const d = ((f.x - f.x0) * (py - f.y0) - (f.y - f.y0) * (px - f.x0)) / L; if (Math.abs(d) > Math.abs(dev)) dev = d; }
     const c = dev / L, exC = Math.abs(c) < 0.06 ? 0 : -Math.sign(c) * Math.min(0.8, (Math.abs(c) - 0.06) * 6), ex = Math.max(-1.3, Math.min(1.3, exA + exC));
     if (putt) { // 7.3: putt mucho más sensible: casi recto (±1,5°) y a tu ritmo (±7 %) = perfecto; si no, se nota poco a poco
-      const dA = Math.abs(deg) <= 1.5 ? 0 : Math.sign(deg) * (Math.abs(deg) - 1.5), yawErr = Math.max(-0.3, Math.min(0.3, (dA * Math.PI / 180) * 0.45));
-      const r1 = ratio - 1, pe = Math.abs(r1) < 0.07 ? 0 : Math.sign(r1) * (Math.abs(r1) - 0.07), mP = Math.max(0.55, Math.min(1.6, 1 + pe * 0.6));
+      const dA = Math.abs(deg) <= 1 ? 0 : Math.sign(deg) * (Math.abs(deg) - 1), yawErr = Math.max(-0.35, Math.min(0.35, (dA * Math.PI / 180) * 0.6));
+      const r1 = ratio - 1, pe = Math.abs(r1) < 0.05 ? 0 : Math.sign(r1) * (Math.abs(r1) - 0.05), mP = Math.max(0.5, Math.min(1.8, 1 + pe * 0.8));
       return { power: sw.charge, mult: mP, ratio, ex: yawErr ? Math.sign(yawErr) : 0, yawErr, v: (up / dt) * 1000 }; }
     return { power: Math.min(1.05, sw.charge * mult), mult, ratio, ex, v: (up / dt) * 1000 };
   }
@@ -1543,7 +1550,7 @@
       // ¿apuntas o tiras? cuenta el último tramo del movimiento: si va hacia abajo más de 16 px seguidos, empieza a cargar desde ahí
       const mx = e.clientX - (d.px ?? d.x), my = e.clientY - (d.py ?? d.y); d.px = e.clientX; d.py = e.clientY;
       d.run = my > Math.abs(mx) ? (d.run || 0) + my : Math.max(0, (d.run || 0) - Math.abs(mx) - Math.max(0, -my));
-      if (d.run > 16) { startCharge(e.clientY - d.run); d.x = e.clientX; d.yaw = st.yaw; } else st.yaw -= mx * 0.0028;
+      if (d.run > 16) { startCharge(e.clientY - d.run); d.x = e.clientX; d.yaw = st.yaw; } else st.yaw -= mx * (CLUBS[st.club].id === 'putt' ? 0.0011 : 0.0028); // 7.3: en el green, apuntar más fino
     }
     if (st.phase === 'swing' && st.swing && !st.swing.done && st.mode === 'lanzar') {
       const sw = st.swing, now = e.timeStamp || performance.now();
@@ -1554,7 +1561,7 @@
       const old = sw.samples.find((q, i) => now - q[0] <= 80 && i < sw.samples.length - 1) || sw.samples[sw.samples.length - 2], vUp = old ? ((old[2] - e.clientY) / Math.max(8, now - old[0])) * 1000 : 0;
       if (vUp > 350 && old[2] - e.clientY > 18) { const low = sw.samples.reduce((a, q) => (q[2] > a[2] ? q : a)); if (low[3] > 0.04) { sw.charge = low[3]; st.yaw = low[4]; sw.flick = { x0: low[1], y0: low[2], t0: low[0], x: e.clientX, y: e.clientY, t: now }; SND.tick(); return; } }
       // despacio: la carga sigue al dedo (abajo más, arriba menos) y a los lados corriges la dirección
-      sw.charge = Math.max(0, Math.min(1, (e.clientY - sw.y0) / sw.maxPull)); st.yaw = d.yaw - (e.clientX - d.x) * 0.0028;
+      sw.charge = Math.max(0, Math.min(1, (e.clientY - sw.y0) / sw.maxPull)); st.yaw = d.yaw - (e.clientX - d.x) * (CLUBS[st.club].id === 'putt' ? 0.0011 : 0.0028);
       return;
     }
     if (st.phase === 'swing' && st.swing && !st.swing.done) { const sw = st.swing, c0 = sw.charge; sw.charge = Math.max(0, Math.min(1, (e.clientY - sw.y0) / (host.clientHeight * 0.3))); sw.hist.push([sw.t, sw.charge]); if (sw.charge > c0 + 0.004) { sw.lastUp = sw.t; sw.tempo = tempoOf(sw.charge, sw.t); } st.yaw = d.yaw - (e.clientX - d.x) * 0.0028; }
@@ -1583,7 +1590,7 @@
     groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
     let bx = b.x, by = (b.mode === 'air' ? Math.max(b.y, meshH(b.x, b.z)) : meshH(b.x, b.z)) + BALL_R, bz = b.z; // a ras del suelo dibujado
     if (b.over) by -= b.zc;
-    if (b.sunk) { const u = Math.min(1, st.sinkT / 0.3); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
+    if (b.sunk) { const u = Math.min(1, st.sinkT / 0.6); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
     ball.position.set(bx, by, bz);
     { const sp = Math.hypot(b.vx || 0, b.vz || 0); if (dt > 0 && sp > 0.01 && !b.sunk && b.mode !== 'air') { const ax = new THREE.Vector3(b.vz / sp, 0, -b.vx / sp); ball.rotateOnWorldAxis(ax, Math.min(0.6, (sp * dt) / BALL_R)); } } // la bola gira al rodar if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
     const bd = cam.position.distanceTo(ball.position), pxR = (BALL_R / (bd * Math.tan((cam.fov * Math.PI) / 360))) * (Hd / 2), bs = Math.max(1, 3 / Math.max(pxR, 1e-4)); ball.scale.setScalar(bs); st.ballPx = pxR * bs;
