@@ -368,11 +368,26 @@
   // 7.3 (Jose): el putt va recto por la línea que marcas y se para justo donde marca la carga (haya caídas o no).
   // Si lo clavas, va justo ahí; si el dedo se tuerce o vas fuerte/flojo, se va un poco por ese lado (es sensible).
   const puttDec = () => Math.max(0.3, SURF.green.f * WEATHERS[W.kind].fric);
-  function puttLine(L, yaw) { const b = st.b, ux = -Math.sin(yaw), uz = -Math.cos(yaw), n = Math.max(2, Math.ceil(L / 0.25)), pts = []; for (let i = 0; i <= n; i++) pts.push({ x: b.x + ux * (L * i) / n, z: b.z + uz * (L * i) / n }); return pts; }
+  // 7.3 v3 (Jose 9 nov): el putt se simula UNA vez con las caídas y baches del green; la línea que ves es ese camino
+  // y la bola lo sigue exactamente. Si el gesto no es perfecto, se simula otra vez con el error (más largo/corto, más a un lado).
+  const puttV0 = (charge) => Math.sqrt(2 * puttDec() * puttMax() * Math.max(0, charge));
+  function puttSim(v0, yaw) {
+    const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
+    for (let i = 0; i < 2400; i++) {
+      const s2 = surf(x, z); if (s2 === 'sea' || s2 === 'ob') { end = s2; break; }
+      const f = SURF[s2].f * Wk.fric, n = normalAt(x, z), ax = G * n.x * n.y * GREEN_SLOPE, az = G * n.z * n.y * GREEN_SLOPE, sp = Math.hypot(vx, vz);
+      vx += ax * dt; vz += az * dt; if (sp > 1e-4) { const fr = Math.min(sp, f * dt); vx -= (vx / sp) * fr; vz -= (vz / sp) * fr; }
+      x += vx * dt; z += vz * dt; pts.push({ x, z }); const v = Math.hypot(vx, vz);
+      if (Math.hypot(x - c.x, z - c.z) < CUP_R * 0.92 && v < 1.5) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
+      if (v < 0.02 && Math.hypot(ax, az) < f) break;
+    }
+    if (end === 'rest') { const L = pts[pts.length - 1]; if (Math.hypot(L.x - c.x, L.z - c.z) < CUP_R + 0.012) end = 'cup'; }
+    return { pts, end };
+  }
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
   function shotVel(power, acc, yawExtra) {
     const c = CLUBS[st.club], s = lie();
-    if (c.id === 'putt') { const P = st.puttShot || { L: puttMax() * Math.max(0, power), yaw: st.yaw }, v = Math.sqrt(2 * puttDec() * P.L); return { vx: -Math.sin(P.yaw) * v, vz: -Math.cos(P.yaw) * v, vy: 0 }; } // 7.3: putt por la línea marcada, distancia exacta
+    if (c.id === 'putt') { const P = st.puttShot || { v0: puttV0(power), yaw: st.yaw }; return { vx: -Math.sin(P.yaw) * P.v0, vz: -Math.cos(P.yaw) * P.v0, vy: 0 }; } // 7.3: putt por la línea marcada, distancia exacta
     const lieK = c.id === 'wedge' && s === 'sand' ? 0.8 : SURF[s].lie, v = c.v * Math.sqrt(Math.max(0, s === 'sand' ? 0.2 + 0.8 * power : power)) * lieK, a = ((c.id === 'wedge' && s === 'sand' ? 60 : c.deg) * Math.PI) / 180, yaw = st.yaw + acc * 0.32 + (yawExtra || 0);
     return { vx: -Math.sin(yaw) * v * Math.cos(a), vz: -Math.cos(yaw) * v * Math.cos(a), vy: v * Math.sin(a) };
   }
@@ -389,7 +404,7 @@
     b.side = sideOf(ex);
     if (false && c.id === 'putt' && ex) { const yaw = 0.025 * ex, cs = Math.cos(yaw), sn = Math.sin(yaw), vx = b.vx; b.vx = vx * cs - b.vz * sn; b.vz = vx * sn + b.vz * cs; } // putt: se abre o se cierra
     b.mode = c.id === 'putt' ? 'putt' : 'air'; if (b.mode === 'air') b.y += 0.01;
-    if (b.mode === 'putt') { const P = st.puttShot || { L: puttMax() * Math.max(0, power), yaw: st.yaw }; b.pt = { x0: b.x, z0: b.z, ux: -Math.sin(P.yaw), uz: -Math.cos(P.yaw), L: P.L, s: 0, v: Math.sqrt(2 * puttDec() * P.L), a: puttDec() }; st.puttShot = null; }
+    if (b.mode === 'putt') { const P = st.puttShot || { v0: puttV0(power), yaw: st.yaw }; b.pt = { sim: P.sim || puttSim(P.v0, P.yaw), t: 0 }; st.puttShot = null; }
     st.flyT = 0; st.landP = null; st.tvCut = false;
     if (b.mode === 'air') { const q = { x: b.x, y: b.y, z: b.z, vx: b.vx, vy: b.vy, vz: b.vz, spin: b.spin, side: b.side, noWind: b.noWind }; for (let i = 0; i < 2400; i++) { airStep(q, 1 / 120); if (i > 4 && q.y <= h(q.x, q.z)) break; }
       const dx = q.x - b.x, dz = q.z - b.z, d = Math.hypot(dx, dz) || 1; st.landP = { x: q.x, z: q.z, y: h(q.x, q.z), ux: dx / d, uz: dz / d, d }; }
@@ -422,14 +437,11 @@
         if (Math.abs(out.y) < 0.45 || (s === 'sand' && n.y > 0.8)) { b.mode = 'roll'; b.vy = 0; b.skidT = 0.45; }
       }
       st.path.push({ x: b.x, y: b.y, z: b.z });
-    } else if (b.mode === 'putt') { // 7.3: putt por la línea marcada; frena siempre igual y se para donde marcaba
-      const P = b.pt; P.v = Math.max(0, P.v - P.a * dt); P.s = Math.min(P.L, P.s + P.v * dt);
-      b.x = P.x0 + P.ux * P.s; b.z = P.z0 + P.uz * P.s; b.vx = P.ux * P.v; b.vz = P.uz * P.v; b.y = h(b.x, b.z); st.landed = true; st.lastDry = { x: b.x, z: b.z };
-      const s = surf(b.x, b.z); if (s === 'sea' || s === 'ob') return water(s);
-      if (s !== 'green' && s !== 'ante' && s !== 'fair' && s !== 'tee') { b.mode = 'roll'; b.skidT = 0; return; } // sale del green: sigue rodando normal
-      const c = HOLE.cup, d = Math.hypot(b.x - c.x, b.z - c.z);
-      if (d < CUP_R * 0.92 && P.v < 1.5) return sink(); // entra (si no va disparada)
-      if (P.v <= 0 || P.s >= P.L) { if (d < CUP_R + 0.012) return sink(); b.vx = b.vz = 0; b.mode = 'rest'; afterShot(); }
+    } else if (b.mode === 'putt') { // 7.3 v3: la bola recorre exactamente el camino simulado (el de la línea)
+      const P = b.pt, pts = P.sim.pts; P.t += dt; const fi = P.t * 120, i = Math.floor(fi);
+      if (i >= pts.length - 1) { const L = pts[pts.length - 1]; b.x = L.x; b.z = L.z; b.y = h(b.x, b.z); b.vx = b.vz = 0;
+        if (P.sim.end === 'cup') return sink(); if (P.sim.end === 'sea' || P.sim.end === 'ob') return water(P.sim.end); b.mode = 'rest'; afterShot(); return; }
+      const A = pts[i], B = pts[i + 1], u = fi - i; b.x = A.x + (B.x - A.x) * u; b.z = A.z + (B.z - A.z) * u; b.vx = (B.x - A.x) * 120; b.vz = (B.z - A.z) * 120; b.y = h(b.x, b.z); st.landed = true; st.lastDry = { x: b.x, z: b.z };
     } else if (b.mode === 'roll') {
       const s = surf(b.x, b.z); if (s === 'sea' || s === 'ob') return water(s);
       if (b.skidT > 0) b.skidT -= dt;
@@ -1055,10 +1067,11 @@
     flagMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.48, 14, 4), new THREE.MeshLambertMaterial({ map: canvasTex(128, 84, flagDraw(HOLE.flag)), side: THREE.DoubleSide })); flagMesh.geometry.translate(0.375, 0, 0); flagMesh.position.set(HOLE.cup.x, gy + 1.95, HOLE.cup.z); S.add(flagMesh);
     S.add(new THREE.HemisphereLight(0xffffff, 0x8fb88f, 0.72)); sunLight = new THREE.DirectionalLight(0xfff4dc, 0.78); sunLight.position.set(-60, 90, 50); S.add(sunLight);
     const dimp = canvasTex(512, 256, (g, w, hh) => { g.fillStyle = '#FBFBFA'; g.fillRect(0, 0, w, hh); // 7.3: hoyuelos de verdad (muchos, pequeños, con sombra y brillo)
-      for (let j = 0; j < 30; j++) { const lat = ((j + 0.5) / 30 - 0.5) * Math.PI, nI = Math.max(6, Math.round(64 * Math.cos(lat))), y = (j + 0.5) * (hh / 30), r = 2.9;
+      for (let j = 0; j < 16; j++) { const lat = ((j + 0.5) / 16 - 0.5) * Math.PI, nI = Math.max(5, Math.round(34 * Math.cos(lat))), y = (j + 0.5) * (hh / 16), r = 5.6;
         for (let i = 0; i < nI; i++) { const x = ((i + (j % 2) * 0.5) / nI) * w, sx = Math.min(3, 1 / Math.max(0.2, Math.cos(lat)));
-          g.save(); g.translate(x, y); g.scale(sx, 1); const gr = g.createRadialGradient(-0.7, -0.7, 0.2, 0, 0, r); gr.addColorStop(0, 'rgba(150,158,170,.55)'); gr.addColorStop(0.7, 'rgba(196,202,210,.35)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
-          g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.arc(0.9, 0.9, 0.9, 0, 7); g.fill(); g.restore(); } } }, true); // hoyuelos
+          g.save(); g.translate(x, y); g.scale(sx, 1); const gr = g.createRadialGradient(-0.7, -0.7, 0.2, 0, 0, r); gr.addColorStop(0, 'rgba(120,130,146,.75)'); gr.addColorStop(0.7, 'rgba(176,184,196,.5)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+          g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.9)'; g.beginPath(); g.arc(1.6, 1.6, 1.6, 0, 7); g.fill(); g.restore(); } }
+      g.fillStyle = '#2E7BE6'; g.fillRect(0, hh / 2 - 4, w * 0.3, 8); g.fillStyle = '#FF5A6E'; g.beginPath(); g.arc(w * 0.62, hh / 2, 9, 0, 7); g.fill(); }, true); // hoyuelos + línea de puntería azul y punto rojo (se ve girar)
     ball = new THREE.Mesh(new THREE.SphereGeometry(BALL_R, 32, 20), new THREE.MeshPhongMaterial({ map: dimp, bumpMap: dimp, bumpScale: 0.0006, color: 0xffffff, emissive: 0x2e2e2e, shininess: 60, specular: 0x8a8a8a })); S.add(ball);
     ballShadow = new THREE.Mesh(new THREE.CircleGeometry(BALL_R * 1.15, 18), new THREE.MeshBasicMaterial({ color: 0x1e5a2a, transparent: true, opacity: 0.35, depthWrite: false })); ballShadow.rotation.x = -Math.PI / 2; S.add(ballShadow);
     if (!cam) cam = new THREE.PerspectiveCamera(42, 1, 0.15, 2600);
@@ -1210,8 +1223,9 @@
     sink: () => { tone(520, 420, 0.07, 0.4); tone(470, 380, 0.07, 0.3, 0.08); tone(430, 350, 0.09, 0.22, 0.15); [523, 659, 784].forEach((f, i) => tone(f, f, 0.32, 0.22, 0.32 + i * 0.1)); },
     // aplausos del público (birdie o mejor más fuertes)
     clap: (k) => { const n = Math.round(40 + k * 60); for (let i = 0; i < n; i++) { const d = 0.35 + Math.random() * (1.6 + k) * (Math.random() < 0.7 ? 0.6 : 1); burst(0.012, (0.05 + Math.random() * 0.05) * (0.6 + k * 0.6) * Math.max(0.2, 1 - (d - 0.35) / (2 + k)), 'bandpass', 1300 + Math.random() * 1400, 1.2, d); } },
-  };  const vib3 = (p) => { try { if (window.TQBridge) post({ ev: 'vib', p }); else if (navigator.vibrate) navigator.vibrate(p); } catch (e) { /* sin vibración */ } };
-  { const VB = { club: 35, land: 15, lip: 25, water: [60, 40, 60], sink: [30, 40, 90], perfect: [20, 30, 40], splash: 40, leaf: 10 }; Object.keys(SND).forEach((k) => { const f = SND[k]; SND[k] = (...a) => { if (VB[k]) vib3(VB[k]); return f(...a); }; }); }
+  };  const VMS = { hit: 35, hitsoft: 25, putt: 12, land: 15, lip: 25, error: [60, 40, 60], sink: [30, 40, 90], success: [20, 30, 40], thud: 40, tick: 10 };
+  const vib3 = (p) => { try { if (window.TQBridge) post({ ev: 'vib', p }); else if (navigator.vibrate) navigator.vibrate(VMS[p] || p); } catch (e) { /* sin vibración */ } }; // 7.3: vibración háptica con nombre (la app elige la textura)
+  { const VB = { club: (a) => (a[0] === 'putt' ? 'putt' : a[2] > 0.7 ? 'hit' : 'hitsoft'), land: 'land', lip: 'lip', water: 'error', sink: 'sink', perfect: 'success', splash: 'thud', leaf: 'tick' }; Object.keys(SND).forEach((k) => { const f = SND[k]; SND[k] = (...a) => { const v = VB[k]; if (v) vib3(typeof v === 'function' ? v(a) : v); return f(...a); }; }); }
 
   /* ------------------------------------------------------------------ 9. interfaz */
   let ui, el = {}, fx, fxg;
@@ -1422,9 +1436,9 @@
       g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = 2.5 * u; g.setLineDash([5 * u, 5 * u]); g.beginPath(); pts.forEach((p, i) => { const q = P(p.x, p.z); i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); }); g.stroke(); g.setLineDash([]);
       const q = P(L.x, L.z); g.strokeStyle = '#FFFFFF'; g.lineWidth = 2.5 * u; g.beginPath(); g.arc(q[0], q[1], 9 * u, 0, 7); g.stroke(); g.fillStyle = '#FF5A6E'; g.beginPath(); g.arc(q[0], q[1], 3 * u, 0, 7); g.fill();
     }
-    if (st.slopeOn && (cupD() < 45 || onG || big)) { // v8: mapa de caídas por colores (verde = llano … rojo = cae mucho)
+    if (false && st.slopeOn && (cupD() < 45 || onG || big)) { // v8: mapa de caídas por colores (verde = llano … rojo = cae mucho)
       const Hm = slopeHeat(), a = P(Hm.x0, Hm.zs), b2 = P(Hm.x1, Hm.ze); g.save(); g.globalAlpha = 0.78; g.imageSmoothingEnabled = true; g.drawImage(Hm.c, a[0], a[1], b2[0] - a[0], b2[1] - a[1]); g.restore(); }
-    if (cupD() < 45 || onG) { // caídas del green: flechitas cuesta abajo (más largas y opacas cuanto más cae)
+    if (false && (cupD() < 45 || onG)) { // (desactivado 9 nov) caídas del green: flechitas cuesta abajo (más largas y opacas cuanto más cae)
       if (!st.slopeArr) { st.slopeArr = []; const e = 0.3; for (let x = G0.x - G0.rx - 1.5; x <= G0.x + G0.rx + 1.5; x += 1.9) for (let z = G0.z - G0.rz - 1.5; z <= G0.z + G0.rz + 1.5; z += 1.9) { if (!inEll(x, z, G0.x, G0.z, G0.rx + 0.3, G0.rz + 0.3)) continue; const dx = (h(x + e, z) - h(x - e, z)) / (2 * e), dz = (h(x, z + e) - h(x, z - e)) / (2 * e), m = Math.hypot(dx, dz); if (m > 0.004) st.slopeArr.push([x, z, -dx / m, -dz / m, m]); } }
       g.lineCap = 'round'; g.lineJoin = 'round'; for (const [x, z, ux, uz, m] of st.slopeArr) { const L = 0.35 + Math.min(0.55, m * 9), a = P(x - ux * L, z - uz * L), t2 = P(x + ux * L, z + uz * L), px = -uz, pz = ux, l = P(x + ux * L * 0.35 + px * L * 0.4, z + uz * L * 0.35 + pz * L * 0.4), r = P(x + ux * L * 0.35 - px * L * 0.4, z + uz * L * 0.35 - pz * L * 0.4);
         g.strokeStyle = `rgba(255,255,255,${Math.min(0.32, 0.12 + m * 4)})`; g.lineWidth = 1 * u; g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(t2[0], t2[1]); g.moveTo(l[0], l[1]); g.lineTo(t2[0], t2[1]); g.lineTo(r[0], r[1]); g.stroke(); } }
@@ -1514,8 +1528,8 @@
   function flickShot() {
     const sw = st.swing; if (!sw || !sw.flick || sw.done) return; sw.done = true;
     const r = flickResult(sw), putt = CLUBS[st.club].id === 'putt'; learnFlick(r.v, putt); const bp = project(st.b.x, st.b.y + BALL_R, st.b.z), f = sw.flick;
-    if (putt) st.puttShot = { L: puttMax() * r.power * r.mult, yaw: st.yaw - r.yawErr };
-    st.flickFx = { pts: putt ? puttLine(st.puttShot.L, st.puttShot.yaw).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
+    if (putt) { const v0 = puttV0(r.power) * Math.sqrt(r.mult), yw = st.yaw - r.yawErr; st.puttShot = { v0, yaw: yw, sim: puttSim(v0, yw) }; }
+    st.flickFx = { pts: putt ? st.puttShot.sim.pts.filter((q, i) => i % 6 === 0).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
     const pTxt = r.mult === 1 ? T('¡Lanzamiento perfecto!') : r.mult > 1 ? TF('Muy rápido: +{n} %', { n: Math.round((r.mult - 1) * 100) }) : TF('Flojo: −{n} %', { n: Math.round((1 - r.mult) * 100) });
     const dTxt = r.ex > 0 ? ' · ' + T(putt ? 'se abre' : 'se va a la derecha') : r.ex < 0 ? ' · ' + T(putt ? 'se cierra' : 'se cierra a la izquierda') : '';
     toast(pTxt + dTxt); st.hitQ = Math.max(0, 1 - Math.abs(r.mult - 1) * 3 - Math.abs(r.ex) * 0.45); if (r.mult === 1 && !r.ex) SND.perfect();
@@ -1566,7 +1580,7 @@
   function render(dt) {
     const b = st.b, Wd = host.clientWidth, Hd = host.clientHeight, pr = R.getPixelRatio();
     if (R.domElement.width !== Math.round(Wd * pr) || R.domElement.height !== Math.round(Hd * pr) || fx.width !== Math.round(Wd * pr)) { R.setSize(Wd, Hd, false); cam.aspect = Wd / Hd; cam.updateProjectionMatrix(); fx.width = Math.round(Wd * pr); fx.height = Math.round(Hd * pr); }
-    groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = st.slopeOn && CLUBS[st.club].id !== 'putt' ? 1 : 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
+    groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
     let bx = b.x, by = (b.mode === 'air' ? Math.max(b.y, meshH(b.x, b.z)) : meshH(b.x, b.z)) + BALL_R, bz = b.z; // a ras del suelo dibujado
     if (b.over) by -= b.zc;
     if (b.sunk) { const u = Math.min(1, st.sinkT / 0.3); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
@@ -1599,7 +1613,7 @@
       const live = sw.lastUp != null && sw.t - sw.lastUp < 0.15 ? tempoOf(sw.charge, sw.t) : sw.tempo, tp = Math.max(-1.6, Math.min(1.6, live || 0)); el.g3tdot.style.left = 50 + (tp / 1.6) * 46 + '%'; el.g3tdot.style.background = Math.abs(tp) < 0.3 ? '#4CD964' : '#FF8A5A'; }
     if (st.toastT > 0) { st.toastT -= dt; el.g3toast.textContent = st.toast; el.g3toast.style.opacity = Math.min(1, st.toastT * 2); } else el.g3toast.style.opacity = 0;
     if (st.msgT > 0) { st.msgT -= dt; el.g3msg.textContent = st.msg; el.g3msg.style.opacity = Math.min(1, st.msgT * 2); } else el.g3msg.style.opacity = 0;
-    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = st.phase === 'aim' && cupD() < 45 && CLUBS[st.club].id !== 'putt' ? '' : 'none'; el.g3help.style.display = st.phase === 'aim' ? '' : 'none';
+    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = 'none'; // 7.3 (Jose, 9 nov): «Caídas» desactivado del todo el.g3help.style.display = st.phase === 'aim' ? '' : 'none';
     if (Math.floor(st.t * 5) !== st.ambF) { st.ambF = Math.floor(st.t * 5); ambUpdate(st.t); }
     if (Math.floor(st.t * 10) !== st.mapF) { st.mapF = Math.floor(st.t * 10); drawMap(el.g3mini, false); }
   }
@@ -1610,11 +1624,11 @@
     g.strokeStyle = '#FFFFFF'; g.lineWidth = 3 * k; g.beginPath(); g.arc(p.x, p.y, 14 * k * pulse, 0, 7); g.stroke(); g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(p.x, p.y, 5 * k, 0, 7); g.fill();
     label(g, k, p.x + 58 * k, p.y, T('Tu bola')); label(g, k, f.x, f.y - 30 * k, T('Hoyo'));
   }
-  function simPutt(p) { return puttLine(puttMax() * p, st.yaw); } // 7.3 (F4): lo que marca = lo que hace
+  function simPutt(p) { return puttSim(puttV0(p), st.yaw); } // 7.3 (F4): lo que marca = lo que hace
   function drawPutt(g, k) {
-    const sw = st.swing; if (!sw || sw.charge < 0.03) { st.pp = null; aimMark(g, k); return; }
+    const sw = st.swing; if (!sw || sw.charge < 0.03) { st.pp = null; st.ps = null; aimMark(g, k); return; }
     const p = Math.max(0.02, sw.charge), D = puttMax() * p, b = st.b, fx2 = -Math.sin(st.yaw), fz2 = -Math.cos(st.yaw), key = [b.x, b.z, st.yaw.toFixed(4), p.toFixed(3)].join();
-    if (st.pk !== key) { st.pk = key; st.pp = simPutt(p, 0); }
+    const nowT = performance.now(); if (st.pk !== key && (!st.ps || nowT - (st.pkT || 0) > 45)) { st.pk = key; st.pkT = nowT; st.ps = simPutt(p); const sp2 = []; let acc = 0; st.ps.pts.forEach((q, i) => { if (i) acc += Math.hypot(q.x - st.ps.pts[i - 1].x, q.z - st.ps.pts[i - 1].z); if (!i || acc >= 0.18) { sp2.push(q); acc = 0; } }); const Lq = st.ps.pts[st.ps.pts.length - 1]; if (sp2[sp2.length - 1] !== Lq) sp2.push(Lq); st.pp = sp2; }
     // lo que hará la bola con un gesto normal: el camino de verdad (con la caída) y dónde se para
     const pts = st.pp, n = pts.length; for (let i = 1; i < n; i++) { const q = pts[i], pr = project(q.x, h(q.x, q.z) + 0.02, q.z); if (pr.z > 1) continue; const t = i / n; g.fillStyle = `rgba(255,255,255,${0.92 - t * 0.4})`; g.beginPath(); g.arc(pr.x, pr.y, (2.3 - t * 0.8) * k, 0, 7); g.fill(); }
     const E = pts[n - 1]; ring(g, k, E, 0.11, 0.95); const tp = project(E.x, h(E.x, E.z) + 0.02, E.z); if (tp.z <= 1) label(g, k * 0.85, tp.x, tp.y - 22 * k, fmtM(D));

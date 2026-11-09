@@ -48,7 +48,7 @@
 .g3-tempo b{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#4CD964;box-shadow:0 0 0 2px #fff;transition:left .08s}
 .g3-tempo span{position:absolute;top:100%;margin-top:2px;font-size:10px;font-weight:600;color:#22324F;text-shadow:0 1px 0 rgba(255,255,255,.8)}.g3-tempo span:first-of-type{left:2px}.g3-tempo span:last-of-type{right:2px}
 .g3-mode{position:absolute;right:12px;top:calc(146px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:11px;padding:4px 9px;cursor:pointer}.g3-mode b{font-weight:600}
-.g3-help{position:absolute;right:12px;top:calc(180px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:13px;font-weight:700;width:30px;height:30px;padding:0;border-radius:15px;cursor:pointer}
+.g3-help{position:absolute;right:12px;top:calc(146px + env(safe-area-inset-top,0px));pointer-events:auto;border:0;font-family:inherit;color:#22324F;font-size:13px;font-weight:700;width:30px;height:30px;padding:0;border-radius:15px;cursor:pointer}
 .g3-tut{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(34,50,79,.45);pointer-events:auto;padding:16px}
 .g3-tutbox{background:#fff;border-radius:24px;padding:14px;width:min(92vw,360px);box-shadow:0 6px 0 rgba(34,50,79,.18);display:flex;flex-direction:column;gap:10px;align-items:stretch}
 .g3-tutbox canvas{width:100%;height:auto;aspect-ratio:13/10;border-radius:18px}
@@ -146,3 +146,5 @@
 .g3-holes button{flex-direction:row;align-items:center;gap:8px}
 .g3-ht{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px}
 .g3-hmap{flex:none;width:36px;height:54px;border-radius:8px;box-shadow:0 0 0 1.5px rgba(34,50,79,.14);image-rendering:auto}
+
+#g3slope2{display:none!important} /* 7.3: sin «Caídas» */
