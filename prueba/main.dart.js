@@ -112935,7 +112935,7 @@ i.push(B.a8)
 d4=a4.a.c.c0?" \xb7 "+A.i(d2,A.j(d2)):""
 i.push(A.cB(A.bI(a5,A.o("TinyQuit 1.0.0 (v12 prueba) \xb7 beta"+d4,a5,a5,a5,A.O(12,d5?A.c(b1):B.y,a5,0,800),a5,a5),B.F,!1,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a5,a4.gawT(),a5,a5,a5,a5,a5,a5),a5,a5))
 d4=A.i(d3,A.j(d3))
-i.push(new A.aQ(B.jA,A.cB(A.o(d4+": 09/11/2026 14:29",a5,a5,a5,A.O(12,d5?A.c(b1):B.y,a5,0,800),a5,a5),a5,a5),a5))
+i.push(new A.aQ(B.jA,A.cB(A.o(d4+": 09/11/2026 14:45",a5,a5,a5,A.O(12,d5?A.c(b1):B.y,a5,0,800),a5,a5),a5,a5),a5))
 i.push(B.a_)
 return A.ad(i,B.ai,a5,B.i,B.k)}}
 A.aHm.prototype={
