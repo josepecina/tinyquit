@@ -26,6 +26,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-s
     if(game==='golf3d'){
       var el3=document.getElementById('g');
       window.TQ_AGAIN=function(){ try{ window.TQGolf3D.again(); }catch(e){} };
+      window.TQ_MENU=function(){ try{ window.TQGolf3D.again(); }catch(e){} }; // 7.3: volver al menú sin recargar three.js (antes tardaba y se pillaba)
       g3files().then(function(){
         var go3=function(){ try{ window.TQGolf3D.mount(el3,{}); }catch(e){} tell('ready'); };
         var f3=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('700 20px Fredoka'),document.fonts.load('600 14px Fredoka')]).catch(function(){}):Promise.resolve(); Promise.race([f3,new Promise(function(r){setTimeout(r,1200);})]).then(go3);

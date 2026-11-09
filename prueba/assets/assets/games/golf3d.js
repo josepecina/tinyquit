@@ -365,10 +365,14 @@
     const fx = -Math.sin(yaw), fz = -Math.cos(yaw); let lo = 0.03, hi = 14;
     for (let k = 0; k < 16; k++) { const m = (lo + hi) / 2, e = rollSim(m, yaw, fine), q = e[e.length - 1], dd = (q.x - st.b.x) * fx + (q.z - st.b.z) * fz; if (dd < D) lo = m; else hi = m; }
     st.psK = key; st.psV = (lo + hi) / 2; return st.psV; }
+  // 7.3 (Jose): el putt va recto por la línea que marcas y se para justo donde marca la carga (haya caídas o no).
+  // Si lo clavas, va justo ahí; si el dedo se tuerce o vas fuerte/flojo, se va un poco por ese lado (es sensible).
+  const puttDec = () => Math.max(0.3, SURF.green.f * WEATHERS[W.kind].fric);
+  function puttLine(L, yaw) { const b = st.b, ux = -Math.sin(yaw), uz = -Math.cos(yaw), n = Math.max(2, Math.ceil(L / 0.25)), pts = []; for (let i = 0; i <= n; i++) pts.push({ x: b.x + ux * (L * i) / n, z: b.z + uz * (L * i) / n }); return pts; }
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
   function shotVel(power, acc, yawExtra) {
     const c = CLUBS[st.club], s = lie();
-    if (c.id === 'putt') { const yaw = st.yaw - (st.puttEx || 0) * 0.055, v = puttSpeed(puttMax() * Math.max(0, power), yaw, true); return { vx: -Math.sin(yaw) * v, vz: -Math.cos(yaw) * v, vy: 0 }; } // 7.3 (F4): el putt va EXACTO por la línea marcada
+    if (c.id === 'putt') { const P = st.puttShot || { L: puttMax() * Math.max(0, power), yaw: st.yaw }, v = Math.sqrt(2 * puttDec() * P.L); return { vx: -Math.sin(P.yaw) * v, vz: -Math.cos(P.yaw) * v, vy: 0 }; } // 7.3: putt por la línea marcada, distancia exacta
     const lieK = c.id === 'wedge' && s === 'sand' ? 0.8 : SURF[s].lie, v = c.v * Math.sqrt(Math.max(0, s === 'sand' ? 0.2 + 0.8 * power : power)) * lieK, a = ((c.id === 'wedge' && s === 'sand' ? 60 : c.deg) * Math.PI) / 180, yaw = st.yaw + acc * 0.32 + (yawExtra || 0);
     return { vx: -Math.sin(yaw) * v * Math.cos(a), vz: -Math.cos(yaw) * v * Math.cos(a), vy: v * Math.sin(a) };
   }
@@ -384,7 +388,8 @@
     const tz = tempo || 0, ex = Math.sign(tz) * Math.max(0, Math.abs(tz) - 0.3);
     b.side = sideOf(ex);
     if (false && c.id === 'putt' && ex) { const yaw = 0.025 * ex, cs = Math.cos(yaw), sn = Math.sin(yaw), vx = b.vx; b.vx = vx * cs - b.vz * sn; b.vz = vx * sn + b.vz * cs; } // putt: se abre o se cierra
-    b.mode = c.id === 'putt' ? 'roll' : 'air'; if (b.mode === 'air') b.y += 0.01;
+    b.mode = c.id === 'putt' ? 'putt' : 'air'; if (b.mode === 'air') b.y += 0.01;
+    if (b.mode === 'putt') { const P = st.puttShot || { L: puttMax() * Math.max(0, power), yaw: st.yaw }; b.pt = { x0: b.x, z0: b.z, ux: -Math.sin(P.yaw), uz: -Math.cos(P.yaw), L: P.L, s: 0, v: Math.sqrt(2 * puttDec() * P.L), a: puttDec() }; st.puttShot = null; }
     st.flyT = 0; st.landP = null; st.tvCut = false;
     if (b.mode === 'air') { const q = { x: b.x, y: b.y, z: b.z, vx: b.vx, vy: b.vy, vz: b.vz, spin: b.spin, side: b.side, noWind: b.noWind }; for (let i = 0; i < 2400; i++) { airStep(q, 1 / 120); if (i > 4 && q.y <= h(q.x, q.z)) break; }
       const dx = q.x - b.x, dz = q.z - b.z, d = Math.hypot(dx, dz) || 1; st.landP = { x: q.x, z: q.z, y: h(q.x, q.z), ux: dx / d, uz: dz / d, d }; }
@@ -417,6 +422,14 @@
         if (Math.abs(out.y) < 0.45 || (s === 'sand' && n.y > 0.8)) { b.mode = 'roll'; b.vy = 0; b.skidT = 0.45; }
       }
       st.path.push({ x: b.x, y: b.y, z: b.z });
+    } else if (b.mode === 'putt') { // 7.3: putt por la línea marcada; frena siempre igual y se para donde marcaba
+      const P = b.pt; P.v = Math.max(0, P.v - P.a * dt); P.s = Math.min(P.L, P.s + P.v * dt);
+      b.x = P.x0 + P.ux * P.s; b.z = P.z0 + P.uz * P.s; b.vx = P.ux * P.v; b.vz = P.uz * P.v; b.y = h(b.x, b.z); st.landed = true; st.lastDry = { x: b.x, z: b.z };
+      const s = surf(b.x, b.z); if (s === 'sea' || s === 'ob') return water(s);
+      if (s !== 'green' && s !== 'ante' && s !== 'fair' && s !== 'tee') { b.mode = 'roll'; b.skidT = 0; return; } // sale del green: sigue rodando normal
+      const c = HOLE.cup, d = Math.hypot(b.x - c.x, b.z - c.z);
+      if (d < CUP_R * 0.92 && P.v < 1.5) return sink(); // entra (si no va disparada)
+      if (P.v <= 0 || P.s >= P.L) { if (d < CUP_R + 0.012) return sink(); b.vx = b.vz = 0; b.mode = 'rest'; afterShot(); }
     } else if (b.mode === 'roll') {
       const s = surf(b.x, b.z); if (s === 'sea' || s === 'ob') return water(s);
       if (b.skidT > 0) b.skidT -= dt;
@@ -537,7 +550,7 @@
     uniform sampler2D uRough; uniform sampler2D uSand; uniform sampler2D uSlopeTex; uniform sampler2D uGN; uniform vec4 uGNBox; uniform vec4 uSlopeBox; uniform float uSlopeOn; uniform vec4 uCliff; uniform vec3 uRock; uniform float uDry; uniform vec3 uFog; uniform float uFogN; uniform float uFogF; uniform vec3 uSun; uniform float uWet; uniform float uHail;
     float bkR(vec4 b, float a){ float s = b.x*0.37 + b.y*0.91; return 1.0 + 0.12*sin(2.0*a+s) + 0.08*sin(3.0*a+s*1.7) + 0.05*sin(5.0*a+s*0.6); }
     float bkD(vec4 b, vec2 p){ vec2 d = (p - b.xy) / b.zw; return length(d) / bkR(b, atan(d.y, d.x)); }
-    float hs(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float hs(vec2 p){ p = fract(p * vec2(0.1031, 0.1030)); p += dot(p, p.yx + 33.33); return fract((p.x + p.y) * p.x); } // 7.3: sin sin() (en móviles dibujaba cuadros)
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f); return mix(mix(hs(i), hs(i+vec2(1.0,0.0)), f.x), mix(hs(i+vec2(0.0,1.0)), hs(i+vec2(1.0,1.0)), f.x), f.y); }
     float fbm(vec2 p){ return vn(p)*0.55 + vn(p*2.07+3.1)*0.3 + vn(p*4.13+7.7)*0.15; }
     void main(){
@@ -564,7 +577,7 @@
       float coll = (1.0 - smoothstep(1.0 + 1.0 / min(uGreen.z, uGreen.w) - aa*0.05, 1.0 + 1.0 / min(uGreen.z, uGreen.w) + aa*0.05, gl)) * (1.0 - gin);
       col = mix(col, vec3(0.48,0.86,0.50), coll); // collar del green
       vec3 greenC = vec3(0.60,0.92,0.58); // v8: green liso, sin rayas (las caídas se ven en el mapa)
-      greenC *= 0.97 + 0.06 * vn(p * 1.3);
+      greenC *= 0.975 + 0.05 * vn((p - uGreen.xy) * 0.9); // coordenadas cercanas al green: sin pérdida de precisión
       col = mix(col, greenC, gin);
       if (uSlopeOn > 0.5) { // v8: caídas por colores sobre el propio green (se enciende y se apaga)
         vec2 suv = vec2((p.x - uSlopeBox.x) / (uSlopeBox.z - uSlopeBox.x), (p.y - uSlopeBox.y) / (uSlopeBox.w - uSlopeBox.y));
@@ -975,7 +988,8 @@
     roughT.encoding = sandT.encoding = THREE.LinearEncoding; roughT.anisotropy = sandT.anisotropy = 8;
     // 7.3: normales finas del green (cada 15 cm) para que la luz no marque los cuadros de la malla de 1 m
     const GNp = 3.5, GNx0 = G0.x - G0.rx - GNp, GNx1 = G0.x + G0.rx + GNp, GNz0 = G0.z - G0.rz - GNp, GNz1 = G0.z + G0.rz + GNp, GNW = Math.min(256, Math.ceil((GNx1 - GNx0) / 0.15)), GNH = Math.min(256, Math.ceil((GNz1 - GNz0) / 0.15)), GNd = new Uint8Array(GNW * GNH * 4);
-    for (let j = 0; j < GNH; j++) for (let i = 0; i < GNW; i++) { const x = GNx0 + ((i + 0.5) / GNW) * (GNx1 - GNx0), z = GNz0 + ((j + 0.5) / GNH) * (GNz1 - GNz0), e = 0.12, dx = (h(x + e, z) - h(x - e, z)) / (2 * e), dz = (h(x, z + e) - h(x, z - e)) / (2 * e), L = Math.hypot(dx, 1, dz), o = (j * GNW + i) * 4;
+    const GNsx = (GNx1 - GNx0) / GNW, GNsz = (GNz1 - GNz0) / GNH, GHt = new Float32Array(GNW * GNH); for (let j = 0; j < GNH; j++) for (let i = 0; i < GNW; i++) GHt[j * GNW + i] = h(GNx0 + (i + 0.5) * GNsx, GNz0 + (j + 0.5) * GNsz);
+    for (let j = 0; j < GNH; j++) for (let i = 0; i < GNW; i++) { const i0 = Math.max(0, i - 1), i1 = Math.min(GNW - 1, i + 1), j0 = Math.max(0, j - 1), j1 = Math.min(GNH - 1, j + 1), dx = (GHt[j * GNW + i1] - GHt[j * GNW + i0]) / ((i1 - i0) * GNsx), dz = (GHt[j1 * GNW + i] - GHt[j0 * GNW + i]) / ((j1 - j0) * GNsz), L = Math.hypot(dx, 1, dz), o = (j * GNW + i) * 4;
       GNd[o] = Math.max(0, Math.min(255, Math.round(((-dx / L) * 4 * 0.5 + 0.5) * 255))); GNd[o + 1] = Math.max(0, Math.min(255, Math.round(((-dz / L) * 4 * 0.5 + 0.5) * 255))); GNd[o + 2] = 0; GNd[o + 3] = 255; }
     const gnT = new THREE.DataTexture(GNd, GNW, GNH, THREE.RGBAFormat); gnT.magFilter = THREE.LinearFilter; gnT.minFilter = THREE.LinearFilter; gnT.generateMipmaps = false; gnT.needsUpdate = true;
     st.slopeHeat = null; const SH = slopeHeat(), slopeT = new THREE.CanvasTexture(SH.c); slopeT.minFilter = THREE.LinearFilter;
@@ -1040,8 +1054,12 @@
     flagPin = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 2.2, 8), new THREE.MeshLambertMaterial({ color: C3('#F2D35C') })); flagPin.position.set(HOLE.cup.x, gy + 1.1, HOLE.cup.z); S.add(flagPin);
     flagMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.48, 14, 4), new THREE.MeshLambertMaterial({ map: canvasTex(128, 84, flagDraw(HOLE.flag)), side: THREE.DoubleSide })); flagMesh.geometry.translate(0.375, 0, 0); flagMesh.position.set(HOLE.cup.x, gy + 1.95, HOLE.cup.z); S.add(flagMesh);
     S.add(new THREE.HemisphereLight(0xffffff, 0x8fb88f, 0.72)); sunLight = new THREE.DirectionalLight(0xfff4dc, 0.78); sunLight.position.set(-60, 90, 50); S.add(sunLight);
-    const dimp = canvasTex(256, 128, (g, w, hh) => { g.fillStyle = '#FFFFFF'; g.fillRect(0, 0, w, hh); for (let j = 0; j < 14; j++) for (let i = 0; i < 28; i++) { const x = (i + (j % 2) * 0.5) * (w / 28), y = (j + 0.5) * (hh / 14); g.fillStyle = 'rgba(160,170,185,.35)'; g.beginPath(); g.arc(x, y, 2.6, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.9)'; g.beginPath(); g.arc(x - 0.8, y - 0.8, 1.1, 0, 7); g.fill(); } }, true); // hoyuelos
-    ball = new THREE.Mesh(new THREE.SphereGeometry(BALL_R, 32, 20), new THREE.MeshPhongMaterial({ map: dimp, color: 0xffffff, emissive: 0x2e2e2e, shininess: 80, specular: 0x9a9a9a })); S.add(ball);
+    const dimp = canvasTex(512, 256, (g, w, hh) => { g.fillStyle = '#FBFBFA'; g.fillRect(0, 0, w, hh); // 7.3: hoyuelos de verdad (muchos, pequeños, con sombra y brillo)
+      for (let j = 0; j < 30; j++) { const lat = ((j + 0.5) / 30 - 0.5) * Math.PI, nI = Math.max(6, Math.round(64 * Math.cos(lat))), y = (j + 0.5) * (hh / 30), r = 2.9;
+        for (let i = 0; i < nI; i++) { const x = ((i + (j % 2) * 0.5) / nI) * w, sx = Math.min(3, 1 / Math.max(0.2, Math.cos(lat)));
+          g.save(); g.translate(x, y); g.scale(sx, 1); const gr = g.createRadialGradient(-0.7, -0.7, 0.2, 0, 0, r); gr.addColorStop(0, 'rgba(150,158,170,.55)'); gr.addColorStop(0.7, 'rgba(196,202,210,.35)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+          g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.arc(0.9, 0.9, 0.9, 0, 7); g.fill(); g.restore(); } } }, true); // hoyuelos
+    ball = new THREE.Mesh(new THREE.SphereGeometry(BALL_R, 32, 20), new THREE.MeshPhongMaterial({ map: dimp, bumpMap: dimp, bumpScale: 0.0006, color: 0xffffff, emissive: 0x2e2e2e, shininess: 60, specular: 0x8a8a8a })); S.add(ball);
     ballShadow = new THREE.Mesh(new THREE.CircleGeometry(BALL_R * 1.15, 18), new THREE.MeshBasicMaterial({ color: 0x1e5a2a, transparent: true, opacity: 0.35, depthWrite: false })); ballShadow.rotation.x = -Math.PI / 2; S.add(ballShadow);
     if (!cam) cam = new THREE.PerspectiveCamera(42, 1, 0.15, 2600);
     S.fog = new THREE.Fog(0xddf2ff, 140, 420);
@@ -1311,8 +1329,13 @@
     return THUMB[H.id];
   }
   const MAPROCK = () => { const c = new THREE.Color(HOLE.land.rock); return [c.r * 255, c.g * 255, c.b * 255]; };
-  function paintMap(W2, H2) {
-    const w = W2 >> 1, hh = H2 >> 1, c0 = document.createElement('canvas'); c0.width = w; c0.height = hh; const g = c0.getContext('2d');
+  // 7.3: lo pesado del mapa se hace poco a poco entre fotogramas (≤ 5 ms cada uno): primero un mapa rápido y luego el bueno
+  let BG = null;
+  function bgStart() { const H0 = HI; BG = { H0, list: [['map', paintMapGen(720, 1080, 2)], ['tile', greenTileGen()]] }; }
+  function bgRun() { if (!BG) return; if (BG.H0 !== HI) { BG = null; return; } const t0 = performance.now(); while (BG && performance.now() - t0 < 5) { const [k, g] = BG.list[0], r = g.next(); if (r.done) { if (k === 'map') el.mapImg = r.value; else st.gTile = r.value; BG.list.shift(); if (!BG.list.length) BG = null; } } }
+  function paintMap(W2, H2, q) { const g = paintMapGen(W2, H2, q || 2); let r = g.next(); while (!r.done) r = g.next(); return r.value; }
+  function* paintMapGen(W2, H2, q) {
+    const w = Math.round(W2 / q), hh = Math.round(H2 / q), c0 = document.createElement('canvas'); c0.width = w; c0.height = hh; const g = c0.getContext('2d');
     const im = g.createImageData(w, hh);
     for (let j = 0; j < hh; j++) for (let i = 0; i < w; i++) {
       const x = MAPB.x0 + (i / w) * (MAPB.x1 - MAPB.x0), z = MAPB.z1 + (j / hh) * (MAPB.z0 - MAPB.z1), s = surf(x, z);
@@ -1320,6 +1343,7 @@
       if (s === 'rough') { const t = Math.sin(x * 2.1) * Math.cos(z * 1.7); col = HOLE.land && landD(x, z) > 0.5 ? MAPROCK() : HOLE.dry ? [150, 196, 100] : col; col = [col[0] + t * 8, col[1] + t * 8, col[2] + t * 6]; }
       const e = 0.4, l = s === 'sea' ? 1 : Math.max(0.6, Math.min(1.4, 1 + (h(x - e, z) - h(x + e, z)) * 0.5 + (h(x, z - e) - h(x, z + e)) * 0.35)), o = (j * w + i) * 4;
       im.data[o] = col[0] * l; im.data[o + 1] = col[1] * l; im.data[o + 2] = col[2] * l; im.data[o + 3] = 255;
+      if (i === w - 1 && j % 6 === 5) yield 0;
     }
     g.putImageData(im, 0, 0);
     const c = document.createElement('canvas'); c.width = W2; c.height = H2; const g2 = c.getContext('2d'); g2.imageSmoothingEnabled = true; g2.drawImage(c0, 0, 0, W2, H2);
@@ -1345,8 +1369,8 @@
   }
   function mapCenter(c) { const M = st.map, w = c.width, hh = c.height, z = M.zoom, cl = (v, m) => Math.max(m / 2 / z, Math.min(m - m / 2 / z, v)); return [cl(M.cx == null ? w / 2 : M.cx, w), cl(M.cz == null ? hh / 2 : M.cz, hh)]; }
   // v8: el green y sus alrededores pintados con mucho detalle (el mapa general se ve borroso al acercar tanto)
-  function greenTile() {
-    if (st.gTile) return st.gTile;
+  function greenTile() { if (st.gTile) return st.gTile; const g = greenTileGen(); let r = g.next(); while (!r.done) r = g.next(); return (st.gTile = r.value); }
+  function* greenTileGen() {
     const pad = 9, step = 0.11, x0 = G0.x - G0.rx - pad, x1 = G0.x + G0.rx + pad, za = G0.z - G0.rz - pad, zb = G0.z + G0.rz + pad;
     const W2 = Math.ceil((x1 - x0) / step), H2 = Math.ceil((zb - za) / step), c = document.createElement('canvas'); c.width = W2; c.height = H2; const g = c.getContext('2d'), im = g.createImageData(W2, H2);
     for (let j = 0; j < H2; j++) for (let i = 0; i < W2; i++) {
@@ -1355,8 +1379,9 @@
       const e = 0.4, l = 1 + (h(x - e, z) - h(x + e, z)) * 0.5 + (h(x, z - e) - h(x, z + e)) * 0.35, o = (j * W2 + i) * 4;
       const fe = Math.min(1, Math.min(i, j, W2 - 1 - i, H2 - 1 - j) / 40); // se funde con el mapa en los bordes
       im.data[o] = col[0] * l; im.data[o + 1] = col[1] * l; im.data[o + 2] = col[2] * l; im.data[o + 3] = 255 * fe;
+      if (i === W2 - 1 && j % 8 === 7) yield 0;
     }
-    g.putImageData(im, 0, 0); return (st.gTile = { c, x0, x1, za, zb });
+    g.putImageData(im, 0, 0); return { c, x0, x1, za, zb };
   }
   // v8: imagen de colores con la caída de cada punto del green (se calcula una vez por hoyo)
   function slopeHeat() {
@@ -1386,7 +1411,7 @@
     const cx = mc[0], cz = mc[1];
     g.clearRect(0, 0, w, hh); g.save(); rrect(g, 0, 0, w, hh, big ? 34 : 16); g.clip(); g.fillStyle = '#5CCB6A'; g.fillRect(0, 0, w, hh);
     g.translate(w / 2, hh / 2); g.scale(zoom, zoom); g.translate(-cx, -cz); g.drawImage(M.c, 0, 0, w, hh);
-    if (zoom > 1.6) { const T2 = greenTile(), a = P(T2.x0, T2.za), b2 = P(T2.x1, T2.zb); g.save(); g.imageSmoothingEnabled = true; g.drawImage(T2.c, Math.min(a[0], b2[0]), Math.min(a[1], b2[1]), Math.abs(b2[0] - a[0]), Math.abs(b2[1] - a[1])); g.restore(); }
+    if (zoom > 1.6 && st.gTile) { const T2 = st.gTile, a = P(T2.x0, T2.za), b2 = P(T2.x1, T2.zb); g.save(); g.imageSmoothingEnabled = true; g.drawImage(T2.c, Math.min(a[0], b2[0]), Math.min(a[1], b2[1]), Math.abs(b2[0] - a[0]), Math.abs(b2[1] - a[1])); g.restore(); }
     const u = (big ? 2.4 : 1) / zoom;
     if (onG) { // tu línea de putt: recta hasta el punto al que apuntas
       if (st.swing && st.pp) { g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = 2 * u; g.setLineDash([3 * u, 3 * u]); g.beginPath(); st.pp.forEach((p, i) => { const q = P(p.x, p.z); i ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1]); }); g.stroke(); g.setLineDash([]);
@@ -1480,13 +1505,17 @@
     // curva del dedo: si el trazo se dobla (el pulgar «engancha» hacia un lado al final), más efecto hacia ese lado
     let dev = 0; const L = Math.hypot(f.x - f.x0, f.y - f.y0) || 1; for (const [px, py] of f.path || []) { const d = ((f.x - f.x0) * (py - f.y0) - (f.y - f.y0) * (px - f.x0)) / L; if (Math.abs(d) > Math.abs(dev)) dev = d; }
     const c = dev / L, exC = Math.abs(c) < 0.06 ? 0 : -Math.sign(c) * Math.min(0.8, (Math.abs(c) - 0.06) * 6), ex = Math.max(-1.3, Math.min(1.3, exA + exC));
-    if (putt) { const exP = Math.sign(deg) * Math.min(1, Math.max(0, Math.abs(deg) - 4) / 16); return { power: sw.charge, mult: 1, ratio, ex: exP, v: (up / dt) * 1000 }; } // 7.3: distancia exacta; si el dedo no sube recto, se abre o se cierra un poco
+    if (putt) { // 7.3: putt mucho más sensible: casi recto (±1,5°) y a tu ritmo (±7 %) = perfecto; si no, se nota poco a poco
+      const dA = Math.abs(deg) <= 1.5 ? 0 : Math.sign(deg) * (Math.abs(deg) - 1.5), yawErr = Math.max(-0.3, Math.min(0.3, (dA * Math.PI / 180) * 0.45));
+      const r1 = ratio - 1, pe = Math.abs(r1) < 0.07 ? 0 : Math.sign(r1) * (Math.abs(r1) - 0.07), mP = Math.max(0.55, Math.min(1.6, 1 + pe * 0.6));
+      return { power: sw.charge, mult: mP, ratio, ex: yawErr ? Math.sign(yawErr) : 0, yawErr, v: (up / dt) * 1000 }; }
     return { power: Math.min(1.05, sw.charge * mult), mult, ratio, ex, v: (up / dt) * 1000 };
   }
   function flickShot() {
     const sw = st.swing; if (!sw || !sw.flick || sw.done) return; sw.done = true;
     const r = flickResult(sw), putt = CLUBS[st.club].id === 'putt'; learnFlick(r.v, putt); const bp = project(st.b.x, st.b.y + BALL_R, st.b.z), f = sw.flick;
-    st.flickFx = { pts: putt ? rollSim(puttSpeed(puttMax() * r.power, st.yaw - r.ex * 0.055, true), st.yaw - r.ex * 0.055, true).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
+    if (putt) st.puttShot = { L: puttMax() * r.power * r.mult, yaw: st.yaw - r.yawErr };
+    st.flickFx = { pts: putt ? puttLine(st.puttShot.L, st.puttShot.yaw).map((q) => ({ x: q.x, y: h(q.x, q.z) + 0.02, z: q.z })) : predict(r.power, r.ex), col: r.mult > 1 ? '255,90,110' : r.mult < 1 ? '91,184,245' : '76,217,100', t: performance.now() };
     const pTxt = r.mult === 1 ? T('¡Lanzamiento perfecto!') : r.mult > 1 ? TF('Muy rápido: +{n} %', { n: Math.round((r.mult - 1) * 100) }) : TF('Flojo: −{n} %', { n: Math.round((1 - r.mult) * 100) });
     const dTxt = r.ex > 0 ? ' · ' + T(putt ? 'se abre' : 'se va a la derecha') : r.ex < 0 ? ' · ' + T(putt ? 'se cierra' : 'se cierra a la izquierda') : '';
     toast(pTxt + dTxt); st.hitQ = Math.max(0, 1 - Math.abs(r.mult - 1) * 3 - Math.abs(r.ex) * 0.45); if (r.mult === 1 && !r.ex) SND.perfect();
@@ -1531,17 +1560,18 @@
     if (st.phase === 'sunk') { st.sinkT += dt; if (st.sinkT > 2.6) endCard(); }
     if (st.phase === 'end' && st.round && st.round.i < st.round.list.length - 1 && !st.endHold) { st.endT += dt; const left = Math.max(0, Math.ceil(8 - st.endT)); el.g3nexth.textContent = `${st.endLbl} · ${left}`; if (st.endT >= 8) { st.endHold = true; el.g3nexth.textContent = st.endLbl; el.g3nexth.onclick(); } } else if (st.phase === 'end' && st.endHold && st.endLbl) el.g3nexth.textContent = st.endLbl;
     if (st.phase === 'splash') { st.splashT += dt; if (st.splashT > 1.2) { if (st.dropAt) { st.phase = 'choice'; el.g3drop.style.display = 'flex'; } else toAim(); } }
-    updateSwing(dt); updateClubAnim(dt); updateCam(dt); drawTut(dt); render(dt); requestAnimationFrame(frame);
+    updateSwing(dt); updateClubAnim(dt); updateCam(dt); drawTut(dt); render(dt); bgRun(); requestAnimationFrame(frame);
   }
   function project(x, y, z) { const v = new THREE.Vector3(x, y, z).project(cam); return { x: (v.x * 0.5 + 0.5) * fx.width, y: (-v.y * 0.5 + 0.5) * fx.height, z: v.z }; }
   function render(dt) {
     const b = st.b, Wd = host.clientWidth, Hd = host.clientHeight, pr = R.getPixelRatio();
     if (R.domElement.width !== Math.round(Wd * pr) || R.domElement.height !== Math.round(Hd * pr) || fx.width !== Math.round(Wd * pr)) { R.setSize(Wd, Hd, false); cam.aspect = Wd / Hd; cam.updateProjectionMatrix(); fx.width = Math.round(Wd * pr); fx.height = Math.round(Hd * pr); }
-    groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = st.slopeOn ? 1 : 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
+    groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = st.slopeOn && CLUBS[st.club].id !== 'putt' ? 1 : 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
     let bx = b.x, by = (b.mode === 'air' ? Math.max(b.y, meshH(b.x, b.z)) : meshH(b.x, b.z)) + BALL_R, bz = b.z; // a ras del suelo dibujado
     if (b.over) by -= b.zc;
     if (b.sunk) { const u = Math.min(1, st.sinkT / 0.3); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
-    ball.position.set(bx, by, bz); if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
+    ball.position.set(bx, by, bz);
+    { const sp = Math.hypot(b.vx || 0, b.vz || 0); if (dt > 0 && sp > 0.01 && !b.sunk && b.mode !== 'air') { const ax = new THREE.Vector3(b.vz / sp, 0, -b.vx / sp); ball.rotateOnWorldAxis(ax, Math.min(0.6, (sp * dt) / BALL_R)); } } // la bola gira al rodar if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
     const bd = cam.position.distanceTo(ball.position), pxR = (BALL_R / (bd * Math.tan((cam.fov * Math.PI) / 360))) * (Hd / 2), bs = Math.max(1, 3 / Math.max(pxR, 1e-4)); ball.scale.setScalar(bs); st.ballPx = pxR * bs;
     const fk = Math.max(0, camPos.y - h(camPos.x, camPos.z) - 8) * 1.4; groundMat.uniforms.uFogN.value = st.fogN + fk; groundMat.uniforms.uFogF.value = st.fogF + fk;
     if (S.fog) { S.fog.near = st.fogN + fk; S.fog.far = st.fogF + fk + 60; } S.userData.sky.position.copy(cam.position); const pn = S.userData.pano; if (pn) pn.position.set(cam.position.x, cam.position.y + pn.userData.dy, cam.position.z);
@@ -1569,7 +1599,7 @@
       const live = sw.lastUp != null && sw.t - sw.lastUp < 0.15 ? tempoOf(sw.charge, sw.t) : sw.tempo, tp = Math.max(-1.6, Math.min(1.6, live || 0)); el.g3tdot.style.left = 50 + (tp / 1.6) * 46 + '%'; el.g3tdot.style.background = Math.abs(tp) < 0.3 ? '#4CD964' : '#FF8A5A'; }
     if (st.toastT > 0) { st.toastT -= dt; el.g3toast.textContent = st.toast; el.g3toast.style.opacity = Math.min(1, st.toastT * 2); } else el.g3toast.style.opacity = 0;
     if (st.msgT > 0) { st.msgT -= dt; el.g3msg.textContent = st.msg; el.g3msg.style.opacity = Math.min(1, st.msgT * 2); } else el.g3msg.style.opacity = 0;
-    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = st.phase === 'aim' && (cupD() < 45 || CLUBS[st.club].id === 'putt') ? '' : 'none'; el.g3help.style.display = st.phase === 'aim' ? '' : 'none';
+    el.g3mini.style.display = st.phase === 'intro' || st.phase === 'end' ? 'none' : ''; el.g3top.style.display = el.g3menu.style.display === 'flex' ? 'none' : ''; el.g3mode.style.display = 'none'; el.g3slope.style.display = st.phase === 'aim' && cupD() < 45 && CLUBS[st.club].id !== 'putt' ? '' : 'none'; el.g3help.style.display = st.phase === 'aim' ? '' : 'none';
     if (Math.floor(st.t * 5) !== st.ambF) { st.ambF = Math.floor(st.t * 5); ambUpdate(st.t); }
     if (Math.floor(st.t * 10) !== st.mapF) { st.mapF = Math.floor(st.t * 10); drawMap(el.g3mini, false); }
   }
@@ -1580,7 +1610,7 @@
     g.strokeStyle = '#FFFFFF'; g.lineWidth = 3 * k; g.beginPath(); g.arc(p.x, p.y, 14 * k * pulse, 0, 7); g.stroke(); g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(p.x, p.y, 5 * k, 0, 7); g.fill();
     label(g, k, p.x + 58 * k, p.y, T('Tu bola')); label(g, k, f.x, f.y - 30 * k, T('Hoyo'));
   }
-  function simPutt(p) { return rollSim(puttSpeed(puttMax() * p, st.yaw, true), st.yaw, true); } // 7.3 (F4): lo que marca = lo que hace
+  function simPutt(p) { return puttLine(puttMax() * p, st.yaw); } // 7.3 (F4): lo que marca = lo que hace
   function drawPutt(g, k) {
     const sw = st.swing; if (!sw || sw.charge < 0.03) { st.pp = null; aimMark(g, k); return; }
     const p = Math.max(0.02, sw.charge), D = puttMax() * p, b = st.b, fx2 = -Math.sin(st.yaw), fz2 = -Math.cos(st.yaw), key = [b.x, b.z, st.yaw.toFixed(4), p.toFixed(3)].join();
@@ -1765,7 +1795,7 @@
   // 7.3: compila los shaders y sube las texturas al cargar el hoyo, para que nada se compile en pleno vuelo (corte de cámara)
   function warmGL() { try { R.compile(S, cam); S.traverse((o) => { const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : []; for (const m of ms) { for (const k in m) { const v = m[k]; if (v && v.isTexture) R.initTexture(v); } if (m.uniforms) for (const k in m.uniforms) { const v = m.uniforms[k].value; if (v && v.isTexture) R.initTexture(v); } } }); } catch (e) { /* nada */ } }
   function loadHole(i, intro) {
-    HI = i; HOLE = HOLES[i]; derive(); buildScene(); applyWeather(); st.slopePts = null; st.slopeArr = null; st.slopeHeat = null; st.gTile = null; el.mapImg = paintMap(720, 1080); greenTile(); slopeHeat(); warmGL(); // 7.3: todo lo pesado se prepara aquí, tapado por la carga (antes se calculaba en pleno vuelo y el juego se congelaba) st.pp = null; st.pk = null; st.introShift = 0; st.acK = null; st.infoTxt = null; st.mmZ = null;
+    HI = i; HOLE = HOLES[i]; st.infoTxt = 0; st.dTxt = null; derive(); buildScene(); applyWeather(); st.slopePts = null; st.slopeArr = null; st.slopeHeat = null; st.gTile = null; el.mapImg = paintMap(720, 1080, 6); bgStart(); warmGL(); // 7.3: todo lo pesado se prepara aquí, tapado por la carga (antes se calculaba en pleno vuelo y el juego se congelaba) st.pp = null; st.pk = null; st.introShift = 0; st.acK = null; st.infoTxt = null; st.mmZ = null;
     if (el.g3end) el.g3end.style.display = 'none'; st.strokes = 0; st.swing = null; st.ca = null; newRound(); resetBall(HOLE.tee); yawToCup(); st.club = pickClub(); refreshClubs();
     if (intro) { introText(); el.g3intro.style.display = ''; st.phase = 'intro'; const [p, l] = introCam(); camPos.copy(p); camLook.copy(l); }
   }
