@@ -458,8 +458,13 @@
     const lift = b.air > 0 ? Math.min(14, b.air * 50) : 0, sink = b.over ? Math.min(1, b.z / P.R) : 0;
     ctx.fillStyle = 'rgba(0,0,0,.22)'; ctx.beginPath(); ctx.ellipse(b.x + 1 + lift * 0.6, b.y + 3 + lift, P.R * (1 - sink * 0.3), P.R * 0.7, 0, 0, 7); ctx.fill();
     const r = P.R * (1 + lift / 40) * (1 - sink * 0.25);
+    const sk = root.TQ_BALL; // 7.3: bola de la racha elegida en el armario o en el golf
+    if (sk && sk !== 'clasica' && root.TQBalls) { b.rot = (b.rot || 0) + Math.hypot(b.x - (b.px ?? b.x), b.y - (b.py ?? b.y)) / Math.max(1, r); b.px = b.x; b.py = b.y;
+      ctx.save(); ctx.translate(b.x, b.y - lift); ctx.rotate(b.rot); ctx.drawImage(root.TQBalls.icon(sk, 64), -r, -r, 2 * r, 2 * r); ctx.restore(); }
+    else {
     const g = ctx.createRadialGradient(b.x - 2, b.y - lift - 2.5, 0.5, b.x, b.y - lift, r); g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, '#D9E6F5');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x, b.y - lift, r, 0, 7); ctx.fill();
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(b.x, b.y - lift, r, 0, 7); ctx.fill();
+    }
     if (b.splash > 0) { ctx.strokeStyle = `rgba(255,255,255,${b.splash})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(b.x, b.y, 8 + (1 - b.splash) * 22, 0, 7); ctx.stroke(); }
   }
   function drawAim(ctx, s) {

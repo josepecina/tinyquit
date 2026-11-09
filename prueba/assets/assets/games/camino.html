@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+@font-face{font-family:F;src:url(Fredoka.ttf)}@font-face{font-family:N;src:url(Nunito.ttf)}
+html,body{margin:0;height:100%;overflow:hidden;background:#8EDB6A;font-family:N,sans-serif;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none}
+#c{position:absolute;inset:0;display:block}
+.top{position:absolute;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top) + 10px) 12px 26px;display:flex;align-items:center;gap:10px;background:linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,0));pointer-events:none}
+.top>*{pointer-events:auto}.rb{width:42px;height:42px;border-radius:21px;border:0;background:#fff;color:#22324F;font:900 20px N;box-shadow:0 4px 0 rgba(34,50,79,.15),0 6px 14px rgba(34,50,79,.18);display:flex;align-items:center;justify-content:center}
+#ttl{font:600 21px F;color:#22324F;text-shadow:0 1px 0 #fff}
+.zoom{position:absolute;right:12px;bottom:calc(env(safe-area-inset-bottom) + 16px);display:flex;flex-direction:column;gap:10px}
+#hoy{width:auto;padding:0 16px;font:900 15px N;background:#22324F;color:#fff}
+.bub{position:absolute;display:none;gap:14px;align-items:center;border-radius:22px;padding:14px;box-shadow:0 6px 0 rgba(0,0,0,.12),0 14px 28px rgba(30,50,40,.28);z-index:5;box-sizing:border-box}
+.bub.show{display:flex;animation:pop .28s cubic-bezier(.2,1.6,.4,1)}@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.bub:after{content:'';position:absolute;left:var(--ax);bottom:-10px;margin-left:-10px;border:10px solid transparent;border-top-color:var(--bc);border-bottom:0}
+.bub.below:after{bottom:auto;top:-10px;border:10px solid transparent;border-bottom-color:var(--bc);border-top:0}
+.w{background:#fff;--bc:#fff}.gd{background:linear-gradient(#FFE89A,#F7C443);--bc:#F7C443}.bl{background:linear-gradient(#DDF2FF,#9FD6FF);--bc:#9FD6FF}
+.ic{width:72px;height:72px;flex:none;border-radius:20px;background:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -5px 0 rgba(0,0,0,.08)}.ic img{width:72px;height:72px}
+.tx{min-width:0}h3{margin:0;font:600 19px F;color:#22324F}.tx p{margin:3px 0 8px;font-size:13px;color:#4A5A75;font-weight:700}
+.ps{display:flex;gap:6px;flex-wrap:wrap}.p{font-size:11.5px;font-weight:900;padding:4px 9px;border-radius:99px}.dk{background:#22324F;color:#fff}.lt{background:rgba(255,255,255,.85);color:#22324F}.ok{background:#3CCB5A;color:#fff}
+.try{margin-top:10px;border:0;border-radius:14px;padding:9px 14px;font:900 13px N;color:#fff;background:#7A5AF8;box-shadow:0 4px 0 #5A3FD0}
+.chips{display:none;position:absolute;left:8px;right:8px;bottom:8px;gap:6px;justify-content:center}.chip{border:0;border-radius:99px;padding:6px 12px;font:900 12px N;background:rgba(255,255,255,.85);color:#22324F;box-shadow:0 3px 0 rgba(34,50,79,.12)}.chip.on{background:#22324F;color:#fff}
+body.mini .top,body.mini .zoom{display:none}body.mini .chips{display:flex}
+</style></head><body>
+<canvas id="c"></canvas>
+<div class="top"><button class="rb" id="x">✕</button><div id="ttl">Tu camino</div></div>
+<div class="zoom"><button class="rb" id="zin">+</button><button class="rb" id="zout">−</button><button class="rb" id="hoy">Hoy</button></div>
+<div class="chips"><button class="chip" data-s="7">Semana</button><button class="chip" data-s="14">2 semanas</button><button class="chip" data-s="30">Mes</button><button class="chip" data-s="60">2 meses</button></div>
+<div id="bub" class="bub"></div>
+<script src="camino.js"></script></body></html>

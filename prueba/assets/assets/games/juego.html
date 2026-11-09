@@ -19,7 +19,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-s
   var load=function(src){return new Promise(function(r){var s=document.createElement('script');s.src=src;s.onload=r;s.onerror=r;document.body.appendChild(s);});};
   // v8: precarga del golf 3D (la app la pide al abrir la lista de juegos): se leen three.js y el juego sin montarlo
   var g3files=function(){ if(window.__g3load) return window.__g3load; var ln=document.createElement('link'); ln.rel='stylesheet'; ln.href='golf3d.css'; document.head.appendChild(ln);
-    window.__g3load=load('three.min.js').then(function(){return load('golf3d_tr.js');}).then(function(){return load('golf3d.js');}); return window.__g3load; };
+    window.__g3load=load('three.min.js').then(function(){return load('golf3d_tr.js');}).then(function(){return load('bolas.js');}).then(function(){return load('golf3d.js');}); return window.__g3load; };
   window.TQ_PRELOAD=function(game){ if(game==='golf3d' && !started) g3files(); };
   window.TQ_START=function(game){
     if(started) return; started=true;
@@ -34,7 +34,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#BEE9FF;-webkit-user-s
       return;
     }
     // 13 oct: solo se carga el juego que toca (antes se cargaban todos a la vez y se notaba al abrir)
-    var FILES={torre:['torre.js'],rayos:['rayos.js'],verdad:['verdad.js'],reloj:['reloj.js'],pesca:['pesca.js'],encuentra:['encuentra.js'],golf:['golf_fisica.js','golf_hoyos.js','golf.js']}, list=FILES[game]||['arco.js'], el=document.getElementById('g'), G=null;
+    var FILES={torre:['torre.js'],rayos:['rayos.js'],verdad:['verdad.js'],reloj:['reloj.js'],pesca:['pesca.js'],encuentra:['encuentra.js'],golf:['bolas.js','golf_fisica.js','golf_hoyos.js','golf.js']}, list=FILES[game]||['arco.js'], el=document.getElementById('g'), G=null;
     window.TQ_AGAIN=function(){ try{ if(G&&G.again) G.again(); }catch(e){} };
     var fonts=(document.fonts&&document.fonts.load)?Promise.all([document.fonts.load('700 20px Fredoka'),document.fonts.load('600 14px Fredoka'),document.fonts.load('500 14px Fredoka')]).catch(function(){}):Promise.resolve();
     // como mucho 1,2 s esperando a las letras: si tardan, se arranca igual

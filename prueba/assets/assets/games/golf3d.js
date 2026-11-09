@@ -372,24 +372,26 @@
   // y la bola lo sigue exactamente. Si el gesto no es perfecto, se simula otra vez con el error (más largo/corto, más a un lado).
   const puttV0 = (charge) => Math.sqrt(2 * puttDec() * puttMax() * Math.max(0, charge));
   function puttSim(v0, yaw) {
-    st.pinHit = false; const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
+    st.pinHit = false; st.lipSim = false; let ov = false, zc = 0, vzc = 0, pin = false; const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
     for (let i = 0; i < 2400; i++) {
       const s2 = surf(x, z); if (s2 === 'sea' || s2 === 'ob') { end = s2; break; }
       const f = SURF[s2].f * Wk.fric, n = normalAt(x, z), ax = G * n.x * n.y * GREEN_SLOPE, az = G * n.z * n.y * GREEN_SLOPE, sp = Math.hypot(vx, vz);
       vx += ax * dt; vz += az * dt; if (sp > 1e-4) { const fr = Math.min(sp, f * dt); vx -= (vx / sp) * fr; vz -= (vz / sp) * fr; }
       x += vx * dt; z += vz * dt; pts.push({ x, z }); const v = Math.hypot(vx, vz);
-      const dc = Math.hypot(x - c.x, z - c.z);
-      if (dc < CUP_R * 0.92 && v < 1.5) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
-      if (dc < CUP_R * 0.7 && v >= 1.5 && !st.pinHit) { // 7.3: rápida contra la bandera: según lo centrada que vaya, entra, rebota o sale de lado
-        st.pinHit = true; const ux = vx / v, uz = vz / v, off = (x - c.x) * uz - (z - c.z) * ux; // lado (+/−) respecto al centro
-        if (Math.abs(off) < 0.012 && v < 2.6) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; } // de lleno y no muy fuerte: dentro
-        if (Math.abs(off) < 0.012) { vx = -vx * 0.28; vz = -vz * 0.28; } // de lleno y fuerte: rebota hacia atrás
-        else { const a = Math.sign(off) * Math.min(0.9, Math.abs(off) * 22), cs = Math.cos(a), sn = Math.sin(a); const nvx = (vx * cs - vz * sn) * 0.72, nvz = (vx * sn + vz * cs) * 0.72; vx = nvx; vz = nvz; } // de lado: se tuerce y sigue
-      }
+      // 7.3: el hoyo de verdad: el borde tira un poco hacia dentro; sobre el hoyo la bola cae (gravedad) y, según lo
+      // rápida y lo centrada que vaya, entra, hace corbata (sale girada; si va muy lenta, hasta media vuelta) o pasa por encima
+      const dc = Math.hypot(x - c.x, z - c.z), seed = Math.abs(Math.sin(x * 91.7 + z * 47.3)) % 1;
+      if (dc >= CUP_R && dc < CUP_R + BALL_R * 0.6 && !ov) { const k = 1 - (dc - CUP_R) / (BALL_R * 0.6); vx += ((c.x - x) / dc) * 2.4 * k * dt; vz += ((c.z - z) / dc) * 2.4 * k * dt; }
+      if (dc < CUP_R * 0.35 && v > 1.9 && !pin) { pin = true; vx = -vx * 0.25; vz = -vz * 0.25; } // de lleno y muy fuerte: choca con la bandera y vuelve
+      if (dc < CUP_R) { if (!ov) { ov = true; zc = 0; vzc = 0; } vzc += G * dt; zc += vzc * dt; if (zc > BALL_R * 0.9) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; } }
+      else if (ov) { ov = false;
+        if (zc > BALL_R * 0.72) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
+        if (zc > BALL_R * 0.16) { const nx = (x - c.x) / dc, nz = (z - c.z) / dc, tv = -vx * nz + vz * nx, turn = Math.min(Math.PI, (0.35 + 1.4 / Math.max(0.35, v)) * (0.8 + seed * 0.4)) * Math.sign(tv || 1), keep = 0.45 + seed * 0.2, cs = Math.cos(turn), sn = Math.sin(turn), nvx = (vx * cs - vz * sn) * keep, nvz = (vx * sn + vz * cs) * keep; vx = nvx; vz = nvz; st.lipSim = true; } // corbata
+        zc = 0; }
       if (v < 0.02 && Math.hypot(ax, az) < f) break;
     }
-    if (end === 'rest') { const L = pts[pts.length - 1]; if (Math.hypot(L.x - c.x, L.z - c.z) < CUP_R + 0.012) end = 'cup'; }
-    return { pts, end };
+    if (end === 'rest') { const L = pts[pts.length - 1], dl = Math.hypot(L.x - c.x, L.z - c.z); if (dl < CUP_R + 0.006) end = 'cup'; else if (dl < CUP_R + BALL_R * 0.6) { const wTo = ((c.x - L.x) * (W.x || 0) + (c.z - L.z) * (W.z || 0)) / dl; if (wTo > 6) { pts.push({ x: c.x, z: c.z }); end = 'cup'; } } } // colgando del borde: el viento fuerte la mete
+    return { pts, end, lip: st.lipSim };
   }
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
   function shotVel(power, acc, yawExtra) {
@@ -447,7 +449,7 @@
     } else if (b.mode === 'putt') { // 7.3 v3: la bola recorre exactamente el camino simulado (el de la línea)
       const P = b.pt, pts = P.sim.pts; P.t += dt; const fi = P.t * 120, i = Math.floor(fi);
       if (i >= pts.length - 1) { const L = pts[pts.length - 1]; b.x = L.x; b.z = L.z; b.y = h(b.x, b.z); b.vx = b.vz = 0;
-        if (P.sim.end === 'cup') return sink(); if (P.sim.end === 'sea' || P.sim.end === 'ob') return water(P.sim.end); b.mode = 'rest'; afterShot(); return; }
+        if (P.sim.end === 'cup') return sink(); if (P.sim.end === 'sea' || P.sim.end === 'ob') return water(P.sim.end); if (P.sim.lip) { say(T('¡Uy, corbata!')); SND.lip(); } b.mode = 'rest'; afterShot(); return; }
       const A = pts[i], B = pts[i + 1], u = fi - i; b.x = A.x + (B.x - A.x) * u; b.z = A.z + (B.z - A.z) * u; b.vx = (B.x - A.x) * 120; b.vz = (B.z - A.z) * 120; b.y = h(b.x, b.z); st.landed = true; st.lastDry = { x: b.x, z: b.z };
     } else if (b.mode === 'roll') {
       const s = surf(b.x, b.z); if (s === 'sea' || s === 'ob') return water(s);
@@ -529,6 +531,28 @@
   /* ------------------------------------------------------------------ 5. dibujos (estilo Tiro con arco) */
   let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   function rrect(g, x, y, w, hh, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + hh, r); g.arcTo(x + w, y + hh, x, y + hh, r); g.arcTo(x, y + hh, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+  // 7.3: bolas de golf (premios de la racha): dibujo de la piel (mapa equirectangular 2:1) + hoyuelos encima
+  function ballSkin(g, w, hh, skin) {
+    g.fillStyle = '#FBFBFA'; g.fillRect(0, 0, w, hh);
+    if (skin === 'futbol') { // 7.3: balón de verdad: 12 pentágonos negros (vértices de un icosaedro) y costuras de los hexágonos
+      const V = [[90, 0], [-90, 0]]; for (let k = 0; k < 5; k++) { V.push([26.57, k * 72]); V.push([-26.57, k * 72 + 36]); }
+      const P = (lat, lon) => [((lon / 360) % 1 + 1) % 1 * w, (0.5 - lat / 180) * hh];
+      g.strokeStyle = 'rgba(34,50,79,.45)'; g.lineWidth = 2.4;
+      for (let i = 0; i < V.length; i++) for (let j = i + 1; j < V.length; j++) { const [a1, o1] = V[i], [a2, o2] = V[j]; const ca = Math.sin(a1 * Math.PI / 180) * Math.sin(a2 * Math.PI / 180) + Math.cos(a1 * Math.PI / 180) * Math.cos(a2 * Math.PI / 180) * Math.cos((o1 - o2) * Math.PI / 180); if (ca < 0.42 || ca > 0.5) continue;
+        g.beginPath(); for (let t = 0; t <= 1.0001; t += 0.05) { const la = a1 + (a2 - a1) * t; let dO = o2 - o1; if (dO > 180) dO -= 360; if (dO < -180) dO += 360; const [x, y] = P(la, o1 + dO * t); t ? g.lineTo(x, y) : g.moveTo(x, y); } g.stroke(); }
+      g.fillStyle = '#22324F'; for (const [lat, lon] of V) { const [cx, cy] = P(lat, lon), sx = Math.min(4, 1 / Math.max(0.25, Math.cos(lat * Math.PI / 180))), r = 28; for (const dx of [-w, 0, w]) { g.beginPath(); for (let k = 0; k < 5; k++) { const a = -Math.PI / 2 + k * 1.2566; g.lineTo(cx + dx + r * Math.cos(a) * sx, cy + r * Math.sin(a)); } g.closePath(); g.fill(); } if (Math.abs(lat) > 80) { g.fillRect(0, lat > 0 ? 0 : hh - 16, w, 16); } } }
+    else if (skin === 'espana') { g.fillStyle = '#C8102E'; g.fillRect(0, 0, w, hh * 0.25); g.fillRect(0, hh * 0.75, w, hh * 0.25); g.fillStyle = '#FFC400'; g.fillRect(0, hh * 0.25, w, hh * 0.5); }
+    else if (skin === 'arcoiris') { ['#FF6B7A', '#FFB347', '#FFE45C', '#7FD98A', '#5FB8FF', '#A98BFF'].forEach((c, i) => { g.fillStyle = c; g.fillRect(0, (i / 6) * hh, w, hh / 6 + 1); }); }
+    else if (skin === 'galaxia') { const gr = g.createLinearGradient(0, 0, 0, hh); gr.addColorStop(0, '#1B1F4B'); gr.addColorStop(0.5, '#4B2A86'); gr.addColorStop(1, '#16233F'); g.fillStyle = gr; g.fillRect(0, 0, w, hh); for (let i = 0; i < 140; i++) { g.fillStyle = `rgba(255,255,255,${0.4 + Math.random() * 0.6})`; g.beginPath(); g.arc(Math.random() * w, Math.random() * hh, Math.random() * 2.2, 0, 7); g.fill(); } }
+    else if (skin === 'tiny') { g.fillStyle = '#DFF3FF'; g.fillRect(0, 0, w, hh); g.fillStyle = '#22324F'; [[0.25, 0.47], [0.31, 0.47]].forEach(([u, v]) => { g.beginPath(); g.ellipse(u * w, v * hh, 7, 10, 0, 0, 7); g.fill(); }); g.strokeStyle = '#22324F'; g.lineWidth = 5; g.lineCap = 'round'; g.beginPath(); g.moveTo(0.255 * w, 0.58 * hh); g.quadraticCurveTo(0.28 * w, 0.64 * hh, 0.305 * w, 0.58 * hh); g.stroke(); g.fillStyle = 'rgba(255,143,192,.8)'; [[0.22, 0.56], [0.34, 0.56]].forEach(([u, v]) => { g.beginPath(); g.ellipse(u * w, v * hh, 9, 6, 0, 0, 7); g.fill(); }); }
+    const dark = skin === 'galaxia' || skin === 'futbol';
+    for (let j = 0; j < 16; j++) { const lat = ((j + 0.5) / 16 - 0.5) * Math.PI, nI = Math.max(5, Math.round(34 * Math.cos(lat))), y = (j + 0.5) * (hh / 16), r = 5.6;
+      for (let i = 0; i < nI; i++) { const x = ((i + (j % 2) * 0.5) / nI) * w, sx = Math.min(3, 1 / Math.max(0.2, Math.cos(lat)));
+        g.save(); g.translate(x, y); g.scale(sx, 1); const gr = g.createRadialGradient(-0.7, -0.7, 0.2, 0, 0, r); gr.addColorStop(0, dark ? 'rgba(0,0,0,.35)' : 'rgba(105,116,134,.55)'); gr.addColorStop(0.7, dark ? 'rgba(0,0,0,.18)' : 'rgba(168,177,190,.4)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+        g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.55)'; g.beginPath(); g.arc(1.6, 1.6, 1.6, 0, 7); g.fill(); g.restore(); } }
+    if (skin === 'clasica') { g.fillStyle = '#FF5A6E'; g.beginPath(); g.arc(w * 0.62, hh / 2, 8, 0, 7); g.fill(); } // 7.3: sin la línea azul (solo un puntito para ver que gira)
+  }
+  function setBallSkin(id) { try { const t = ball.material.map, c = t.image; ballSkin(c.getContext('2d'), c.width, c.height, id); t.needsUpdate = true; } catch (e) { /* nada */ } }
   function canvasTex(w, hh, draw, repeat) { const c = document.createElement('canvas'); c.width = w; c.height = hh; draw(c.getContext('2d'), w, hh); const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; if (repeat) t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; }
   function sprite(draw, w, hh, scale) { const t = canvasTex(w, hh, draw); t.anisotropy = 4; const m = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthWrite: false })); m.scale.set(scale, (scale * hh) / w, 1); m.center.set(0.5, 0); return m; }
   function starP(g, cx, cy, r, n, ri) { g.beginPath(); for (let k = 0; k < n * 2; k++) { const rr = k % 2 ? r * (ri || 0.42) : r, a = -Math.PI / 2 + (k * Math.PI) / n; g.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); } g.closePath(); }
@@ -1073,12 +1097,7 @@
     flagPin = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 2.2, 8), new THREE.MeshLambertMaterial({ color: C3('#F2D35C') })); flagPin.position.set(HOLE.cup.x, gy + 1.1, HOLE.cup.z); S.add(flagPin);
     flagMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.48, 14, 4), new THREE.MeshLambertMaterial({ map: canvasTex(128, 84, flagDraw(HOLE.flag)), side: THREE.DoubleSide })); flagMesh.geometry.translate(0.375, 0, 0); flagMesh.position.set(HOLE.cup.x, gy + 1.95, HOLE.cup.z); S.add(flagMesh);
     S.add(new THREE.HemisphereLight(0xffffff, 0x8fb88f, 0.72)); sunLight = new THREE.DirectionalLight(0xfff4dc, 0.78); sunLight.position.set(-60, 90, 50); S.add(sunLight);
-    const dimp = canvasTex(512, 256, (g, w, hh) => { g.fillStyle = '#FBFBFA'; g.fillRect(0, 0, w, hh); // 7.3: hoyuelos de verdad (muchos, pequeños, con sombra y brillo)
-      for (let j = 0; j < 16; j++) { const lat = ((j + 0.5) / 16 - 0.5) * Math.PI, nI = Math.max(5, Math.round(34 * Math.cos(lat))), y = (j + 0.5) * (hh / 16), r = 5.6;
-        for (let i = 0; i < nI; i++) { const x = ((i + (j % 2) * 0.5) / nI) * w, sx = Math.min(3, 1 / Math.max(0.2, Math.cos(lat)));
-          g.save(); g.translate(x, y); g.scale(sx, 1); const gr = g.createRadialGradient(-0.7, -0.7, 0.2, 0, 0, r); gr.addColorStop(0, 'rgba(120,130,146,.75)'); gr.addColorStop(0.7, 'rgba(176,184,196,.5)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
-          g.fillStyle = gr; g.beginPath(); g.arc(0, 0, r, 0, 7); g.fill(); g.fillStyle = 'rgba(255,255,255,.9)'; g.beginPath(); g.arc(1.6, 1.6, 1.6, 0, 7); g.fill(); g.restore(); } }
-      g.fillStyle = '#2E7BE6'; g.fillRect(0, hh / 2 - 4, w * 0.3, 8); g.fillStyle = '#FF5A6E'; g.beginPath(); g.arc(w * 0.62, hh / 2, 9, 0, 7); g.fill(); }, true); // hoyuelos + línea de puntería azul y punto rojo (se ve girar)
+    const dimp = canvasTex(512, 256, (g, w, hh) => ballSkin(g, w, hh, window.TQ_BALL || 'clasica'), true); // 7.3: bolas de la racha (TQ_BALL)
     ball = new THREE.Mesh(new THREE.SphereGeometry(BALL_R, 32, 20), new THREE.MeshPhongMaterial({ map: dimp, bumpMap: dimp, bumpScale: 0.0006, color: 0xffffff, emissive: 0x2e2e2e, shininess: 60, specular: 0x8a8a8a })); S.add(ball);
     ballShadow = new THREE.Mesh(new THREE.CircleGeometry(BALL_R * 1.15, 18), new THREE.MeshBasicMaterial({ color: 0x1e5a2a, transparent: true, opacity: 0.35, depthWrite: false })); ballShadow.rotation.x = -Math.PI / 2; S.add(ballShadow);
     if (!cam) cam = new THREE.PerspectiveCamera(42, 1, 0.15, 2600);
@@ -1107,7 +1126,7 @@
     // prueba más cerca y más alto hasta ver las dos cosas (si se puede); encuadra la bola abajo y la bandera arriba.
     const b = st.b, putt = CLUBS[st.club].id === 'putt', base = putt ? 2.2 : 4.6, up = putt ? 0.8 : 0.95, dx = Math.sin(st.yaw), dz = Math.cos(st.yaw), gy = meshH(b.x, b.z), by = gy + BALL_R * 2;
     const key = [b.x.toFixed(2), b.z.toFixed(2), st.yaw.toFixed(3), st.club].join(); if (st.acK === key) return [st.acP.clone(), st.acL.clone()];
-    const cx = HOLE.cup.x, cz = HOLE.cup.z, fy = h(cx, cz) + 1.3, wantFlag = cupD() > 4;
+    const cx = HOLE.cup.x, cz = HOLE.cup.z, fy = h(cx, cz) + 1.3, cdx = cx - b.x, cdz = cz - b.z, cdl = Math.hypot(cdx, cdz) || 1, wantFlag = cupD() > 4 && (-dx * cdx - dz * cdz) / cdl > 0.82; // 7.3: solo si apuntas hacia la bandera (si no, la cámara no «tira» hacia el hoyo)
     let best = null; const rx = -dz, rz = dx; // derecha de la línea de tiro
     for (const k of [1, 1.35, 0.75, 1.8, 0.55, 2.4]) for (const lat of [0, -1.5, 1.5, -3, 3]) {
       if (best && best.flag && best.cost <= Math.abs(lat) * 0.6 + (k === 1 ? 0 : 1)) continue;
@@ -1167,8 +1186,8 @@
         const ux = st.ru.x, uz = st.ru.z, ax = st.rside === 'ball' ? bx - ux * back : c.x + ux * back, az = st.rside === 'ball' ? bz - uz * back : c.z + uz * back;
         let p = new THREE.Vector3(ax, Math.max(h(bx, bz), cy, h(ax, az)) + up, az), l = new THREE.Vector3(bx + dx * 0.5, (h(bx, bz) + cy) / 2, bz + dz * 0.5);
         if (!b.sunk && b.mode === 'air') { const gb = h(b.x, b.z); l.lerp(new THREE.Vector3(b.x, b.y, b.z), Math.min(0.7, (b.y - gb) * 0.6)); p.y = Math.max(p.y, b.y + 1.2); } // mientras bota, la bola no se sale de la pantalla
-        if (b.sunk) { const sf = b.sinkFrom || { x: c.x + 1, z: c.z }, ddx = c.x - sf.x, ddz = c.z - sf.z, dd = Math.hypot(ddx, ddz) || 1; p = new THREE.Vector3(c.x - (ddx / dd) * 1.1 + (ddz / dd) * 0.35, cy + 0.55, c.z - (ddz / dd) * 1.1 - (ddx / dd) * 0.35); l = new THREE.Vector3(c.x, cy - 0.03, c.z); } // 7.3: detrás de la bola, bajito: se la ve caer
-        camPos.lerp(p, 1 - Math.exp(-dt * (b.sunk ? 6 : 2.2))); camLook.lerp(l, 1 - Math.exp(-dt * (b.sunk ? 9 : 3))); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
+        if (b.sunk) { if (!st.sinkDir) { const ex = camPos.x - c.x, ez = camPos.z - c.z, el = Math.hypot(ex, ez) || 1; st.sinkDir = { x: ex / el, z: ez / el }; } p = new THREE.Vector3(c.x + st.sinkDir.x * 2.4, cy + 1.7, c.z + st.sinkDir.z * 2.4); l = new THREE.Vector3(c.x, cy - 0.02, c.z); } else st.sinkDir = null; // 7.3: plano de tele a ~35°, sin perder el hoyo // 7.3: detrás de la bola, bajito: se la ve caer
+        camPos.lerp(p, 1 - Math.exp(-dt * (b.sunk ? 2.6 : 2.2))); camLook.lerp(l, 1 - Math.exp(-dt * (b.sunk ? 7 : 3))); if (!b.sunk) camPos.y = Math.max(camPos.y, h(camPos.x, camPos.z) + Math.min(up, 3.5));
       }
       const gy = h(camPos.x, camPos.z) + 0.4; if (camPos.y < gy) camPos.y = gy;
     }
@@ -1276,13 +1295,13 @@
     <div class="g3-menu" id="g3menu"><div class="g3-mbox">
       <div class="g3-mhead"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="22" fill="#E3F9E6"/><path d="M17 36V10" stroke="#22324F" stroke-width="2.6" stroke-linecap="round"/><path d="M17 11l14 5-14 5z" fill="#FF5A6E"/><ellipse cx="23" cy="36.5" rx="11" ry="3.2" fill="#7BE88A"/><circle cx="29" cy="34" r="2.6" fill="#fff" stroke="#C9D3DF"/></svg><div><div class="g3-mtitle">Golf de Tiny</div><div class="g3-msub">Hoyos de leyenda de todo el mundo</div></div></div>
       <div class="g3-steps" id="g3msteps"></div>
-      <div class="g3-mstep" data-s="1"><div class="g3-mq">¿Cuántos hoyos?</div><div class="g3-mcards" id="g3mn"></div><div class="g3-mnote" id="g3mnote"></div><div class="g3-mart"><svg class="g3-mhill" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 Q90 20 200 48 T400 40 V120 H0Z" fill="#A9E6B2"/><path d="M0 84 Q120 52 240 74 T400 66 V120 H0Z" fill="#7BD88A"/><ellipse cx="318" cy="64" rx="40" ry="9" fill="#9BEAA6"/><path d="M318 64 V14" stroke="#F2D35C" stroke-width="3" stroke-linecap="round"/><path d="M318 14 l22 7 -22 7z" fill="#FF5A6E"/></svg><svg class="g3-mtiny" viewBox="0 0 250 210" aria-hidden="true"><g class="g3-lclub"><path d="M186 130 L214 190" stroke="#45516D" stroke-width="5" stroke-linecap="round"/><path d="M207 188 Q217 198 232 192 Q229 185 216 183Z" fill="#22324F"/></g><rect x="22" y="112" width="196" height="78" rx="32" fill="#D5E3F1"/><g fill="#FFFFFF"><rect x="22" y="102" width="196" height="78" rx="32"/><circle cx="70" cy="104" r="38"/><circle cx="124" cy="80" r="52"/><circle cx="176" cy="106" r="36"/></g><path d="M80 60 C86 12 162 12 168 60 Q124 48 80 60Z" fill="#4CD964"/><path d="M154 54 Q186 46 204 58 Q180 66 158 61Z" fill="#2E8B4A"/><circle cx="124" cy="20" r="5" fill="#2E8B4A"/><ellipse cx="100" cy="132" rx="7.5" ry="10" fill="#22324F"/><ellipse cx="144" cy="132" rx="7.5" ry="10" fill="#22324F"/><circle cx="102.5" cy="128" r="2.8" fill="#fff"/><circle cx="146.5" cy="128" r="2.8" fill="#fff"/><ellipse cx="82" cy="150" rx="11" ry="6" fill="#FFB3C7"/><ellipse cx="162" cy="150" rx="11" ry="6" fill="#FFB3C7"/><path d="M107 148 Q122 161 137 148" stroke="#22324F" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div></div>
+      <div class="g3-mstep" data-s="1"><div class="g3-mq">¿Cuántos hoyos?</div><div class="g3-mcards" id="g3mn"></div><div class="g3-mnote" id="g3mnote"></div><div class="g3-mballs-t" id="g3mbt">Tu bola</div><div class="g3-mballs" id="g3mballs"></div><div class="g3-mart"><svg class="g3-mhill" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60 Q90 20 200 48 T400 40 V120 H0Z" fill="#A9E6B2"/><path d="M0 84 Q120 52 240 74 T400 66 V120 H0Z" fill="#7BD88A"/><ellipse cx="318" cy="64" rx="40" ry="9" fill="#9BEAA6"/><path d="M318 64 V14" stroke="#F2D35C" stroke-width="3" stroke-linecap="round"/><path d="M318 14 l22 7 -22 7z" fill="#FF5A6E"/></svg><svg class="g3-mtiny" viewBox="0 0 250 210" aria-hidden="true"><g class="g3-lclub"><path d="M186 130 L214 190" stroke="#45516D" stroke-width="5" stroke-linecap="round"/><path d="M207 188 Q217 198 232 192 Q229 185 216 183Z" fill="#22324F"/></g><rect x="22" y="112" width="196" height="78" rx="32" fill="#D5E3F1"/><g fill="#FFFFFF"><rect x="22" y="102" width="196" height="78" rx="32"/><circle cx="70" cy="104" r="38"/><circle cx="124" cy="80" r="52"/><circle cx="176" cy="106" r="36"/></g><path d="M80 60 C86 12 162 12 168 60 Q124 48 80 60Z" fill="#4CD964"/><path d="M154 54 Q186 46 204 58 Q180 66 158 61Z" fill="#2E8B4A"/><circle cx="124" cy="20" r="5" fill="#2E8B4A"/><ellipse cx="100" cy="132" rx="7.5" ry="10" fill="#22324F"/><ellipse cx="144" cy="132" rx="7.5" ry="10" fill="#22324F"/><circle cx="102.5" cy="128" r="2.8" fill="#fff"/><circle cx="146.5" cy="128" r="2.8" fill="#fff"/><ellipse cx="82" cy="150" rx="11" ry="6" fill="#FFB3C7"/><ellipse cx="162" cy="150" rx="11" ry="6" fill="#FFB3C7"/><path d="M107 148 Q122 161 137 148" stroke="#22324F" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div></div>
       <div class="g3-mstep" data-s="2"><div class="g3-mq">¿Cómo quieres jugar?</div><div class="g3-mlbl">Tiempo</div><div class="g3-chips" id="g3mw"></div>
         <div class="g3-mlbl" style="display:none">Golpe</div><div class="g3-seg" id="g3mm" style="display:none"><button data-m="lanzar">Lanzar ↑</button><button data-m="soltar">Soltar</button></div><div class="g3-mnote" id="g3mmnote" style="display:none"></div></div>
       <div class="g3-mstep" data-s="3"><div class="g3-mq">Elige el hoyo</div><div class="g3-seg g3-ptabs" id="g3mp"><button data-p="3">Par 3</button><button data-p="4">Par 4</button><button data-p="5">Par 5</button></div><div class="g3-holes" id="g3mholes"></div></div>
       <div class="g3-mnav"><button class="g3-mback" id="g3mback">‹ Atrás</button><button class="g3-btn" id="g3go">Siguiente</button></div></div></div>`);
     trDom(ui);
-    ['g3slope', 'g3slope2', 'g3msteps', 'g3mback', 'g3mp', 'g3mmnote', 'g3str', 'g3toast', 'g3drop', 'g3dropb', 'g3repb', 'g3load', 'g3ltag', 'g3lwhere', 'g3linfo', 'g3ltit', 'g3lbar', 'g3lcard', 'g3top', 'g3icard', 'g3bcard', 'g3ecard', 'g3pop', 'g3pcard', 'g3popok', 'g3menu', 'g3mn', 'g3mnote', 'g3mholes', 'g3mw', 'g3mm', 'g3go', 'g3tomenu', 'g3info', 'g3mode', 'g3help', 'g3tut', 'g3tutc', 'g3tuttxt', 'g3tutdots', 'g3tutok', 'g3w', 'g3mini', 'g3msg', 'g3bottom', 'g3prev', 'g3next', 'g3club', 'g3hint', 'g3swing', 'g3swlbl', 'g3pwr', 'g3pfill', 'g3pline', 'g3pneedle', 'g3plbl', 'g3tdot', 'g3tempo', 'g3intro', 'g3d', 'g3tag', 'g3where', 'g3title', 'g3sub', 'g3other', 'g3nexth', 'g3play', 'g3big', 'g3bigc', 'g3zin', 'g3zout', 'g3close', 'g3end', 'g3endt', 'g3ends', 'g3again'].forEach((id) => (el[id] = ui.querySelector('#' + id)));
+    ['g3slope', 'g3slope2', 'g3msteps', 'g3mback', 'g3mp', 'g3mmnote', 'g3str', 'g3toast', 'g3drop', 'g3dropb', 'g3repb', 'g3load', 'g3ltag', 'g3lwhere', 'g3linfo', 'g3ltit', 'g3lbar', 'g3lcard', 'g3top', 'g3icard', 'g3bcard', 'g3ecard', 'g3pop', 'g3pcard', 'g3popok', 'g3menu', 'g3mn', 'g3mnote', 'g3mballs', 'g3mbt', 'g3mholes', 'g3mw', 'g3mm', 'g3go', 'g3tomenu', 'g3info', 'g3mode', 'g3help', 'g3tut', 'g3tutc', 'g3tuttxt', 'g3tutdots', 'g3tutok', 'g3w', 'g3mini', 'g3msg', 'g3bottom', 'g3prev', 'g3next', 'g3club', 'g3hint', 'g3swing', 'g3swlbl', 'g3pwr', 'g3pfill', 'g3pline', 'g3pneedle', 'g3plbl', 'g3tdot', 'g3tempo', 'g3intro', 'g3d', 'g3tag', 'g3where', 'g3title', 'g3sub', 'g3other', 'g3nexth', 'g3play', 'g3big', 'g3bigc', 'g3zin', 'g3zout', 'g3close', 'g3end', 'g3endt', 'g3ends', 'g3again'].forEach((id) => (el[id] = ui.querySelector('#' + id)));
     el.g3play.onclick = () => { ac(); ambStart(); post({ ev: 'play' }); el.g3intro.style.display = 'none'; st.phase = 'introfly'; st.camT = 0; st.camFrom = [camPos.clone(), camLook.clone()]; };
     el.g3prev.onclick = () => { if (st.phase === 'aim') { st.club = Math.max(0, st.club - 1); refreshClubs(); SND.tick(); } };
     el.g3next.onclick = () => { if (st.phase === 'aim') { st.club = Math.min(CLUBS.length - 1, st.club + 1); refreshClubs(); SND.tick(); } };
@@ -1789,6 +1808,13 @@
       el.g3mn.innerHTML = [1, 3, 6, 9].map((k) => { const br = B['r' + k]; return `<button data-n="${k}" class="${k === n ? 'on' : ''}"><b>${T(NCARD[k][0])}</b><span>${T(NCARD[k][1])}</span>${k > 1 && br != null ? `<small>${T('Tu mejor:')} ${relS(br)}</small>` : ''}</button>`; }).join('');
       el.g3mn.querySelectorAll('button').forEach((b) => (b.onclick = (e) => { e.stopPropagation(); st.menuN = +b.dataset.n; SND.tick(); menuRefresh(); }));
       el.g3mnote.textContent = T(n === 1 ? 'Juega solo el hoyo que elijas.' : 'Te tocan hoyos distintos cada vez, en orden al azar.');
+      // 7.3: carrusel de bolas (las de la racha; las que aún no tienes, con candado y el día en que se ganan)
+      const BL = window.TQ_BALLS || (window.TQBalls ? window.TQBalls.list.map((id) => ({ id, n: id, d: 0, ok: true })) : []), cur = window.TQ_BALL || 'clasica';
+      el.g3mbt.textContent = T('Tu bola'); el.g3mbt.style.display = el.g3mballs.style.display = BL.length && window.TQBalls ? '' : 'none';
+      el.g3mballs.innerHTML = BL.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}"><img src="${window.TQBalls ? window.TQBalls.icon(b.id, 96).toDataURL() : ''}" alt=""><span>${b.ok ? T(b.n) : TF('Día {a}', { a: b.d })}</span>${b.ok ? '' : '<i>🔒</i>'}</button>`).join('');
+      el.g3mballs.querySelectorAll('button').forEach((bt) => (bt.onclick = (e) => { e.stopPropagation(); const b = BL.find((q) => q.id === bt.dataset.b); if (!b) return;
+        if (!b.ok) { el.g3mnote.textContent = TF('Se consigue con {a} días de racha', { a: b.d }); vib3('error'); return; }
+        window.TQ_BALL = b.id; setBallSkin(b.id); post({ ev: 'ball', id: b.id }); vib3('tick'); SND.tick(); const sl = el.g3mballs.scrollLeft; menuRefresh(); el.g3mballs.scrollLeft = sl; }));
     } else if (step === 2) {
       el.g3mw.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.w === st.wPref));
       el.g3mm.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.m === st.mode));
@@ -1851,5 +1877,5 @@
     canvas.addEventListener('pointerdown', onDown); window.addEventListener('pointermove', onMove); window.addEventListener('pointerup', onUp); window.addEventListener('pointercancel', onUp);
     requestAnimationFrame(frame);
   }
-  window.TQGolf3D = { mount, again: () => showMenu(), _st: st, _dbg: { prof: () => { const o = {}; let t = performance.now(); st.gTile = null; greenTile(); o.gTile = performance.now() - t; t = performance.now(); st.slopeHeat = null; slopeHeat(); o.heat = performance.now() - t; t = performance.now(); paintMap(720, 1080); o.map = performance.now() - t; t = performance.now(); drawMap(el.g3mini, false); o.draw = performance.now() - t; return o; }, step: (dt) => { st.t += dt; for (let i = 0; i < 8; i++) physics(dt / 8); if (st.phase === "sunk") st.sinkT += dt; updateCam(dt); }, cam: () => [camPos.toArray().map((v) => +v.toFixed(2)), camLook.toArray().map((v) => +v.toFixed(2))], physics, resetBall, launch, surf, h, pickClub, yawToCup, cupD, predict, setWeather, newRound, W, HOLE, CLUBS, HOLES, loadHole, setHole: (i) => { HI = i; HOLE = HOLES[i]; derive(); st.trees = []; }, hole: () => HOLE, startCharge, release, tempoOf, simPutt, meshH, aimCam: () => aimCam(), flat: (v) => { FLAT = v; }, renderer: () => R, scene: () => S, camera: () => cam, setCam: (p, l) => { camPos.set(...p); camLook.set(...l); st.paused = true; }, h } };
+  window.TQGolf3D = { mount, again: () => showMenu(), _st: st, _dbg: { puttSim: (v0, yaw) => puttSim(v0, yaw), prof: () => { const o = {}; let t = performance.now(); st.gTile = null; greenTile(); o.gTile = performance.now() - t; t = performance.now(); st.slopeHeat = null; slopeHeat(); o.heat = performance.now() - t; t = performance.now(); paintMap(720, 1080); o.map = performance.now() - t; t = performance.now(); drawMap(el.g3mini, false); o.draw = performance.now() - t; return o; }, step: (dt) => { st.t += dt; for (let i = 0; i < 8; i++) physics(dt / 8); if (st.phase === "sunk") st.sinkT += dt; updateCam(dt); }, cam: () => [camPos.toArray().map((v) => +v.toFixed(2)), camLook.toArray().map((v) => +v.toFixed(2))], physics, resetBall, launch, surf, h, pickClub, yawToCup, cupD, predict, setWeather, newRound, W, HOLE, CLUBS, HOLES, loadHole, setHole: (i) => { HI = i; HOLE = HOLES[i]; derive(); st.trees = []; }, hole: () => HOLE, startCharge, release, tempoOf, simPutt, meshH, aimCam: () => aimCam(), flat: (v) => { FLAT = v; }, renderer: () => R, scene: () => S, camera: () => cam, setCam: (p, l) => { camPos.set(...p); camLook.set(...l); st.paused = true; }, h } };
 })();
