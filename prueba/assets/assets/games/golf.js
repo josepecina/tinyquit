@@ -480,7 +480,7 @@
     // barra de fuerza
     ctx.fillStyle = 'rgba(255,255,255,.85)'; rr(ctx, W0 / 2 - 60, H0 - 26, 120, 12, 6); ctx.fill(); ctx.fillStyle = col === 'rgb(255,255,255)' ? '#FFB3C2' : col; rr(ctx, W0 / 2 - 58, H0 - 24, 116 * pw, 8, 4); ctx.fill();
   }
-  const BTNS = [5, 10, 15].map((n, k) => ({ n, x: 34 + k * 92, y: 334, w: 80, h: 58 }));
+  const BTNS = [5, 10, 15].map((n, k) => ({ n, x: 34 + k * 92, y: 254, w: 80, h: 58 }));
   const OVER_BTN = { x: 75, y: 400, w: 180, h: 56 };
   function button(ctx, b, label, sub, pressed) {
     const off = pressed ? 4 : 0; ctx.fillStyle = '#2E8B4A'; rr(ctx, b.x, b.y + 5, b.w, b.h, 18); ctx.fill();
@@ -488,7 +488,7 @@
     ctx.fillStyle = COL.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = `700 24px ${FD}`; ctx.fillText(label, b.x + b.w / 2, b.y + off + (sub ? 22 : b.h / 2)); if (sub) { ctx.font = `500 12px ${FD}`; ctx.fillText(sub, b.x + b.w / 2, b.y + off + 42); }
   }
   // 7.3: carrusel de bolas de la racha en el inicio (la tarjeta sube un poco para que quepa)
-  const SY = -34, BALLB = () => { const L = root.TQ_BALLS || [], w = 40, g = L.length > 1 ? (262 - L.length * w) / (L.length - 1) : 0; return L.map((b, k) => ({ b, x: 34 + k * (w + g), y: 488, w, h: 46 })); };
+  const SY = 0, BALLB = () => { const L = root.TQ_BALLS || [], w = 40, g = L.length > 1 ? (262 - L.length * w) / (L.length - 1) : 0; return L.map((b, k) => ({ b, x: 34 + k * (w + g), y: 488, w, h: 46 })); };
   function drawBalls(ctx, s) {
     const BB = BALLB(); if (!BB.length || !root.TQBalls) return; const cur = root.TQ_BALL || 'clasica';
     ctx.fillStyle = COL.ink; ctx.font = `600 13px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(s.ui.ballMsg || TQT('Tu bola'), W0 / 2, 474);
@@ -500,24 +500,25 @@
   function ballTap(s, p) { const q = BALLB().find((x) => hit(x, p, 2)); if (!q) return false;
     if (!q.b.ok) { s.ui.ballMsg = TQT('Se consigue con {a} días de racha').replace('{a}', q.b.d); vib('error'); return true; }
     root.TQ_BALL = q.b.id; s.ui.ballMsg = null; tqSend({ ev: 'ball', id: q.b.id }); vib('tick'); return true; }
+  // 7.3 (Jose, 11 nov): tarjeta de inicio más grande y ordenada, con sitio de sobra para el carrusel de bolas (DOM, ballsUI)
   function drawStart(ctx, s) {
-    ctx.fillStyle = 'rgba(34,50,79,.35)'; ctx.fillRect(-60, -60, W0 + 120, H0 + 120); ctx.save(); ctx.translate(0, SY);
-    ctx.fillStyle = '#FFFFFF'; rr(ctx, 22, 62, 286, root.TQ_BALLS ? 494 : 430, 28); ctx.fill();
+    ctx.fillStyle = 'rgba(34,50,79,.35)'; ctx.fillRect(-60, -60, W0 + 120, H0 + 120);
+    const hasB = !!(root.TQ_BALLS && root.TQBalls);
+    ctx.fillStyle = 'rgba(34,50,79,.12)'; rr(ctx, 14, 20, 302, hasB ? 497 : 400, 28); ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; rr(ctx, 14, 14, 302, hasB ? 497 : 400, 28); ctx.fill();
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#E3F9E6'; rr(ctx, W0 / 2 - 46, 82, 92, 22, 11); ctx.fill(); ctx.fillStyle = '#1F7A34'; ctx.font = `600 11px ${FD}`; ctx.fillText(TQT('MINIJUEGO'), W0 / 2, 93.5);
-    ctx.fillStyle = COL.ink; ctx.font = `700 32px ${FD}`; ctx.fillText(TQT('Minigolf'), W0 / 2, 132);
+    ctx.fillStyle = '#E3F9E6'; rr(ctx, W0 / 2 - 46, 32, 92, 22, 11); ctx.fill(); ctx.fillStyle = '#1F7A34'; ctx.font = `600 11px ${FD}`; ctx.fillText(TQT('MINIJUEGO'), W0 / 2, 43.5);
+    ctx.fillStyle = COL.ink; ctx.font = `700 32px ${FD}`; ctx.fillText(TQT('Minigolf'), W0 / 2, 80);
     // dibujito: bandera y bola
-    ctx.fillStyle = COL.g1; ctx.beginPath(); ctx.ellipse(W0 / 2, 212, 92, 28, 0, 0, 7); ctx.fill(); ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.ellipse(W0 / 2 + 30, 212, 11, 7, 0, 0, 7); ctx.fill(); flag(ctx, W0 / 2 + 30, 212, s.t, false);
-    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#C9D8EA'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(W0 / 2 - 40, 216, 8, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = COL.g1; ctx.beginPath(); ctx.ellipse(W0 / 2, 138, 84, 24, 0, 0, 7); ctx.fill(); ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.ellipse(W0 / 2 + 30, 138, 10, 6, 0, 0, 7); ctx.fill(); flag(ctx, W0 / 2 + 30, 138, s.t, false);
+    ctx.fillStyle = '#fff'; ctx.strokeStyle = '#C9D8EA'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(W0 / 2 - 40, 142, 7, 0, 7); ctx.fill(); ctx.stroke();
     ctx.fillStyle = COL.muted; ctx.font = `500 14px ${FD}`;
-    const lines = [TQT('Arrastra hacia atrás desde la bola, apunta y suelta.'), TQT('¿Cuántos hoyos juegas?')];
-    wrap(ctx, lines[0], W0 / 2, 266, 240, 18); ctx.fillStyle = COL.ink; ctx.font = `600 16px ${FD}`; ctx.fillText(lines[1], W0 / 2, 312);
+    wrap(ctx, TQT('Arrastra hacia atrás desde la bola, apunta y suelta.'), W0 / 2, 186, 250, 18); ctx.fillStyle = COL.ink; ctx.font = `600 16px ${FD}`; ctx.fillText(TQT('¿Cuántos hoyos juegas?'), W0 / 2, 236);
     BTNS.forEach((b) => button(ctx, b, String(b.n), TQT('hoyos'), s.ui.pressed === b.n));
     // tus récords: una medalla por recorrido
-    ctx.fillStyle = '#F3F7EE'; rr(ctx, 34, 410, 262, 70, 18); ctx.fill();
-    ctx.fillStyle = COL.muted; ctx.font = `600 11px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(TQT('TUS RÉCORDS'), W0 / 2, 422);
-    const R = recs(); BTNS.forEach((b) => medal(ctx, b.x + b.w / 2, 448, b.n, R[b.n], s.t, false));
-    ctx.restore();
+    ctx.fillStyle = '#F3F7EE'; rr(ctx, 34, 328, 262, 68, 18); ctx.fill();
+    ctx.fillStyle = COL.muted; ctx.font = `600 11px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(TQT('TUS RÉCORDS'), W0 / 2, 340);
+    const R = recs(); BTNS.forEach((b) => medal(ctx, b.x + b.w / 2, 366, b.n, R[b.n], s.t, false));
   }
   function drawOver(ctx, s) {
     if (root.TQBridge) return; // en la app sale la tarjeta de fin de partida de la app (Otra vez · Salir · Compartir)
@@ -584,14 +585,14 @@
   function ballsUI() {
     if (!H || !root.TQ_BALLS || !root.TQBalls) return; let d = H.balls;
     if (!d) {
-      const st = document.createElement('style'); st.textContent = '.mgb{position:absolute;overflow:hidden;font-family:Fredoka,sans-serif;color:#22324F}.mgb b{display:block;text-align:center;font-weight:600}.mgb .row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 6px}.mgb .row::-webkit-scrollbar{display:none}.mgb button{flex:none;scroll-snap-align:center;border:0;background:#F0F4F8;border-radius:14px;box-shadow:0 3px 0 #DCE3EC;position:relative;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}.mgb button.on{background:#E3F9E6;box-shadow:0 0 0 2.5px #4CD964,0 3px 0 #2E8B4A}.mgb button.lock img{filter:grayscale(1) opacity(.45)}.mgb button span{position:absolute;left:0;right:0;bottom:0;border-radius:0 0 14px 14px;background:#22324F;color:#fff;font-weight:600;text-align:center}';
+      const st = document.createElement('style'); st.textContent = '.mgb{position:absolute;overflow:visible;font-family:Fredoka,sans-serif;color:#22324F}.mgb b{display:block;text-align:center;font-weight:600}.mgb .row{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.mgb .row::-webkit-scrollbar{display:none}.mgb button{flex:none;scroll-snap-align:center;border:0;background:#F0F4F8;border-radius:14px;box-shadow:0 3px 0 #DCE3EC;position:relative;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}.mgb button.on{background:#E3F9E6;box-shadow:0 0 0 2.5px #4CD964,0 3px 0 #2E8B4A}.mgb button.lock img{filter:grayscale(1) opacity(.45)}.mgb button span{position:absolute;left:0;right:0;bottom:0;border-radius:0 0 14px 14px;background:#22324F;color:#fff;font-weight:600;text-align:center}';
       document.head.appendChild(st); d = H.balls = document.createElement('div'); d.className = 'mgb'; if (getComputedStyle(H.container).position === 'static') H.container.style.position = 'relative'; H.container.appendChild(d); d.addEventListener('pointerdown', (e) => e.stopPropagation()); }
     const s = H.s, show = s.phase === 'start'; d.style.display = show ? '' : 'none'; if (!show) return;
     const k = H.k, key = [k, H.ox, H.oy, root.TQ_BALL, s.ui.ballMsg].join();
     if (d._k === key) return; d._k = key; const sl = d.querySelector('.row') ? d.querySelector('.row').scrollLeft : 0;
-    Object.assign(d.style, { left: H.canvas.offsetLeft + H.ox + 30 * k + 'px', top: H.canvas.offsetTop + H.oy + 452 * k + 'px', width: 270 * k + 'px', height: 66 * k + 'px' });
-    const cur = root.TQ_BALL || 'clasica', sz = 44 * k;
-    d.innerHTML = `<b style="font-size:${13 * k}px;margin-bottom:${4 * k}px">${s.ui.ballMsg || TQT('Tu bola')}</b><div class="row">` + root.TQ_BALLS.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}" style="width:${sz}px;height:${sz}px"><img src="${root.TQBalls.icon(b.id, 72).toDataURL()}" style="width:${26 * k}px;height:${26 * k}px;margin-top:${b.ok ? 0 : -8 * k}px">${b.ok ? '' : `<span style="font-size:${8.5 * k}px;padding:${1.5 * k}px 0">${TQT('Día')} ${b.d}</span>`}</button>`).join('') + '</div>';
+    Object.assign(d.style, { left: H.canvas.offsetLeft + H.ox + 26 * k + 'px', top: H.canvas.offsetTop + H.oy + 406 * k + 'px', width: 278 * k + 'px', height: 96 * k + 'px' });
+    const cur = root.TQ_BALL || 'clasica', sz = 52 * k;
+    d.innerHTML = `<b style="font-size:${14 * k}px;line-height:${18 * k}px;margin-bottom:${6 * k}px">${s.ui.ballMsg || TQT('Tu bola')}</b><div class="row" style="gap:${10 * k}px;padding:${4 * k}px ${6 * k}px ${10 * k}px">` + root.TQ_BALLS.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}" style="width:${sz}px;height:${sz}px"><img src="${root.TQBalls.icon(b.id, 72).toDataURL()}" style="width:${32 * k}px;height:${32 * k}px;margin-top:${b.ok ? 0 : -10 * k}px">${b.ok ? '' : `<span style="font-size:${8.5 * k}px;padding:${1.5 * k}px 0">${TQT('Día')} ${b.d}</span>`}</button>`).join('') + '</div>';
     const row = d.querySelector('.row'); row.scrollLeft = sl;
     row.querySelectorAll('button').forEach((bt) => (bt.onclick = (e) => { e.stopPropagation(); const b = root.TQ_BALLS.find((q) => q.id === bt.dataset.b); if (!b) return;
       if (!b.ok) { s.ui.ballMsg = TQT('Se consigue con {a} días de racha').replace('{a}', b.d); vib('error'); ballsUI(); return; }
