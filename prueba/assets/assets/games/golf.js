@@ -502,7 +502,7 @@
     root.TQ_BALL = q.b.id; s.ui.ballMsg = null; tqSend({ ev: 'ball', id: q.b.id }); vib('tick'); return true; }
   function drawStart(ctx, s) {
     ctx.fillStyle = 'rgba(34,50,79,.35)'; ctx.fillRect(-60, -60, W0 + 120, H0 + 120); ctx.save(); ctx.translate(0, SY);
-    ctx.fillStyle = '#FFFFFF'; rr(ctx, 22, 62, 286, root.TQ_BALLS ? 496 : 430, 28); ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; rr(ctx, 22, 62, 286, root.TQ_BALLS ? 494 : 430, 28); ctx.fill();
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillStyle = '#E3F9E6'; rr(ctx, W0 / 2 - 46, 82, 92, 22, 11); ctx.fill(); ctx.fillStyle = '#1F7A34'; ctx.font = `600 11px ${FD}`; ctx.fillText(TQT('MINIJUEGO'), W0 / 2, 93.5);
     ctx.fillStyle = COL.ink; ctx.font = `700 32px ${FD}`; ctx.fillText(TQT('Minigolf'), W0 / 2, 132);
@@ -517,7 +517,7 @@
     ctx.fillStyle = '#F3F7EE'; rr(ctx, 34, 410, 262, 70, 18); ctx.fill();
     ctx.fillStyle = COL.muted; ctx.font = `600 11px ${FD}`; ctx.textAlign = 'center'; ctx.fillText(TQT('TUS RÉCORDS'), W0 / 2, 422);
     const R = recs(); BTNS.forEach((b) => medal(ctx, b.x + b.w / 2, 448, b.n, R[b.n], s.t, false));
-    if (root.TQ_BALLS) drawBalls(ctx, s); ctx.restore();
+    ctx.restore();
   }
   function drawOver(ctx, s) {
     if (root.TQBridge) return; // en la app sale la tarjeta de fin de partida de la app (Otra vez · Salir · Compartir)
@@ -552,7 +552,7 @@
   function onDown(e) {
     if (!H) return; e.preventDefault(); const p = toLogical(e), s = H.s;
     try { H.canvas.setPointerCapture(e.pointerId); } catch (err) { /* nada */ }
-    if (s.phase === 'start') { const q = { x: p.x, y: p.y - SY }; if (ballTap(s, q)) return; BTNS.forEach((b) => { if (hit(b, q)) s.ui.pressed = b.n; }); return; }
+    if (s.phase === 'start') { const q = { x: p.x, y: p.y - SY }; BTNS.forEach((b) => { if (hit(b, q)) s.ui.pressed = b.n; }); return; }
     if (s.phase === 'over') { if (hit(OVER_BTN, p)) s.ui.pressed = 'over'; return; }
     const b = s.b; if (b.moving || b.ride || b.air > 0 || b.sunk) return;
     // se apunta arrastrando desde cualquier sitio: solo cuenta cuánto y hacia dónde mueves el dedo
@@ -575,10 +575,27 @@
   }
   function frame(now) {
     if (!H) return; const dt = Math.min(0.05, Math.max(0, (now - (H.last || now)) / 1000)); H.last = now;
-    update(H.s, dt);
+    update(H.s, dt); ballsUI();
     const ctx = H.ctx; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = H.s.W ? themeOf(H.s.W.L).r1 : COL.rough; ctx.fillRect(0, 0, H.canvas.width, H.canvas.height);
     ctx.setTransform(H.k * H.dpr, 0, 0, H.k * H.dpr, H.ox * H.dpr, H.oy * H.dpr); draw(ctx, H.s);
     H.raf = root.requestAnimationFrame(frame);
+  }
+  // 7.3: carrusel de bolas (DOM, se desliza; caben las que haya) debajo de los récords, dentro de la tarjeta
+  function ballsUI() {
+    if (!H || !root.TQ_BALLS || !root.TQBalls) return; let d = H.balls;
+    if (!d) {
+      const st = document.createElement('style'); st.textContent = '.mgb{position:absolute;overflow:hidden;font-family:Fredoka,sans-serif;color:#22324F}.mgb b{display:block;text-align:center;font-weight:600}.mgb .row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:2px 2px 6px}.mgb .row::-webkit-scrollbar{display:none}.mgb button{flex:none;scroll-snap-align:center;border:0;background:#F0F4F8;border-radius:14px;box-shadow:0 3px 0 #DCE3EC;position:relative;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}.mgb button.on{background:#E3F9E6;box-shadow:0 0 0 2.5px #4CD964,0 3px 0 #2E8B4A}.mgb button.lock img{filter:grayscale(1) opacity(.45)}.mgb button span{position:absolute;left:0;right:0;bottom:0;border-radius:0 0 14px 14px;background:#22324F;color:#fff;font-weight:600;text-align:center}';
+      document.head.appendChild(st); d = H.balls = document.createElement('div'); d.className = 'mgb'; if (getComputedStyle(H.container).position === 'static') H.container.style.position = 'relative'; H.container.appendChild(d); d.addEventListener('pointerdown', (e) => e.stopPropagation()); }
+    const s = H.s, show = s.phase === 'start'; d.style.display = show ? '' : 'none'; if (!show) return;
+    const k = H.k, key = [k, H.ox, H.oy, root.TQ_BALL, s.ui.ballMsg].join();
+    if (d._k === key) return; d._k = key; const sl = d.querySelector('.row') ? d.querySelector('.row').scrollLeft : 0;
+    Object.assign(d.style, { left: H.canvas.offsetLeft + H.ox + 30 * k + 'px', top: H.canvas.offsetTop + H.oy + 452 * k + 'px', width: 270 * k + 'px', height: 66 * k + 'px' });
+    const cur = root.TQ_BALL || 'clasica', sz = 44 * k;
+    d.innerHTML = `<b style="font-size:${13 * k}px;margin-bottom:${4 * k}px">${s.ui.ballMsg || TQT('Tu bola')}</b><div class="row">` + root.TQ_BALLS.map((b) => `<button data-b="${b.id}" class="${b.id === cur ? 'on' : ''}${b.ok ? '' : ' lock'}" style="width:${sz}px;height:${sz}px"><img src="${root.TQBalls.icon(b.id, 72).toDataURL()}" style="width:${26 * k}px;height:${26 * k}px;margin-top:${b.ok ? 0 : -8 * k}px">${b.ok ? '' : `<span style="font-size:${8.5 * k}px;padding:${1.5 * k}px 0">${TQT('Día')} ${b.d}</span>`}</button>`).join('') + '</div>';
+    const row = d.querySelector('.row'); row.scrollLeft = sl;
+    row.querySelectorAll('button').forEach((bt) => (bt.onclick = (e) => { e.stopPropagation(); const b = root.TQ_BALLS.find((q) => q.id === bt.dataset.b); if (!b) return;
+      if (!b.ok) { s.ui.ballMsg = TQT('Se consigue con {a} días de racha').replace('{a}', b.d); vib('error'); ballsUI(); return; }
+      root.TQ_BALL = b.id; s.ui.ballMsg = null; tqSend({ ev: 'ball', id: b.id }); vib('tick'); ballsUI(); }));
   }
   function mount(el) {
     if (H) unmount(); const canvas = document.createElement('canvas'); canvas.style.display = 'block'; canvas.style.touchAction = 'none'; canvas.setAttribute('aria-label', TQT('Minigolf')); el.appendChild(canvas);
@@ -587,6 +604,6 @@
     if (root.ResizeObserver) { H.ro = new root.ResizeObserver(resize); H.ro.observe(el); } else root.addEventListener('resize', resize);
     H.raf = root.requestAnimationFrame(frame);
   }
-  function unmount() { if (!H) return; root.cancelAnimationFrame(H.raf); if (H.ro) H.ro.disconnect(); if (H.canvas.parentNode) H.canvas.parentNode.removeChild(H.canvas); H = null; }
+  function unmount() { if (!H) return; if (H.balls && H.balls.parentNode) H.balls.parentNode.removeChild(H.balls); root.cancelAnimationFrame(H.raf); if (H.ro) H.ro.disconnect(); if (H.canvas.parentNode) H.canvas.parentNode.removeChild(H.canvas); H = null; }
   root.TQGolf = { mount, unmount, again: () => { if (H) startPlay(H.s, H.s.nHoles); }, _debug: { get s() { return H && H.s; }, startPlay: (n) => H && startPlay(H.s, n), loadHole: (k) => { if (H) { H.s.phase = 'play'; H.s.list = [k]; H.s.i = 0; loadHole(H.s); } } } };
 })(typeof window !== 'undefined' ? window : this);

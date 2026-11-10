@@ -381,16 +381,15 @@
       // 7.3: el hoyo de verdad: el borde tira un poco hacia dentro; sobre el hoyo la bola cae (gravedad) y, según lo
       // rápida y lo centrada que vaya, entra, hace corbata (sale girada; si va muy lenta, hasta media vuelta) o pasa por encima
       const dc = Math.hypot(x - c.x, z - c.z), seed = Math.abs(Math.sin(x * 91.7 + z * 47.3)) % 1;
-      if (dc >= CUP_R && dc < CUP_R + BALL_R * 0.6 && !ov) { const k = 1 - (dc - CUP_R) / (BALL_R * 0.6); vx += ((c.x - x) / dc) * 2.4 * k * dt; vz += ((c.z - z) / dc) * 2.4 * k * dt; }
       if (dc < CUP_R * 0.4 && v > 1.7 && !pin) { pin = true; st.pinHit = true; const k = 0.5 + seed * 0.15, sd = (seed - 0.5) * 0.9; vx = -vx * k + vz * sd; vz = -vz * k - vx * sd; zc *= 0.2; vzc = -0.25; } // 7.3: de lleno y muy fuerte: choca con el palo, salta y puede salirse // de lleno y muy fuerte: choca con la bandera y vuelve
-      if (dc < CUP_R) { if (!ov) { ov = true; zc = 0; vzc = 0; } vzc += G * dt; zc += vzc * dt; if (zc > BALL_R * 0.9) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; } }
+      if (dc < CUP_R) { if (!ov) { ov = true; zc = 0; vzc = 0; } vzc += G * dt; zc += vzc * dt; if (zc > BALL_R * 0.9) { end = 'cup'; break; } }
       else if (ov) { ov = false;
-        if (zc > BALL_R * 0.72) { end = 'cup'; pts.push({ x: c.x, z: c.z }); break; }
+        if (zc > BALL_R * 0.72) { end = 'cup'; break; }
         if (zc > BALL_R * 0.16) { const nx = (x - c.x) / dc, nz = (z - c.z) / dc, tv = -vx * nz + vz * nx, turn = Math.min(Math.PI, (0.35 + 1.4 / Math.max(0.35, v)) * (0.8 + seed * 0.4)) * Math.sign(tv || 1), keep = 0.45 + seed * 0.2, cs = Math.cos(turn), sn = Math.sin(turn), nvx = (vx * cs - vz * sn) * keep, nvz = (vx * sn + vz * cs) * keep; vx = nvx; vz = nvz; st.lipSim = true; } // corbata
         zc = 0; }
       if (v < 0.02 && Math.hypot(ax, az) < f) break;
     }
-    if (end === 'rest') { const L = pts[pts.length - 1], dl = Math.hypot(L.x - c.x, L.z - c.z); if (dl < CUP_R + 0.006) end = 'cup'; else if (dl < CUP_R + BALL_R * 0.6) { const wTo = ((c.x - L.x) * (W.x || 0) + (c.z - L.z) * (W.z || 0)) / dl; if (wTo > 6) { pts.push({ x: c.x, z: c.z }); end = 'cup'; } } } // colgando del borde: el viento fuerte la mete
+    if (end === 'rest') { const L = pts[pts.length - 1], dl = Math.hypot(L.x - c.x, L.z - c.z); if (dl < CUP_R + 0.006) end = 'cup'; else if (dl < CUP_R + BALL_R * 0.6) { const wTo = ((c.x - L.x) * (W.x || 0) + (c.z - L.z) * (W.z || 0)) / dl; if (wTo > 6) end = 'cup'; } } // colgando del borde: el viento fuerte la mete
     return { pts, end, lip: st.lipSim };
   }
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
@@ -489,7 +488,6 @@
     const c = HOLE.cup, d = Math.hypot(b.x - c.x, b.z - c.z), sp = Math.hypot(b.vx, b.vz);
     // borde: si la bola cuelga sobre el hoyo (su centro a menos de media bola del borde), el borde la «tira» un poco hacia dentro;
     // según la velocidad, se cuela o da la vuelta y sale (corbata)
-    if (d >= CUP_R && d < CUP_R + BALL_R * 0.6 && !b.over) { const k = 1 - (d - CUP_R) / (BALL_R * 0.6), nx = (c.x - b.x) / d, nz = (c.z - b.z) / d; b.vx += nx * 2.2 * k * dt; b.vz += nz * 2.2 * k * dt; }
     if (d < CUP_R) { if (!b.over) { b.over = true; b.zc = 0; b.vzc = 0; } b.vzc += G * dt; b.zc += b.vzc * dt; if (b.zc > BALL_R * 0.9) return sink(); }
     else if (b.over) {
       b.over = false;
@@ -501,7 +499,7 @@
     } else if (d < CUP_R + 0.008 && sp < 0.06) return sink();
   }
   const resName = (k, d) => (k === 1 ? T('¡Hoyo en uno!') : d <= -3 ? T('¡Albatros!') : d === -2 ? T('¡Eagle!') : d === -1 ? T('¡Birdie!') : d === 0 ? T('¡Par!') : d === 1 ? T('Bogey') : d === 2 ? T('Doble bogey') : d === 3 ? T('Triple bogey') : TF('+{n} sobre el par', { n: d }));
-  function sink() { const b = st.b; b.sunk = true; b.mode = 'rest'; b.sinkFrom = { x: b.x, z: b.z }; st.sinkT = 0; st.phase = 'sunk'; SND.sink(); makeBurst(); const k = st.strokes, d = k - HOLE.par; say(resName(k, d)); if (d <= 0) SND.clap(d < 0 ? 1 : 0.4); }
+  function sink() { const b = st.b, pv = b.mode === 'putt' || !(Math.hypot(b.vx || 0, b.vz || 0) > 0.01), vx = pv ? st.bvx || 0 : b.vx, vz = pv ? st.bvz || 0 : b.vz, vl = Math.hypot(vx, vz), cap = vl > 1.6 ? 1.6 / vl : 1; b.sk = { x: b.x, z: b.z, vx: vx * cap, vz: vz * cap, d: Math.max(0, b.zc || 0), vd: 0.15, hit: 0 }; b.sunk = true; b.mode = 'rest'; b.sinkFrom = { x: b.x, z: b.z }; st.sinkT = 0; st.phase = 'sunk'; SND.sink(); makeBurst(); const k = st.strokes, d = k - HOLE.par; say(resName(k, d)); if (d <= 0) SND.clap(d < 0 ? 1 : 0.4); }
   function water(s) {
     const b = st.b; say(T(s === 'ob' ? '¡Fuera de límites! +1 golpe' : '¡Al agua! +1 golpe'));
     if (s === 'ob') SND.water(); else { SND.splash(); const parts = []; for (let i = 0; i < 26; i++) { const a = Math.random() * Math.PI * 2, v = 0.6 + Math.random() * 1.8; parts.push({ vx: Math.cos(a) * v, vz: Math.sin(a) * v, vy: 2.2 + Math.random() * 3 }); } st.splash = { x: b.x, y: h(b.x, b.z), z: b.z, t: performance.now(), parts }; }
@@ -1614,9 +1612,15 @@
     groundMat.uniforms.uTime.value = st.t; groundMat.uniforms.uSlopeOn.value = 0; if (seaMat) seaMat.uniforms.uTime.value = st.t;
     let bx = b.x, by = (b.mode === 'air' ? Math.max(b.y, meshH(b.x, b.z)) : meshH(b.x, b.z)) + BALL_R, bz = b.z; // a ras del suelo dibujado
     if (b.over) by -= b.zc;
-    if (b.sunk) { const u = Math.min(1, st.sinkT / 0.6); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
+    if (b.sunk && b.sk) { const S = b.sk, c = HOLE.cup, lim = CUP_R - BALL_R * 1.02, DEEP = 0.085;
+      for (let i = 0; i < 4; i++) { const hh = Math.min(dt, 0.05) / 4; S.vd += G * hh; S.d += S.vd * hh; S.x += S.vx * hh; S.z += S.vz * hh;
+        const rx = S.x - c.x, rz = S.z - c.z, rl = Math.hypot(rx, rz);
+        if (rl > lim) { const nx = rx / rl, nz = rz / rl, vn = S.vx * nx + S.vz * nz; if (vn > 0) { S.vx -= 1.55 * vn * nx; S.vz -= 1.55 * vn * nz; S.vx *= 0.7; S.vz *= 0.7; if (!S.hit && vn > 0.25) { S.hit = 1; vib3('lip'); } } S.x = c.x + nx * lim; S.z = c.z + nz * lim; }
+        if (S.d > DEEP) { S.d = DEEP; S.vd = -Math.abs(S.vd) * 0.25; S.vx *= 0.55; S.vz *= 0.55; } }
+      bx = S.x; bz = S.z; by = h(c.x, c.z) + BALL_R - S.d; ball.visible = st.sinkT < 2.5; } // 7.3: entra de verdad (sigue, choca con la pared, cae y rebota en el fondo)
+    else if (b.sunk) { const u = Math.min(1, st.sinkT / 0.6); bx = b.sinkFrom.x + (HOLE.cup.x - b.sinkFrom.x) * u; bz = b.sinkFrom.z + (HOLE.cup.z - b.sinkFrom.z) * u; by = h(HOLE.cup.x, HOLE.cup.z) + BALL_R - u * 0.08; ball.visible = u < 1; } else ball.visible = true;
     ball.position.set(bx, by, bz);
-    { if (st.lbx != null && !b.sunk && b.mode !== 'air') { const ddx = bx - st.lbx, ddz = bz - st.lbz, dd = Math.hypot(ddx, ddz); if (dd > 1e-6 && dd < 0.5) ball.rotateOnWorldAxis(new THREE.Vector3(ddz / dd, 0, -ddx / dd), dd / BALL_R); } st.lbx = bx; st.lbz = bz; } // 7.3: rueda de verdad (por lo que avanza, también en el putt)
+    { if (st.lbx != null && b.mode !== 'air') { const ddx = bx - st.lbx, ddz = bz - st.lbz, dd = Math.hypot(ddx, ddz); if (dt > 0 && !b.sunk) { st.bvx = ddx / dt; st.bvz = ddz / dt; } if (dd > 1e-6 && dd < 0.5) ball.rotateOnWorldAxis(new THREE.Vector3(ddz / dd, 0, -ddx / dd), dd / BALL_R); } st.lbx = bx; st.lbz = bz; } // 7.3: rueda de verdad (por lo que avanza, también en el putt)
     if (st.phase === 'splash' || st.phase === 'choice') ball.visible = false;
     const bd = cam.position.distanceTo(ball.position), pxR = (BALL_R / (bd * Math.tan((cam.fov * Math.PI) / 360))) * (Hd / 2), bs = Math.max(1, 3 / Math.max(pxR, 1e-4)); ball.scale.setScalar(bs); st.ballPx = pxR * bs;
     const fk = Math.max(0, camPos.y - h(camPos.x, camPos.z) - 8) * 1.4; groundMat.uniforms.uFogN.value = st.fogN + fk; groundMat.uniforms.uFogF.value = st.fogF + fk;
@@ -1660,7 +1664,8 @@
   function drawPutt(g, k) {
     const sw = st.swing; if (!sw || sw.charge < 0.03) { st.pp = null; st.ps = null; aimMark(g, k); return; }
     const p = Math.max(0.02, sw.charge), D = puttMax() * p, b = st.b, fx2 = -Math.sin(st.yaw), fz2 = -Math.cos(st.yaw), key = [b.x, b.z, st.yaw.toFixed(4), p.toFixed(3)].join();
-    const nowT = performance.now(); if (st.pk !== key && (!st.ps || nowT - (st.pkT || 0) > 45)) { st.pk = key; st.pkT = nowT; st.ps = simPutt(p); const sp2 = []; let acc = 0; st.ps.pts.forEach((q, i) => { if (i) acc += Math.hypot(q.x - st.ps.pts[i - 1].x, q.z - st.ps.pts[i - 1].z); if (!i || acc >= 0.18) { sp2.push(q); acc = 0; } }); const Lq = st.ps.pts[st.ps.pts.length - 1]; if (sp2[sp2.length - 1] !== Lq) sp2.push(Lq); st.pp = sp2; }
+    const nowT = performance.now(); if (st.pk !== key) { // 7.3: se recalcula en cada fotograma (antes cada 45 ms: iba a saltos)
+      st.pk = key; st.pkT = nowT; st.ps = simPutt(p); const sp2 = []; let acc = 0; st.ps.pts.forEach((q, i) => { if (i) acc += Math.hypot(q.x - st.ps.pts[i - 1].x, q.z - st.ps.pts[i - 1].z); if (!i || acc >= 0.18) { sp2.push(q); acc = 0; } }); const Lq = st.ps.pts[st.ps.pts.length - 1]; if (sp2[sp2.length - 1] !== Lq) sp2.push(Lq); st.pp = sp2; }
     // lo que hará la bola con un gesto normal: el camino de verdad (con la caída) y dónde se para
     const pts = st.pp, n = pts.length; for (let i = 1; i < n; i++) { const q = pts[i], pr = project(q.x, h(q.x, q.z) + 0.02, q.z); if (pr.z > 1) continue; const t = i / n; g.fillStyle = `rgba(255,255,255,${0.92 - t * 0.4})`; g.beginPath(); g.arc(pr.x, pr.y, (2.3 - t * 0.8) * k, 0, 7); g.fill(); }
     const E = pts[n - 1]; ring(g, k, E, 0.11, 0.95); const tp = project(E.x, h(E.x, E.z) + 0.02, E.z); if (tp.z <= 1) label(g, k * 0.85, tp.x, tp.y - 22 * k, fmtM(D));
@@ -1808,7 +1813,7 @@
     const B = loadBest(), n = st.menuN, step = st.menuStep, last = n === 1 ? 3 : 2;
     el.g3menu.querySelectorAll('.g3-mstep').forEach((d) => (d.style.display = +d.dataset.s === step ? '' : 'none'));
     el.g3msteps.innerHTML = `<span>${TF('Paso {a} de {b}', { a: step, b: last })}</span>` + Array.from({ length: last }, (_, k) => `<i class="${k < step ? 'on' : ''}"></i>`).join('');
-    el.g3mback.style.visibility = step > 1 ? 'visible' : 'hidden';
+    el.g3mback.style.display = step > 1 ? '' : 'none'; // 7.3: en el paso 1 «Siguiente» ocupa todo y va centrado
     el.g3go.textContent = T(step < last ? 'Siguiente' : '¡A jugar!');
     if (step === 1) {
       el.g3mn.innerHTML = [1, 3, 6, 9].map((k) => { const br = B['r' + k]; return `<button data-n="${k}" class="${k === n ? 'on' : ''}"><b>${T(NCARD[k][0])}</b><span>${T(NCARD[k][1])}</span>${k > 1 && br != null ? `<small>${T('Tu mejor:')} ${relS(br)}</small>` : ''}</button>`; }).join('');
