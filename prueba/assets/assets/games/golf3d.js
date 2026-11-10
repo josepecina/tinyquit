@@ -371,7 +371,7 @@
   // 7.3 v3 (Jose 9 nov): el putt se simula UNA vez con las caídas y baches del green; la línea que ves es ese camino
   // y la bola lo sigue exactamente. Si el gesto no es perfecto, se simula otra vez con el error (más largo/corto, más a un lado).
   const puttV0 = (charge) => Math.sqrt(2 * puttDec() * puttMax() * Math.max(0, charge));
-  function puttSim(v0, yaw) {
+  function puttSim(v0, yaw, noCup) { // noCup: la línea de apuntar no «ve» el hoyo (como en la 7.2): apuntas igual hacia cualquier lado; el golpe real sí cae
     st.pinHit = false; st.lipSim = false; let ov = false, zc = 0, vzc = 0, pin = false; const Wk = WEATHERS[W.kind], dt = 1 / 120, c = HOLE.cup; let x = st.b.x, z = st.b.z, vx = -Math.sin(yaw) * v0, vz = -Math.cos(yaw) * v0, end = 'rest'; const pts = [{ x, z }];
     for (let i = 0; i < 2400; i++) {
       const s2 = surf(x, z); if (s2 === 'sea' || s2 === 'ob') { end = s2; break; }
@@ -380,7 +380,7 @@
       x += vx * dt; z += vz * dt; pts.push({ x, z }); const v = Math.hypot(vx, vz);
       // 7.3: el hoyo de verdad: el borde tira un poco hacia dentro; sobre el hoyo la bola cae (gravedad) y, según lo
       // rápida y lo centrada que vaya, entra, hace corbata (sale girada; si va muy lenta, hasta media vuelta) o pasa por encima
-      const dc = Math.hypot(x - c.x, z - c.z), seed = Math.abs(Math.sin(x * 91.7 + z * 47.3)) % 1;
+      const dc = noCup ? 9 : Math.hypot(x - c.x, z - c.z), seed = Math.abs(Math.sin(x * 91.7 + z * 47.3)) % 1;
       if (dc < CUP_R * 0.4 && v > 1.7 && !pin) { pin = true; st.pinHit = true; const k = 0.5 + seed * 0.15, sd = (seed - 0.5) * 0.9; vx = -vx * k + vz * sd; vz = -vz * k - vx * sd; zc *= 0.2; vzc = -0.25; } // 7.3: de lleno y muy fuerte: choca con el palo, salta y puede salirse // de lleno y muy fuerte: choca con la bandera y vuelve
       if (dc < CUP_R) { if (!ov) { ov = true; zc = 0; vzc = 0; } vzc += G * dt; zc += vzc * dt; if (zc > BALL_R * 0.9) { end = 'cup'; break; } }
       else if (ov) { ov = false;
@@ -389,7 +389,7 @@
         zc = 0; }
       if (v < 0.02 && Math.hypot(ax, az) < f) break;
     }
-    if (end === 'rest') { const L = pts[pts.length - 1], dl = Math.hypot(L.x - c.x, L.z - c.z); if (dl < CUP_R + 0.006) end = 'cup'; else if (dl < CUP_R + BALL_R * 0.6) { const wTo = ((c.x - L.x) * (W.x || 0) + (c.z - L.z) * (W.z || 0)) / dl; if (wTo > 6) end = 'cup'; } } // colgando del borde: el viento fuerte la mete
+    if (end === 'rest' && !noCup) { const L = pts[pts.length - 1], dl = Math.hypot(L.x - c.x, L.z - c.z); if (dl < CUP_R + 0.006) end = 'cup'; else if (dl < CUP_R + BALL_R * 0.6) { const wTo = ((c.x - L.x) * (W.x || 0) + (c.z - L.z) * (W.z || 0)) / dl; if (wTo > 6) end = 'cup'; } } // colgando del borde: el viento fuerte la mete
     return { pts, end, lip: st.lipSim };
   }
   const puttMax = () => Math.max(3, Math.min(40, cupD() * 1.6 + 1));
@@ -1660,7 +1660,7 @@
     g.strokeStyle = '#FFFFFF'; g.lineWidth = 3 * k; g.beginPath(); g.arc(p.x, p.y, 14 * k * pulse, 0, 7); g.stroke(); g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(p.x, p.y, 5 * k, 0, 7); g.fill();
     label(g, k, p.x + 58 * k, p.y, T('Tu bola')); label(g, k, f.x, f.y - 30 * k, T('Hoyo'));
   }
-  function simPutt(p) { return puttSim(puttV0(p), st.yaw); } // 7.3 (F4): lo que marca = lo que hace
+  function simPutt(p) { return puttSim(puttV0(p), st.yaw, true); } // 7.3 (F4): lo que marca = lo que hace
   function drawPutt(g, k) {
     const sw = st.swing; if (!sw || sw.charge < 0.03) { st.pp = null; st.ps = null; aimMark(g, k); return; }
     const p = Math.max(0.02, sw.charge), D = puttMax() * p, b = st.b, fx2 = -Math.sin(st.yaw), fz2 = -Math.cos(st.yaw), key = [b.x, b.z, st.yaw.toFixed(4), p.toFixed(3)].join();
