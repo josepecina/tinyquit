@@ -708,6 +708,7 @@ cv.addEventListener('wheel',e=>{e.preventDefault();if(MODE!=='big')return;if(e.c
 function zoomAt(nz,sx,sy){nz=MODE==='big'?Math.max(zb,Math.min(zb*2.6,nz)):Math.max(vw/(64*PX),Math.min(vw/(5*PX),nz));const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;z=nz;cx=wx-(sx-vw/2)/z;cy=wy-(sy-vh/2)/z;if(MODE!=='big'&&Math.abs(BS-Math.min(2.5,DPR*z*1.15))>.5){BS=Math.min(2.5,DPR*z*1.15);STC.clear();tinyC=null;}clamp();}
 function onTap(sx,sy){const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;let best=null,bd=MODE==='big'?30:Math.max(26,18/z);PRZ.forEach(p=>{const d=Math.hypot(p.x-wx,p.y-5-wy);if(d<bd){bd=d;best=p;}});
  if(MODE!=='big'){if(best)send('peek:'+best.id);else send('open');return;}
+ if(best&&(best.k==='acc'||best.k==='crown')){closeBubble();send('peek:'+best.id);return;} // v8: la ropa, con la ficha de la app (Tiny con la prenda puesta), igual que en el mini
  if(best){SEL=best;openBubble(best);send('tap:'+best.id);return;}const tq=tinyPos();if(Math.hypot(tq[0]-wx,tq[1]-20-wy)<36){SEL={tiny:1,x:tq[0],y:tq[1]-30};openBubble(SEL);return;}closeBubble();}
 // ---------- burbuja ----------
 let SEL=null;const bub=document.getElementById('bub');let playing=null;
