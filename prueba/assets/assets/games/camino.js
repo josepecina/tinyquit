@@ -643,15 +643,16 @@ function drawStation(p){const x=p.x,y=p.y,r=21,kind=p.k,done=p.done;g.fillStyle=
 // ---------- estado de la vista ----------
 const cv=document.getElementById('c'),ctx=cv.getContext('2d');let DPR=Math.min(2.5,window.devicePixelRatio||1),vw=0,vh=0,z=1,zb=1,cx=0,cy=0,vx=0,vy=0,t0=performance.now(),span=CFG.span||14;
 const TILES=new Map();const SPC=new Map();const STC=new Map();let tinyC=null;
-function resize(){vw=innerWidth;vh=innerHeight;cv.width=vw*DPR;cv.height=vh*DPR;cv.style.width=vw+'px';cv.style.height=vh+'px';
- if(MODE==='big'){zb=vw/W;BS=Math.min(3,DPR*zb*1.25);if(!z||z<zb)z=zb;}else{z=vw/((span+2)*PX);zb=z;BS=Math.min(2.5,DPR*z*1.15);TILES.clear();SPC.clear();STC.clear();tinyC=null;}clamp();}
+function boxW(){return document.documentElement.clientWidth||innerWidth;}function boxH(){return document.documentElement.clientHeight||innerHeight;}
+function resize(){const W1=boxW(),H1=boxH();if(W1<20||H1<20)return;vw=W1;vh=H1;cv.width=Math.round(vw*DPR);cv.height=Math.round(vh*DPR);cv.style.width='100%';cv.style.height='100%';
+ if(MODE==='big'){zb=vw/W;BS=Math.min(3,DPR*zb*1.25);if(!z||z<zb)z=zb;}else{z=vw/((span+2)*PX);zb=z;const B2=Math.min(2.5,DPR*z*1.15);if(Math.abs(B2-BS)>.5){BS=B2;STC.clear();tinyC=null;}}clamp();}
 function clamp(){if(MODE==='big'){const hw=vw/2/z,hh=vh/2/z;cx=W*z<=vw?W/2:Math.max(hw,Math.min(W-hw,cx));cy=Math.max(yOf(TOT+3)+hh-40,Math.min(yOf(-3)-hh+40,cy));}else{cy=HM/2;const hw=vw/2/z;cx=Math.max(LM-20+hw,Math.min(LM+TOT*PX+20-hw,cx));}}
 function centerToday(){const q=roadXY(TODAY);cx=q[0];cy=MODE==='big'?q[1]-vh*.06/z:HM/2;clamp();}
 function tileKeys(){const big=MODE==='big';const a=big?cy-vh/2/z:cx-vw/2/z,b=big?cy+vh/2/z:cx+vw/2/z;const k0=Math.floor(a/TH),k1=Math.floor(b/TH);const r=[];for(let k=k0;k<=k1;k++)r.push(k);return r;}
 let baking=0;
 let TCAP=12,SCAP=400;
-function getTile(k,force){let c=TILES.get(k);if(c){TILES.delete(k);TILES.set(k,c);return c;}if(!force&&baking>0)return null;baking++;c=bakeTile(k);TILES.set(k,c);while(TILES.size>TCAP)TILES.delete(TILES.keys().next().value);return c;}
-let sprBudget=0;function spr(it){let c=SPC.get(it);if(c){SPC.delete(it);SPC.set(it,c);return c;}if(sprBudget<=0&&SPC.size)return null;sprBudget--;c=bakeSprite(it);SPC.set(it,c);while(SPC.size>SCAP)SPC.delete(SPC.keys().next().value);return c;}
+function getTile(k,force){let c=TILES.get(k);if(c&&c.width>1){TILES.delete(k);TILES.set(k,c);if(c._bs===BS||baking>0||pinch)return c;}else if(c)TILES.delete(k);if(!force&&baking>0)return c&&c.width>1?c:null;baking++;const n=bakeTile(k);n._bs=BS;if(n.width<2)return c&&c.width>1?c:null;c=n;TILES.set(k,c);while(TILES.size>TCAP)TILES.delete(TILES.keys().next().value);return c;}
+let sprBudget=0;function spr(it){let c=SPC.get(it);if(c&&c.width>1){SPC.delete(it);SPC.set(it,c);if(c._bs===BS||sprBudget<=0||pinch)return c;}if(sprBudget<=0&&SPC.size)return c&&c.width>1?c:null;sprBudget--;const n=bakeSprite(it);n._bs=BS;if(n.width<2)return c&&c.width>1?c:null;c=n;SPC.set(it,c);while(SPC.size>SCAP)SPC.delete(SPC.keys().next().value);return c;}
 function stSpr(p){const key=p.id+(p.done?1:0);let c=STC.get(key);if(!c){c=document.createElement('canvas');c.width=Math.ceil(70*BS);c.height=Math.ceil(70*BS);g=c.getContext('2d');g.scale(BS,BS);g.translate(35-p.x,40-p.y);drawStation(p);STC.set(key,c);g=ctx;}return c;}
 // ---------- cielo ----------
 const PK={cloud:.55,plane:.7,gull:.3,blue:.25,bird:.3,bat:.28,fly:.12,butterfly:.12};// 7.4 parallax: lo que vuela se mueve más rápido que el suelo
@@ -669,8 +670,8 @@ function skyDraw(t,v){SKY.forEach(o=>{let x=o.lo+((o.x-o.lo+o.v*t)%o.len+o.len)%
   case'firework':{const k=((t*.35+ph)%1),cx2=o.x,cy2=o.y-40;if(k<.25){g.fillStyle='#FFE27A';g.beginPath();g.arc(cx2,cy2+60*(1-k*4),2,0,7);g.fill();}else{const r=(k-.25)*80,a=1-(k-.25)/.75;for(let i=0;i<12;i++){const an=i*Math.PI/6;g.fillStyle=`rgba(${['255,120,140','255,220,120','140,200,255'][Math.floor(ph*3)%3]},${a})`;g.beginPath();g.arc(cx2+Math.cos(an)*r,cy2+Math.sin(an)*r,2.2,0,7);g.fill();}}break;}}});}
 // ---------- bucle ----------
 function frame(now){try{frame2(now);}catch(e){console.error(e);}if(!document.hidden)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),400);}
-function fixSize(){const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(innerHeight/(innerWidth/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();}}resize();if(z0||MODE==='mini')centerToday();}
-function frame2(now){if(innerWidth>20&&innerHeight>20&&(innerWidth!==vw||innerHeight!==vh))fixSize();const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
+function fixSize(){const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(boxH()/(boxW()/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();TILES.clear();SPC.clear();STC.clear();tinyC=null;}}resize();if(z0||MODE==='mini')centerToday();}
+function frame2(now){{const W1=boxW(),H1=boxH();if(W1>20&&H1>20&&(W1!==vw||H1!==vh))fixSize();}if(!vw||!vh)return;const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=gAt(TODAY);ctx.fillRect(0,0,cv.width,cv.height);
  const ox=vw/2-cx*z,oy=vh/2-cy*z;ctx.setTransform(DPR*z,0,0,DPR*z,DPR*ox,DPR*oy);g=ctx;
  const v=[cx-vw/2/z,cy-vh/2/z,cx+vw/2/z,cy+vh/2/z];baking=0;
@@ -699,10 +700,12 @@ cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);pts.set(
 cv.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const p=pts.get(e.pointerId),dx=e.clientX-p[0],dy=e.clientY-p[1];pts.set(e.pointerId,[e.clientX,e.clientY]);
  if(pts.size>=2&&pinch){const a=[...pts.values()],d=Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1]),mx=(a[0][0]+a[1][0])/2,my=(a[0][1]+a[1][1])/2;zoomAt(pinch.z*d/pinch.d,mx,my);return;}
  if(tap&&Math.hypot(e.clientX-tap.x,e.clientY-tap.y)>8)tap=null;if(MODE==='big'){cx-=dx/z;cy-=dy/z;}else{cx-=dx/z;}const n=performance.now(),dt=Math.max(8,n-lastMove);lastMove=n;vx=dx/z/dt;vy=MODE==='big'?dy/z/dt:0;clamp();});
+// v8: pellizco que llega desde la app (mini dentro de la hoja: dos dedos en cualquier sitio, no solo sobre el camino)
+let extP=null;window.CAM_PINCH=(r,mx)=>{if(pts.size>=2)return;if(!extP)extP={z};pinch=pinch||{ext:1};zoomAt(extP.z*r,mx,vh/2);};window.CAM_PINCH_END=()=>{extP=null;if(pinch&&pinch.ext)pinch=null;};
 const up=e=>{pts.delete(e.pointerId);if(pts.size<2)pinch=null;if(pts.size===0){drag=false;if(performance.now()-lastMove>80){vx=vy=0;}if(tap&&performance.now()-tap.t<400)onTap(tap.x,tap.y);tap=null;}};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 cv.addEventListener('wheel',e=>{e.preventDefault();if(MODE!=='big')return;if(e.ctrlKey)zoomAt(z*Math.exp(-e.deltaY*.01),e.clientX,e.clientY);else{cy+=e.deltaY/z;clamp();}},{passive:false});
-function zoomAt(nz,sx,sy){nz=MODE==='big'?Math.max(zb,Math.min(zb*2.6,nz)):Math.max(vw/(64*PX),Math.min(vw/(5*PX),nz));const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;z=nz;cx=wx-(sx-vw/2)/z;cy=wy-(sy-vh/2)/z;if(MODE!=='big'&&Math.abs(BS-Math.min(2.5,DPR*z*1.15))>.5){BS=Math.min(2.5,DPR*z*1.15);TILES.clear();SPC.clear();STC.clear();tinyC=null;}clamp();}
+function zoomAt(nz,sx,sy){nz=MODE==='big'?Math.max(zb,Math.min(zb*2.6,nz)):Math.max(vw/(64*PX),Math.min(vw/(5*PX),nz));const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;z=nz;cx=wx-(sx-vw/2)/z;cy=wy-(sy-vh/2)/z;if(MODE!=='big'&&Math.abs(BS-Math.min(2.5,DPR*z*1.15))>.5){BS=Math.min(2.5,DPR*z*1.15);STC.clear();tinyC=null;}clamp();}
 function onTap(sx,sy){const wx=cx+(sx-vw/2)/z,wy=cy+(sy-vh/2)/z;let best=null,bd=MODE==='big'?30:Math.max(26,18/z);PRZ.forEach(p=>{const d=Math.hypot(p.x-wx,p.y-5-wy);if(d<bd){bd=d;best=p;}});
  if(MODE!=='big'){if(best)send('peek:'+best.id);else send('open');return;}
  if(best){SEL=best;openBubble(best);send('tap:'+best.id);return;}const tq=tinyPos();if(Math.hypot(tq[0]-wx,tq[1]-20-wy)<36){SEL={tiny:1,x:tq[0],y:tq[1]-30};openBubble(SEL);return;}closeBubble();}
@@ -729,10 +732,10 @@ document.querySelectorAll('.chip').forEach(b=>b.onclick=e=>{e.stopPropagation();
 // ---------- arranque ----------
 let booted=false;
 function boot(){if(booted)return;booted=true;try{boot2();}catch(e){send('err:'+(e&&e.message||e));try{MODE='big';}catch(_){}}send('ready');}
-function boot2(){TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';if(MODE==='mini'){const w0=innerWidth||390,h0=innerHeight||176;HM=Math.max(230,Math.ceil(h0/(w0/(64*PX))*1.05));}document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
+function boot2(){TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';if(MODE==='mini'){const w0=boxW()>20?boxW():390,h0=boxH()>20?boxH():176;HM=Math.max(230,Math.ceil(h0/(w0/(64*PX))*1.05));}document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
  document.getElementById('ttl').textContent=T_('titulo','Tu camino');document.getElementById('hoy').textContent=T_('hoy','Hoy');
  document.querySelectorAll('.chip').forEach(c=>{c.textContent=T_('sp'+c.dataset.s,c.textContent);c.classList.toggle('on',+c.dataset.s===span);});
- resize();centerToday();addEventListener('resize',()=>{if(innerWidth>20&&innerHeight>20)fixSize();});requestAnimationFrame(frame);}
+ resize();centerToday();addEventListener('resize',()=>{if(boxW()>20&&boxH()>20)fixSize();});requestAnimationFrame(frame);}
 
 function go(){if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('700 19px F'),document.fonts.load('900 10px N')]).then(boot,boot);else boot();}
 // En la app: la app llama a CAM_INIT({...}) al cargar. En el navegador sin app: arranca solo con datos de ejemplo.

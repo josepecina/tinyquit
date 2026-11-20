@@ -1165,7 +1165,7 @@
     H.canvas.style.width = cw + 'px'; H.canvas.style.height = ch + 'px';
     H.canvas.width = Math.round(cw * dpr); H.canvas.height = Math.round(ch * dpr);
     H.k = Math.min(cw / CFG.W, ch / CFG.H);
-    H.ox = (cw - CFG.W * H.k) / 2; H.oy = (ch - CFG.H * H.k) / 2;
+    H.ox = (cw - CFG.W * H.k) / 2; H.oy = Math.min((ch - CFG.H * H.k) / 2, 8); // v8: pegado arriba (en móviles altos sobraba hueco encima)
     H.dpr = dpr;
     H.view = { x0: -H.ox / H.k, y0: -H.oy / H.k, x1: (cw - H.ox) / H.k, y1: (ch - H.oy) / H.k };
     if (H.s) H.s.view = H.view;

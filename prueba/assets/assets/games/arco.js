@@ -1468,7 +1468,7 @@
       canvas.style.width = cw + 'px'; canvas.style.height = ch + 'px';
       canvas.width = Math.round(cw * dpr); canvas.height = Math.round(ch * dpr);
       scale = Math.min(cw / CFG.W, ch / CFG.H);
-      offX = (cw - CFG.W * scale) / 2; offY = (ch - CFG.H * scale) / 2;
+      offX = (cw - CFG.W * scale) / 2; offY = Math.min((ch - CFG.H * scale) / 2, 8); // v8: pegado arriba
       st.view = { x0: -offX / scale, y0: -offY / scale, x1: CFG.W + offX / scale, y1: CFG.H + offY / scale };
     }
     function toLogical(e) {
