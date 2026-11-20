@@ -669,7 +669,8 @@ function skyDraw(t,v){SKY.forEach(o=>{let x=o.lo+((o.x-o.lo+o.v*t)%o.len+o.len)%
   case'firework':{const k=((t*.35+ph)%1),cx2=o.x,cy2=o.y-40;if(k<.25){g.fillStyle='#FFE27A';g.beginPath();g.arc(cx2,cy2+60*(1-k*4),2,0,7);g.fill();}else{const r=(k-.25)*80,a=1-(k-.25)/.75;for(let i=0;i<12;i++){const an=i*Math.PI/6;g.fillStyle=`rgba(${['255,120,140','255,220,120','140,200,255'][Math.floor(ph*3)%3]},${a})`;g.beginPath();g.arc(cx2+Math.cos(an)*r,cy2+Math.sin(an)*r,2.2,0,7);g.fill();}}break;}}});}
 // ---------- bucle ----------
 function frame(now){try{frame2(now);}catch(e){console.error(e);}if(!document.hidden)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),400);}
-function frame2(now){const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
+function fixSize(){const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(innerHeight/(innerWidth/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();}}resize();if(z0||MODE==='mini')centerToday();}
+function frame2(now){if(innerWidth>20&&innerHeight>20&&(innerWidth!==vw||innerHeight!==vh))fixSize();const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=gAt(TODAY);ctx.fillRect(0,0,cv.width,cv.height);
  const ox=vw/2-cx*z,oy=vh/2-cy*z;ctx.setTransform(DPR*z,0,0,DPR*z,DPR*ox,DPR*oy);g=ctx;
  const v=[cx-vw/2/z,cy-vh/2/z,cx+vw/2/z,cy+vh/2/z];baking=0;
@@ -718,7 +719,7 @@ setInterval(()=>{const e=document.getElementById('pcd');if(e&&CFG.premUntil)e.te
 function togglePlay(id){playing=playing===id?null:id;send((playing?'play:':'stop:')+id);if(SEL&&SEL.id===id)openBubble(SEL);}
 window.CAM_STOPPED=()=>{playing=null;if(SEL&&SEL.k==='music')openBubble(SEL);};
 function closeBubble(){if(playing){send('stop:'+playing);playing=null;}SEL=null;bub.className='bub';}
-function placeBubble(){if(!SEL)return;const sx=(SEL.x-cx)*z+vw/2,sy=(SEL.y-cy)*z+vh/2;const bw=Math.min(340,vw-24),bh=bub.offsetHeight||120;let left=Math.max(12,Math.min(vw-bw-12,sx-bw/2));let top=sy-28*z-bh-14;let below=false;if(top<70){top=sy+30*z;below=true;}
+function placeBubble(){if(!SEL)return;const sx=(SEL.x-cx)*z+vw/2,sy=(SEL.y-cy)*z+vh/2;const bw=Math.min(340,vw-24),bh=bub.offsetHeight||120;let left=Math.max(12,Math.min(vw-bw-12,sx-bw/2));let top=sy-28*z-bh-14;let below=false;const hb=(document.querySelector('.top')||{}).offsetHeight||60;if(top<hb+10){top=sy+30*z;below=true;}
  bub.style.width=bw+'px';bub.style.left=left+'px';bub.style.top=top+'px';bub.style.setProperty('--ax',(Math.max(24,Math.min(bw-24,sx-left)))+'px');bub.classList.toggle('below',below);}
 // ---------- botones ----------
 document.getElementById('zin').onclick=()=>zoomAt(z*1.35,vw/2,vh/2);document.getElementById('zout').onclick=()=>zoomAt(z/1.35,vw/2,vh/2);
@@ -731,7 +732,7 @@ function boot(){if(booted)return;booted=true;try{boot2();}catch(e){send('err:'+(
 function boot2(){TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';if(MODE==='mini'){const w0=innerWidth||390,h0=innerHeight||176;HM=Math.max(230,Math.ceil(h0/(w0/(64*PX))*1.05));}document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
  document.getElementById('ttl').textContent=T_('titulo','Tu camino');document.getElementById('hoy').textContent=T_('hoy','Hoy');
  document.querySelectorAll('.chip').forEach(c=>{c.textContent=T_('sp'+c.dataset.s,c.textContent);c.classList.toggle('on',+c.dataset.s===span);});
- resize();centerToday();addEventListener('resize',()=>{const z0=!vw||!vh;resize();if(z0)centerToday();});requestAnimationFrame(frame);}
+ resize();centerToday();addEventListener('resize',()=>{if(innerWidth>20&&innerHeight>20)fixSize();});requestAnimationFrame(frame);}
 
 function go(){if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('700 19px F'),document.fonts.load('900 10px N')]).then(boot,boot);else boot();}
 // En la app: la app llama a CAM_INIT({...}) al cargar. En el navegador sin app: arranca solo con datos de ejemplo.

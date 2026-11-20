@@ -1809,9 +1809,18 @@
       ac(); ambStart(); try { localStorage.setItem(PREF_K, JSON.stringify({ n: st.menuN, h: st.menuH, w: st.wPref })); } catch (er) { /* nada */ }
       el.g3menu.style.display = 'none'; if (st.menuN === 1) { st.round = null; goHole(st.menuH); } else startRound(st.menuN); };
   }
+  // 7.5 (Jose): el dibujo de Tiny del menú sale entero o no sale (nunca cortado ni encogido): si no cabe todo, se quita
+  function fitArt() {
+    const art = ui.querySelector('.g3-mart'), box = ui.querySelector('.g3-mbox');
+    if (!art || !box) return;
+    art.style.display = '';
+    requestAnimationFrame(() => { const stp = art.closest('.g3-mstep'); if (box.scrollHeight > box.clientHeight + 1 || (stp && stp.scrollHeight > stp.clientHeight + 1)) art.style.display = 'none'; });
+  }
+  addEventListener('resize', () => { if (el.g3menu && el.g3menu.style.display === 'flex' && st.menuStep === 1) fitArt(); });
   function menuRefresh() {
     const B = loadBest(), n = st.menuN, step = st.menuStep, last = n === 1 ? 3 : 2;
     el.g3menu.querySelectorAll('.g3-mstep').forEach((d) => (d.style.display = +d.dataset.s === step ? '' : 'none'));
+    fitArt();
     el.g3msteps.innerHTML = `<span>${TF('Paso {a} de {b}', { a: step, b: last })}</span>` + Array.from({ length: last }, (_, k) => `<i class="${k < step ? 'on' : ''}"></i>`).join('');
     el.g3mback.style.display = step > 1 ? '' : 'none'; // 7.3: en el paso 1 «Siguiente» ocupa todo y va centrado
     el.g3go.textContent = T(step < last ? 'Siguiente' : '¡A jugar!');

@@ -171,3 +171,6 @@
 .g3-mbox{max-height:calc(100% - 4px)}
 .g3-menu{padding-top:calc(6px + env(safe-area-inset-top,0px));padding-bottom:calc(6px + env(safe-area-inset-bottom,0px))}
 .g3-toast{top:calc(128px + env(safe-area-inset-top,0px))}
+
+/* 7.5 (Jose, 20 nov): en el móvil el dibujo se encogía y se cortaba: ahora tamaño fijo (o fuera si no cabe, ver fitArt) */
+.g3-mart{flex:none;height:72px}
