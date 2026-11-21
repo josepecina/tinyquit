@@ -572,7 +572,7 @@
   function resize() {
     if (!H) return; const c = H.container, cw = c.clientWidth || W0; H.canvas.style.height = '0px'; let ch = c.clientHeight; if (ch < 50) ch = (cw * H0) / W0;
     const dpr = Math.min(3, root.devicePixelRatio || 1); H.canvas.style.width = cw + 'px'; H.canvas.style.height = ch + 'px'; H.canvas.width = Math.round(cw * dpr); H.canvas.height = Math.round(ch * dpr);
-    H.k = Math.min(cw / W0, ch / H0); H.ox = (cw - W0 * H.k) / 2; H.oy = Math.min((ch - H0 * H.k) / 2, 8); // v8: pegado arriba H.dpr = dpr;
+    H.k = Math.min(cw / W0, ch / H0); H.ox = (cw - W0 * H.k) / 2; H.oy = Math.min((ch - H0 * H.k) / 2, 8); H.dpr = dpr; // v8: pegado arriba
   }
   function frame(now) {
     if (!H) return; const dt = Math.min(0.05, Math.max(0, (now - (H.last || now)) / 1000)); H.last = now;

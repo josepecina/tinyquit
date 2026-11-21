@@ -670,7 +670,8 @@ function skyDraw(t,v){SKY.forEach(o=>{let x=o.lo+((o.x-o.lo+o.v*t)%o.len+o.len)%
   case'firework':{const k=((t*.35+ph)%1),cx2=o.x,cy2=o.y-40;if(k<.25){g.fillStyle='#FFE27A';g.beginPath();g.arc(cx2,cy2+60*(1-k*4),2,0,7);g.fill();}else{const r=(k-.25)*80,a=1-(k-.25)/.75;for(let i=0;i<12;i++){const an=i*Math.PI/6;g.fillStyle=`rgba(${['255,120,140','255,220,120','140,200,255'][Math.floor(ph*3)%3]},${a})`;g.beginPath();g.arc(cx2+Math.cos(an)*r,cy2+Math.sin(an)*r,2.2,0,7);g.fill();}}break;}}});}
 // ---------- bucle ----------
 function frame(now){try{frame2(now);}catch(e){console.error(e);}if(!document.hidden)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),400);}
-function fixSize(){const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(boxH()/(boxW()/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();TILES.clear();SPC.clear();STC.clear();tinyC=null;}}resize();if(z0||MODE==='mini')centerToday();}
+function bodyBg(){try{const c=gAt(TODAY);document.documentElement.style.background=c;document.body.style.background=c;}catch(e){}} // v8: si algo asoma, que sea del color del suelo y no una franja verde
+function fixSize(){bodyBg();const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(boxH()/(boxW()/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();TILES.clear();SPC.clear();STC.clear();tinyC=null;}}resize();if(z0||MODE==='mini')centerToday();}
 function frame2(now){{const W1=boxW(),H1=boxH();if(W1>20&&H1>20&&(W1!==vw||H1!==vh))fixSize();}if(!vw||!vh)return;const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=gAt(TODAY);ctx.fillRect(0,0,cv.width,cv.height);
  const ox=vw/2-cx*z,oy=vh/2-cy*z;ctx.setTransform(DPR*z,0,0,DPR*z,DPR*ox,DPR*oy);g=ctx;
@@ -736,7 +737,7 @@ function boot(){if(booted)return;booted=true;try{boot2();}catch(e){send('err:'+(
 function boot2(){TRX=CFG.tr||{};TODAY=CFG.today??18;PRZ=(CFG.prizes||defPrizes()).slice().sort((a,b)=>a.d-b.d);span=CFG.span||14;MODE=CFG.mode==='mini'?'mini':'big';if(MODE==='mini'){const w0=boxW()>20?boxW():390,h0=boxH()>20?boxH():176;HM=Math.max(230,Math.ceil(h0/(w0/(64*PX))*1.05));}document.body.classList.toggle('mini',MODE==='mini');LVd=LEVELS;BRIDGES=[];genAll();layoutPrizes();
  document.getElementById('ttl').textContent=T_('titulo','Tu camino');document.getElementById('hoy').textContent=T_('hoy','Hoy');
  document.querySelectorAll('.chip').forEach(c=>{c.textContent=T_('sp'+c.dataset.s,c.textContent);c.classList.toggle('on',+c.dataset.s===span);});
- resize();centerToday();addEventListener('resize',()=>{if(boxW()>20&&boxH()>20)fixSize();});requestAnimationFrame(frame);}
+ bodyBg();resize();centerToday();addEventListener('resize',()=>{if(boxW()>20&&boxH()>20)fixSize();});requestAnimationFrame(frame);}
 
 function go(){if(document.fonts&&document.fonts.load)Promise.all([document.fonts.load('700 19px F'),document.fonts.load('900 10px N')]).then(boot,boot);else boot();}
 // En la app: la app llama a CAM_INIT({...}) al cargar. En el navegador sin app: arranca solo con datos de ejemplo.
