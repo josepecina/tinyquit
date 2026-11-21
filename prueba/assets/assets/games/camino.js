@@ -670,13 +670,13 @@ function skyDraw(t,v){SKY.forEach(o=>{let x=o.lo+((o.x-o.lo+o.v*t)%o.len+o.len)%
   case'firework':{const k=((t*.35+ph)%1),cx2=o.x,cy2=o.y-40;if(k<.25){g.fillStyle='#FFE27A';g.beginPath();g.arc(cx2,cy2+60*(1-k*4),2,0,7);g.fill();}else{const r=(k-.25)*80,a=1-(k-.25)/.75;for(let i=0;i<12;i++){const an=i*Math.PI/6;g.fillStyle=`rgba(${['255,120,140','255,220,120','140,200,255'][Math.floor(ph*3)%3]},${a})`;g.beginPath();g.arc(cx2+Math.cos(an)*r,cy2+Math.sin(an)*r,2.2,0,7);g.fill();}}break;}}});}
 // ---------- bucle ----------
 function frame(now){try{frame2(now);}catch(e){console.error(e);}if(!document.hidden)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),400);}
-function bodyBg(){try{const c=gAt(TODAY);document.documentElement.style.background=c;document.body.style.background=c;}catch(e){}} // v8: si algo asoma, que sea del color del suelo y no una franja verde
+function bodyBg(){try{const c=booted&&vw?gAt(TODAY):(CFG.bgc||'transparent');document.documentElement.style.background=c;document.body.style.background=c;}catch(e){}} // v8: si algo asoma, que sea del color del suelo y no una franja verde
 function fixSize(){bodyBg();const z0=!vw||!vh||!z;if(MODE==='mini'){const H2=Math.max(230,Math.ceil(boxH()/(boxW()/(64*PX))*1.05));if(Math.abs(H2-HM)>4){HM=H2;BRIDGES=[];genAll();layoutPrizes();TILES.clear();SPC.clear();STC.clear();tinyC=null;}}resize();if(z0||MODE==='mini')centerToday();}
 function frame2(now){{const W1=boxW(),H1=boxH();if(W1>20&&H1>20&&(W1!==vw||H1!==vh))fixSize();}if(!vw||!vh)return;const t=(now-t0)/1000;if(!drag&&(Math.abs(vx)>.01||Math.abs(vy)>.01)){cx-=vx*16;cy-=vy*16;vx*=.93;vy*=.93;clamp();}
  ctx.setTransform(1,0,0,1,0,0);ctx.fillStyle=gAt(TODAY);ctx.fillRect(0,0,cv.width,cv.height);
  const ox=vw/2-cx*z,oy=vh/2-cy*z;ctx.setTransform(DPR*z,0,0,DPR*z,DPR*ox,DPR*oy);g=ctx;
  const v=[cx-vw/2/z,cy-vh/2/z,cx+vw/2/z,cy+vh/2/z];baking=0;
- const TK=tileKeys();TCAP=Math.max(12,TK.length+6);let first=!TILES.size;TK.forEach(k=>{const big=MODE==='big';const r=big?[0,k*TH,W,TH]:[k*TH,0,TH,HM];const c=getTile(k,first);first=false;if(!c){ctx.fillStyle=gAt(dayAt(r[0]+r[2]/2,r[1]+r[3]/2));ctx.fillRect(r[0],r[1],r[2],r[3]);return;}ctx.drawImage(c,r[0]-.4,r[1]-.4,r[2]+.8,r[3]+.8);});
+ const TK=tileKeys();TCAP=Math.max(12,TK.length+6);let first=!TILES.size;TK.forEach(k=>{const big=MODE==='big';const r=big?[0,k*TH,W,TH]:[k*TH,0,TH,HM];const c=getTile(k,first||MODE!=='big');first=false; /* v8: en el mini se hornean todas las teselas a la vez (nunca un trozo de color plano) */if(!c){ctx.fillStyle=gAt(dayAt(r[0]+r[2]/2,r[1]+r[3]/2));ctx.fillRect(r[0],r[1],r[2],r[3]);return;}ctx.drawImage(c,r[0]-.4,r[1]-.4,r[2]+.8,r[3]+.8);});
  waterFx(t,v);
  const vis=SPR.filter(it=>it.bb[2]>v[0]&&it.bb[0]<v[2]&&it.bb[3]>v[1]-30&&it.bb[1]<v[3]+30).sort((a,b)=>a.y-b.y);SCAP=Math.max(400,vis.length*2);sprBudget=SPC.size?24:9999;
  vis.forEach(it=>{const c=spr(it);if(!c)return;const bb=it.bb,ph=it.x*.05+it.y*.013;g.save();g.translate(it.x,it.y);
